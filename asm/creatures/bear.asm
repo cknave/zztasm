@@ -4,7 +4,7 @@
 
 TickBear        proc far                ; DATA XREF: InitTileTypes+819↓o
 
-BearTile        = dword ptr -0Ch
+DestTile        = dword ptr -0Ch
 ParamPtr        = dword ptr -8
 StepY           = word ptr -4
 StepX           = word ptr -2
@@ -72,7 +72,7 @@ ParamIdx        = word ptr  6
 BearCheckX:                             ; CODE XREF: TickBear+2C↑j
                                         ; TickBear+57↑j
                 les     di, [bp+ParamPtr]
-                mov     al, es:[di]
+                mov     al, es:[di+ParamRecord.X]
                 xor     ah, ah
                 push    ax
                 mov     al, BoardParams.X
@@ -133,9 +133,9 @@ BearCheckMove:                          ; CODE XREF: TickBear+78↑j
                 mov     di, ax
                 add     di, cx
                 add     di, offset BoardTopLeft
-                mov     word ptr [bp+BearTile], di
-                mov     word ptr [bp+BearTile+2], ds
-                les     di, [bp+BearTile]
+                mov     word ptr [bp+DestTile], di
+                mov     word ptr [bp+DestTile+2], ds
+                les     di, [bp+DestTile]
                 mov     al, es:[di+Tile.Type]
                 xor     ah, ah
 ; Check if that tile is passable
@@ -164,11 +164,11 @@ BearCheckMove:                          ; CODE XREF: TickBear+78↑j
 ; Check if we're blocked by the player
 
 BearBlocked:                            ; CODE XREF: TickBear+112↑j
-                les     di, [bp+BearTile]
+                les     di, [bp+DestTile]
                 cmp     es:[di+Tile.Type], TTPlayer
                 jz      short BearAttack
 ; If we're blocked by a breakable wall, we can also attack that
-                les     di, [bp+BearTile]
+                les     di, [bp+DestTile]
                 cmp     es:[di+Tile.Type], TTBreakable
                 jnz     short BearDone
 

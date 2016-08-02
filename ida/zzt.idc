@@ -37,10 +37,10 @@ static GenInfo(void) {
 	Tabs(1);
 	Comments(0);
 	Voids(0);
-	XrefShow(2);
+	XrefShow(0);
 	AutoShow(1);
-	Indent(16);
-	CmtIndent(40);
+	Indent(0);
+	CmtIndent(24);
 	TailDepth(0x10);
 }
 
@@ -906,6 +906,8 @@ static Bytes_0(void) {
 	ExtLinA		(0X10EF9,	2,	";");
 	MakeCode	(x=0X10EF9);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X10EFC);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X10F0F);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X10F12);
@@ -5693,8 +5695,6 @@ static Bytes_0(void) {
 	MakeName	(0X189B0,	"aDeleteChar");
 	MakeStr		(0X189BD,	0X189C6);
 	MakeName	(0X189BD,	"aEscape");
-	MakeStr		(0X189C6,	0X189D3);
-	MakeName	(0X189C6,	"aExitEditor");
 }
 
 //------------------------------------------------------------------------
@@ -5704,6 +5704,8 @@ static Bytes_1(void) {
         auto x;
 #define id x
 
+	MakeStr		(0X189C6,	0X189D3);
+	MakeName	(0X189C6,	"aExitEditor");
 	MakeCode	(0X189D3);
 	MakeCode	(x=0X189EB);
 	OpOff		(x,	1,	0X15F90);
@@ -11459,10 +11461,6 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1E79A);
 	OpStkvar	(x,	1);
-	MakeCode	(x=0X1E7AD);
-	OpStkvar	(x,	1);
-	MakeCode	(x=0X1E7B0);
-	OpStkvar	(x,	1);
 }
 
 //------------------------------------------------------------------------
@@ -11472,6 +11470,10 @@ static Bytes_2(void) {
         auto x;
 #define id x
 
+	MakeCode	(x=0X1E7AD);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1E7B0);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X1E7B3);
 	OpHex		(x,	1);
 	MakeCode	(x=0X1E7B7);
@@ -16450,7 +16452,7 @@ static Functions_0(void) {
 	MakeFunction    (0X10E7F,0X10FEF);
 	SetFunctionFlags(0X10E7F,0x12);
 	MakeFrame(0X10E7F, 0XC, 2, 0X2);
-	MakeLocal(0X10E7F, 0X10FEF, "[bp-0XC]", "BearTile");
+	MakeLocal(0X10E7F, 0X10FEF, "[bp-0XC]", "DestTile");
 	MakeLocal(0X10E7F, 0X10FEF, "[bp-0X8]", "ParamPtr");
 	MakeLocal(0X10E7F, 0X10FEF, "[bp-0X4]", "StepY");
 	MakeLocal(0X10E7F, 0X10FEF, "[bp-0X2]", "StepX");

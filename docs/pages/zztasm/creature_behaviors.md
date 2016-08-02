@@ -1,5 +1,6 @@
 ---
 title: Creature Behaviors
+keywords: Tick Functions, Bear, Lion, Tiger
 sidebar: zztasm_sidebar
 permalink: creature_behaviors.html
 ---
@@ -27,7 +28,7 @@ func TickBear(int16 ParamIdx) {
 
     // If the player is within sensitivity range on the Y axis, move in the X direction
     // unless the player is exactly aligned on the X axis.
-    if (PlayerX != Params.X) && (Distance(Params.Y, PlayerY) < (8 - Sensitivity) {
+    if (PlayerX != Params.X) && (Distance(Params.Y, PlayerY) < (8 - Sensitivity)) {
         StepX = StepForDelta(Params.X - PlayerX)
     }
     // Otherwise if the player is within sensitivity range on the X axis, move in the Y

@@ -20,7 +20,7 @@ entries:
     folderitems:
 
     - title: Prerelease notes
-      url: /prerelease_notes.html
+      url: /release_notes_pre.html
       output: web
 
   - title: Analysis

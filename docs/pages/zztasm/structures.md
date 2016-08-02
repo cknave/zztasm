@@ -68,6 +68,9 @@ struct ParamRecord {
 }
 
 global ParamRecord[151] BoardParams
+
+global uint8* PlayerX = BoardParams[0].X
+global uint8* PlayerY = BoardParams[0].Y
 ```
 
 

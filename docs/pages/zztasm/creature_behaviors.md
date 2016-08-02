@@ -73,7 +73,7 @@ func TickLion(int16 ParamIdx) {
     // player.  Otherwise move in a random direction.
     let StepX
     let StepY
-    if Random(0, 10) >= Intelligence {
+    if Random(10) >= Intelligence {
         StepX, StepY = SeekStep(Params.X, Params.Y)
     } else {
         StepX, StepY = RandomStep()
@@ -92,6 +92,47 @@ func TickLion(int16 ParamIdx) {
     if DestTile.Type == TTPlayer {
         DieAttackingTile(ParamIdx, DestX, DestY)
     }
+}
+```
+
+
+## Tiger
+
+### Tick Function
+
+A tiger is a lion that will shoot bullets or stars at the player depending on its firing rate
+and alignment to the player.
+
+{% include asmlink.html file="creatures/tiger.asm" line="5" %}
+
+```swift
+func TickTiger(int16 ParamIdx) {
+    // Unpack Param2 into firing rate and type.
+    let Params = BoardParams[ParamIdx]
+    let FiringRate = Params.Param2 & 0x7f
+    let ShootStars = Params.Param2 & 0x80
+    let ShootType = ShootStars ? TTStar : TTBullet
+
+    // Decide if we're going to shoot this tick.  Note that because the random number is
+    // multiplied by 3, there are effectively only 3 different firing rates: 0-2, 3-5, and
+    // 6-8.
+    var DidShoot = false
+    if Random(10) * 3 >= FiringRate {
+        // If the player is within 2 tiles on the X axis, shoot on the Y axis.
+        if Distance(Params.X, PlayerX) <= 2 {
+            let StepY = StepForDelta(Params.Y - PlayerY)
+            DidShoot = Shoot(ShootType, Params.X, Params.Y, 0, StepY, SOEnemy)
+        }
+
+        // If we haven't shot on the Y axis, check the X axis.
+        if !DidShoot && Distance(Params.Y, PlayerY) <= 2 {
+            let StepX = StepForDelta(Params.X - PlayerX)
+            DidShoot = Shoot(ShootType, Params.X, Params.Y, StepX, 0, SOEnemy)
+        }
+    }
+
+    // Use the same movement behavior as a lion.
+    TickLion(ParamIdx)
 }
 ```
 

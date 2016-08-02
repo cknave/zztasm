@@ -19,4 +19,7 @@ and IDA Pro database are released into the public domain as well.
 The documentation is licensed under a [CC-BY-SA][Creative Commons Attribution-ShareAlike
 4.0 International License].
 
+The Jekyll documentation theme and its dependencies are covered by [Jekyll][its licenses].
+
 [CC-BY-SA]: http://creativecommons.org/licenses/by-sa/4.0/
+[Jekyll]: https://github.com/cknave/zztasm/tree/master/docs/licenses/

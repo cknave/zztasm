@@ -11,7 +11,7 @@ site_title: ZZT Disassembly Project
 company_name: Kevin Vance
 # this appears in the footer
 
-github_editme_path: cknave/zztasm/blob/master/docs/
+github_editme_path: 
 # if you're using Github, provide the basepath to the branch you've created for reviews, following the sample here. if not, leave this value blank.
 
 disqus_shortname: 
@@ -90,14 +90,10 @@ defaults:
 # these are defaults used for the frontmatter for these file types
 
 sidebars:
-- home_sidebar
-- mydoc_sidebar
-- product1_sidebar
-- product2_sidebar
-- other
+- zztasm_sidebar
 
 description: "This project aims to exactly describe the behavior of ZZT creatures by disassembling ZZT.EXE."
 # the description is used in the feed.xml file
 
 # needed for sitemap.xml file only
-url: https://cknave.github.io/zztasm/
+url: https://cknave.github.io/zztasm

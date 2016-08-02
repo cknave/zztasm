@@ -1,0 +1,98 @@
+---
+title: Creature Behaviors
+sidebar: zztasm_sidebar
+permalink: creature_behaviors.html
+---
+
+
+## Bear
+
+### Tick Function
+
+A bear will check if the player is within the range defined by its Sensitivity parameter and
+walk towards them if they are.  If the bear encounters the player or a breakable wall, it dies
+attacking that tile.
+
+{% include asmlink.html file="creatures/bear.asm" line="5" %}
+
+```swift
+func TickBear(int16 ParamIdx) {
+    // Get the parameters for this bear.
+    let Params = BoardParams[ParamIdx]
+    let Sensitivity = Params.Param1
+
+    // Decide if we should move, and in which direction.
+    var StepX = 0
+    var StepY = 0
+
+    // If the player is within sensitivity range on the Y axis, move in the X direction
+    // unless the player is exactly aligned on the X axis.
+    if (PlayerX != Params.X) && (Distance(Params.Y, PlayerY) < (8 - Sensitivity) {
+        StepX = StepForDelta(Params.X - PlayerX)
+    }
+    // Otherwise if the player is within sensitivity range on the X axis, move in the Y
+    // direction.
+    else if Distance(Params.X, PlayerX) < (8 - Sensitivity) {
+        StepY = StepForDelta(Params.Y - PlayerY)
+    }
+
+    // Check if we can move in the selected direction.  Note that if we decided not to move,
+    // we will be blocking ourselves!
+    let DestX = Params.X + StepX
+    let DestY = Params.Y + StepY
+    let DestTile = BoardTiles[DestX][DestY]
+    if TileType[DestTile.Type].Passable {
+        MoveTile(ParamIdx, DestX, DestY)
+        return
+    }
+
+    // If we're blocked by the player or a breakable wall, die attacking that tile.
+    if DestTile.Type == TTPlayer || DestTile.Type == TTBreakable {
+        DieAttackingTile(ParamIdx, DestX, DestY)
+    }
+}
+```
+
+
+## Lion
+
+### Tick Function
+
+A lion will, depending on its intelligence parameter, either walk towards the player or in a
+random direction.
+
+{% include asmlink.html file="creatures/lion.asm" line="5" %}
+
+```swift
+func TickLion(int16 ParamIdx) {
+    // Get the parameters for this lion.
+    let Params = BoardParams[ParamIdx]
+    let Intelligence = Params.Param1
+
+    // Decide which direction to move.  If we pass an intelligence check, step towards the
+    // player.  Otherwise move in a random direction.
+    let StepX
+    let StepY
+    if Random(0, 10) >= Intelligence {
+        StepX, StepY = SeekStep(Params.X, Params.Y)
+    } else {
+        StepX, StepY = RandomStep()
+    }
+
+    // If we're not blocked in that direction, move there.
+    let DestX = Params.X + StepX
+    let DestY = Params.Y + StepY
+    let DestTile = BoardTiles[DestX][DestY]
+    if TileTypes[DestTile.Type].Passable {
+        MoveTile(ParamIdx, DestX, DestY)
+        return
+    }
+
+    // If we're blocked by the player, die attacking them.
+    if DestTile.Type == TTPlayer {
+        DieAttackingTile(ParamIdx, DestX, DestY)
+    }
+}
+```
+
+{% include links.html %}

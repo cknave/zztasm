@@ -9,3 +9,14 @@ ZZT.EXE.  To that end, the following artifacts have been produced:
 
 [Disassembly]: https://github.com/cknave/zztasm/tree/master/asm
 [Database]: https://raw.githubusercontent.com/cknave/zztasm/master/ida/zzt.idc
+
+
+## Copying
+
+ZZT has been released into the public domain.  In that spirit, the annotated assembly files
+and IDA Pro database are released into the public domain as well.
+
+The documentation is licensed under a [CC-BY-SA][Creative Commons Attribution-ShareAlike
+4.0 International License].
+
+[CC-BY-SA]: http://creativecommons.org/licenses/by-sa/4.0/

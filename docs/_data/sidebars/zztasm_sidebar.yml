@@ -1,0 +1,40 @@
+# This is your sidebar TOC. The sidebar code loops through sections here and provides the appropriate formatting.
+
+entries:
+- title: sidebar
+  product: zztasm
+  version: 0.1
+  folders:
+
+  - title: Overview
+    output: web
+    folderitems:
+
+    - title: Introduction
+      url: /index.html
+      output: web
+      type: homepage
+
+  - title: Release Notes
+    output: web
+    folderitems:
+
+    - title: Prerelease notes
+      url: /prerelease_notes.html
+      output: web
+
+  - title: Analysis
+    output: web
+    folderitems:
+
+    - title: Structures
+      url: /structures.html
+      output: web
+
+    - title: Support functions
+      url: /support_functions.html
+      output: web
+
+    - title: Creature behaviors
+      url: /creature_behaviors.html
+      output: web

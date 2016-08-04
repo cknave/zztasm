@@ -37,10 +37,10 @@ static GenInfo(void) {
 	Tabs(1);
 	Comments(0);
 	Voids(0);
-	XrefShow(0);
+	XrefShow(2);
 	AutoShow(1);
-	Indent(0);
-	CmtIndent(24);
+	Indent(16);
+	CmtIndent(40);
 	TailDepth(0x10);
 }
 
@@ -2077,11 +2077,64 @@ static Bytes_0(void) {
 	OpHex		(x,	1);
 	MakeCode	(0X11817);
 	MakeCode	(0X1181D);
+	MakeName	(0X1181D,	"TickSegment");
 	MakeCode	(x=0X11828);
 	OpHex		(x,	1);
+	MakeCode	(x=0X1182B);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1182E);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11835);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X11839);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X1183C);
+	OpStkvar	(x,	0);
+	ExtLinA		(0X1183F,	0,	";");
+	ExtLinA		(0X1183F,	1,	"; If this segment has a leader, no need to do anything.");
+	ExtLinA		(0X1183F,	2,	";");
+	MakeCode	(x=0X1183F);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11842);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11849);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1184C);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	OpSign		(x,	1);
+	OpHex		(x,	1);
+	ExtLinA		(0X11853,	0,	";");
+	ExtLinA		(0X11853,	1,	"; The leader index is now -2, time to turn into a head.");
+	ExtLinA		(0X11853,	2,	";");
+	MakeCode	(x=0X11853);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11856);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1185C);
 	OpHex		(x,	1);
-	MakeCode	(0X11878);
+	MakeCode	(x=0X11860);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11863);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11868);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X11871);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	ExtLinA		(0X11878,	0,	";");
+	ExtLinA		(0X11878,	1,	"; If the leader index is -1, decrease it.  This lets us wait a tick");
+	ExtLinA		(0X11878,	2,	"; until turning into a head.");
+	ExtLinA		(0X11878,	3,	";");
+	MakeCode	(x=0X11878);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1187B);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11880);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11883);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeByte	(0X1188D);
 	MakeArray	(0X1188D,	0X3);
 	MakeStr		(0X11890,	0X11895);
@@ -4036,6 +4089,9 @@ static Bytes_0(void) {
 	MakeCode	(x=0X1546A);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X1548E);
+	OpOff		(x,	1,	0X10930);
+	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X15491);
 	OpSeg		(x,	1);
 	MakeCode	(x=0X1549E);
@@ -4668,6 +4724,15 @@ static Bytes_0(void) {
 	MakeCode	(x=0X1630B);
 	OpOff		(x,	1,	0X15F90);
 	OpOff		(x,	129,	0X15F90);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_1(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X1631D);
 	OpOff		(x,	1,	0X15F90);
 	OpOff		(x,	129,	0X15F90);
@@ -4779,15 +4844,6 @@ static Bytes_0(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X164A6);
 	OpStkvar	(x,	0);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_1(void) {
-        auto x;
-#define id x
-
 	MakeStr		(0X164B2,	0X164BE);
 	MakeName	(0X164B2,	"aDrawingOn");
 	MakeStr		(0X164BE,	0X164CA);
@@ -10575,6 +10631,15 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1C435);
 	OpStkvar	(x,	0);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_2(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X1C43C);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1C442);
@@ -10687,15 +10752,6 @@ static Bytes_1(void) {
 	MakeCode	(x=0X1C5C9);
 	OpOff		(x,	1,	0X1B400);
 	OpOff		(x,	129,	0X1B400);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_2(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X1C5CE);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1C5D8);
@@ -16127,6 +16183,15 @@ static Bytes_2(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X226C0);
 	OpStkvar	(x,	0);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_3(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X226C5);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X226C8);
@@ -16244,15 +16309,6 @@ static Bytes_2(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X229A3);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_3(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X229B1);
 	OpStkvar	(x,	0);
 	MakeCode	(0X229BE);
@@ -17817,6 +17873,13 @@ static Functions_0(void) {
 	MakeNameEx(0X1174D, "MovingHasFollower", SN_LOCAL);
 	MakeNameEx(0X11804, "DoneMoveFollower", SN_LOCAL);
 	MakeNameEx(0X11817, "TickHeadDone", SN_LOCAL);
+	MakeFunction    (0X1181D,0X1188D);
+	SetFunctionFlags(0X1181D,0x12);
+	MakeFrame(0X1181D, 0X4, 2, 0X2);
+	MakeLocal(0X1181D, 0X1188D, "[bp-0X4]", "ParamPtr");
+	MakeLocal(0X1181D, 0X1188D, "[bp+0X6]", "ParamIdx");
+	MakeNameEx(0X11878, "SegmentWait", SN_LOCAL);
+	MakeNameEx(0X11887, "DoneTickSegment", SN_LOCAL);
 	MakeFunction    (0X11D5C,0X1204C);
 	SetFunctionFlags(0X11D5C,0x12);
 	MakeFrame(0X11D5C, 0X24, 2, 0X6);

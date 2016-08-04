@@ -12888,7 +12888,10 @@ static Bytes_2(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1E896);
 	OpStkvar	(x,	1);
-	ExtLinA		(0X1E8AC,	0,	"; Check if we're already at the right Y position");
+	ExtLinA		(0X1E89E,	0,	";");
+	ExtLinA		(0X1E89E,	1,	"; Pick randomly whether to move on the X or Y axis");
+	ExtLinA		(0X1E89E,	2,	";");
+	ExtLinA		(0X1E8AC,	0,	"; If we picked Y but are already aligned on the Y axis, set X instead.");
 	MakeCode	(x=0X1E8B1);
 	OpStkvar	(x,	1);
 	ExtLinA		(0X1E8B6,	0,	";");
@@ -12898,7 +12901,7 @@ static Bytes_2(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1E8C3);
 	OpStkvar	(x,	1);
-	ExtLinA		(0X1E8C9,	0,	"; Check if we're already at the right X position");
+	ExtLinA		(0X1E8C9,	0,	"; Check if we decided to move on the X axis");
 	MakeCode	(x=0X1E8C9);
 	OpStkvar	(x,	1);
 	ExtLinA		(0X1E8D2,	0,	";");
@@ -16170,6 +16173,15 @@ static Bytes_2(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X22691);
 	OpHex		(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_3(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X22697);
 	OpStkvar	(x,	0);
 	MakeCode	(0X226A1);
@@ -16183,15 +16195,6 @@ static Bytes_2(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X226C0);
 	OpStkvar	(x,	0);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_3(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X226C5);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X226C8);
@@ -18266,7 +18269,7 @@ static Functions_0(void) {
 	MakeFrame(0X1E83F, 0X0, 2, 0X8);
 	MakeLocal(0X1E83F, 0X1E884, "[bp+0X6]", "StepYPtr");
 	MakeLocal(0X1E83F, 0X1E884, "[bp+0XA]", "StepXPtr");
-	MakeNameEx(0X1E876, "ClearStepX", SN_LOCAL);
+	MakeNameEx(0X1E876, "ClearStepY", SN_LOCAL);
 	MakeNameEx(0X1E87E, "DoneRandomStep", SN_LOCAL);
 	MakeFunction    (0X1E884,0X1E90E);
 	SetFunctionFlags(0X1E884,0x12);
@@ -18275,6 +18278,10 @@ static Functions_0(void) {
 	MakeLocal(0X1E884, 0X1E90E, "[bp+0XA]", "StepXPtr");
 	MakeLocal(0X1E884, 0X1E90E, "[bp+0XE]", "Y");
 	MakeLocal(0X1E884, 0X1E90E, "[bp+0X10]", "X");
+	MakeNameEx(0X1E8B6, "SetStepX", SN_LOCAL);
+	MakeNameEx(0X1E8C9, "CheckStepX", SN_LOCAL);
+	MakeNameEx(0X1E8E5, "CheckEnergized", SN_LOCAL);
+	MakeNameEx(0X1E908, "DoneSeekStep", SN_LOCAL);
 	MakeFunction    (0X1E90E,0X1E92B);
 	SetFunctionFlags(0X1E90E,0x12);
 	MakeFrame(0X1E90E, 0X0, 2, 0X0);

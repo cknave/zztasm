@@ -75,10 +75,10 @@ StepX           dw ?
 StepY           dw ?
 Cycle           dw ?
 Param1          db ?
-Param2          dw ?
+Param2          db ?
 Param3          db ?
 Follower        dw ?
-Leader          db ?
+Leader          dw ?
 UnderType       db ?
 UnderColor      db ?
 Code            dd ?

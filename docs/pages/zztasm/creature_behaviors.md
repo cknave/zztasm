@@ -55,6 +55,38 @@ func TickBear(int16 ParamIdx) {
 ```
 
 
+## Centipede Segment
+
+### Tick Function
+
+A centipede head doesn't need to do anything as long as it has a leader.  Its movement is
+handled by the head of the centipede.  If it has no leader, it waits a tick by decrementing
+its leader index, then turns into a new head.
+
+{% include asmlink.html file="creatures/segment.asm" line="5" %}
+
+```swift
+
+func TickSegment(int16 ParamIdx) {
+    // If this segment has a leader, no need to do anything.
+    let Params = BoardParams[ParamIdx]
+    if Params.Leader >= 0 {
+        return
+    }
+
+    // If the leader index is -1, decrease it.  This lets us wait a tick until turning
+    // into a head.
+    if Params.Leader == -1 {
+        Params.Leader -= 1
+        return
+    }
+
+    // The leader index is now -2, time to turn into a head.
+    BoardTiles[Params.X][Params.Y].Type = TTHead
+}
+```
+
+
 ## Lion
 
 ### Tick Function

@@ -37,10 +37,10 @@ static GenInfo(void) {
 	Tabs(1);
 	Comments(0);
 	Voids(0);
-	XrefShow(2);
+	XrefShow(0);
 	AutoShow(1);
-	Indent(16);
-	CmtIndent(40);
+	Indent(0);
+	CmtIndent(24);
 	TailDepth(0x10);
 }
 
@@ -1189,11 +1189,6 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11198);
 	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
-	ExtLinA		(0X1119D,	0,	"; Okay so at this point:");
-	ExtLinA		(0X1119D,	1,	"; ax: StepY");
-	ExtLinA		(0X1119D,	2,	"; bx: 0");
-	ExtLinA		(0X1119D,	3,	"; cx: -1 or 1");
-	ExtLinA		(0X1119D,	4,	"; dx: extended sign bit from ax");
 	MakeComm	(0X111A2,	"StepY * (-1 or 1)");
 	MakeCode	(x=0X111A2);
 	OpStkvar	(x,	0);
@@ -1273,7 +1268,11 @@ static Bytes_0(void) {
 	OpOff		(x,	0,	0X256D0);
 	OpOff		(x,	128,	0X256D0);
 	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
-	ExtLinA		(0X1124E,	0,	"; Negate StepX");
+	ExtLinA		(0X1124E,	0,	";");
+	ExtLinA		(0X1124E,	1,	"; Try turning in the opposite direction (negate current step)");
+	ExtLinA		(0X1124E,	2,	";");
+	ExtLinA		(0X1124E,	3,	"");
+	ExtLinA		(0X1124E,	4,	"; Negate StepX");
 	MakeCode	(x=0X1124E);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11251);
@@ -1282,9 +1281,9 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1125A);
 	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X1125E,	0,	"; Negate StepY");
 	MakeCode	(x=0X1125E);
 	OpStkvar	(x,	1);
-	ExtLinA		(0X11261,	0,	"; Negate StepY");
 	MakeCode	(x=0X11261);
 	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X11267);
@@ -1348,7 +1347,7 @@ static Bytes_0(void) {
 	OpOff		(x,	128,	0X256D0);
 	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
 	ExtLinA		(0X112E7,	0,	";");
-	ExtLinA		(0X112E7,	1,	"; Check if the opposite direction of the last one is blocked");
+	ExtLinA		(0X112E7,	1,	"; Check if the opposite direction of the original one is blocked");
 	ExtLinA		(0X112E7,	2,	";");
 	MakeCode	(x=0X112E7);
 	OpStkvar	(x,	1);
@@ -1397,15 +1396,19 @@ static Bytes_0(void) {
 	OpOff		(x,	0,	0X256D0);
 	OpOff		(x,	128,	0X256D0);
 	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
-	ExtLinA		(0X1134A,	0,	"; Flip the step in the unblocked direction");
+	ExtLinA		(0X1134A,	0,	"; Set the step to the unblocked direction (opposite of the original)");
 	MakeCode	(x=0X1134A);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1134F);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X11352);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X11356);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1135B);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1135E);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	ExtLinA		(0X11364,	0,	"; Zero out the step");
 	MakeCode	(x=0X11364);
 	OpStkvar	(x,	1);
@@ -4718,12 +4721,6 @@ static Bytes_0(void) {
 	MakeCode	(x=0X162E7);
 	OpOff		(x,	1,	0X15F90);
 	OpOff		(x,	129,	0X15F90);
-	MakeCode	(x=0X162F9);
-	OpOff		(x,	1,	0X15F90);
-	OpOff		(x,	129,	0X15F90);
-	MakeCode	(x=0X1630B);
-	OpOff		(x,	1,	0X15F90);
-	OpOff		(x,	129,	0X15F90);
 }
 
 //------------------------------------------------------------------------
@@ -4733,6 +4730,12 @@ static Bytes_1(void) {
         auto x;
 #define id x
 
+	MakeCode	(x=0X162F9);
+	OpOff		(x,	1,	0X15F90);
+	OpOff		(x,	129,	0X15F90);
+	MakeCode	(x=0X1630B);
+	OpOff		(x,	1,	0X15F90);
+	OpOff		(x,	129,	0X15F90);
 	MakeCode	(x=0X1631D);
 	OpOff		(x,	1,	0X15F90);
 	OpOff		(x,	129,	0X15F90);
@@ -10625,12 +10628,6 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1C41F);
 	OpStkvar	(x,	1);
-	MakeCode	(x=0X1C429);
-	OpStkvar	(x,	0);
-	MakeCode	(x=0X1C42F);
-	OpStkvar	(x,	1);
-	MakeCode	(x=0X1C435);
-	OpStkvar	(x,	0);
 }
 
 //------------------------------------------------------------------------
@@ -10640,6 +10637,12 @@ static Bytes_2(void) {
         auto x;
 #define id x
 
+	MakeCode	(x=0X1C429);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X1C42F);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1C435);
+	OpStkvar	(x,	0);
 	MakeCode	(x=0X1C43C);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1C442);
@@ -16167,12 +16170,6 @@ static Bytes_2(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X22678);
 	OpStkvar	(x,	0);
-	MakeCode	(x=0X2267F);
-	OpStkvar	(x,	0);
-	MakeCode	(x=0X2268E);
-	OpStkvar	(x,	1);
-	MakeCode	(x=0X22691);
-	OpHex		(x,	1);
 }
 
 //------------------------------------------------------------------------
@@ -16182,6 +16179,12 @@ static Bytes_3(void) {
         auto x;
 #define id x
 
+	MakeCode	(x=0X2267F);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X2268E);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X22691);
+	OpHex		(x,	1);
 	MakeCode	(x=0X22697);
 	OpStkvar	(x,	0);
 	MakeCode	(0X226A1);
@@ -17020,8 +17023,7 @@ static Bytes_3(void) {
 	MakeCode	(0X23E27);
 	MakeCode	(0X23E2D);
 	MakeCode	(0X23E45);
-	ExtLinA		(0X23E49,	0,	"; I have no idea why this function exists");
-	MakeName	(0X23E49,	"FancyMultiply");
+	MakeName	(0X23E49,	"Multiply32");
 	MakeCode	(0X23E64);
 	MakeCode	(x=0X23E94);
 	OpHex		(x,	1);
@@ -17843,8 +17845,8 @@ static Functions_0(void) {
 	MakeLocal(0X10FEF, 0X1181D, "[bp-0XA]", "Temp");
 	MakeLocal(0X10FEF, 0X1181D, "[bp-0X8]", "CurrentY");
 	MakeLocal(0X10FEF, 0X1181D, "[bp-0X6]", "CurrentX");
-	MakeLocal(0X10FEF, 0X1181D, "[bp-0X4]", "StepY");
-	MakeLocal(0X10FEF, 0X1181D, "[bp-0X2]", "StepX");
+	MakeLocal(0X10FEF, 0X1181D, "[bp-0X4]", "OrigStepY");
+	MakeLocal(0X10FEF, 0X1181D, "[bp-0X2]", "OrigStepX");
 	MakeLocal(0X10FEF, 0X1181D, "[bp+0X6]", "ParamIdx");
 	MakeNameEx(0X11060, "HeadCheckY", SN_LOCAL);
 	MakeNameEx(0X110AE, "DevianceCheck", SN_LOCAL);

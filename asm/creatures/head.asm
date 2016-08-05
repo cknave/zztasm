@@ -1,3 +1,7 @@
+; ¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦ S U B R O U T I N E ¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦
+
+; Attributes: bp-based frame
+
 TickHead        proc far                ; DATA XREF: InitTileTypes:loc_15407↓o
 
 OriginalParamIdx= dword ptr -12h
@@ -5,8 +9,8 @@ ParamPtr        = dword ptr -0Eh
 Temp            = word ptr -0Ah
 CurrentY        = word ptr -8
 CurrentX        = word ptr -6
-StepY           = word ptr -4
-StepX           = word ptr -2
+OrigStepY       = word ptr -4
+OrigStepX       = word ptr -2
 ParamIdx        = word ptr  6
 
                 push    bp
@@ -197,10 +201,10 @@ HeadBlocked:                            ; CODE XREF: TickHead+145↑j
 NotBlockedByPlayer:                     ; CODE XREF: TickHead+17B↑j
                 les     di, [bp+ParamPtr]
                 mov     ax, es:[di+ParamRecord.StepX]
-                mov     [bp+StepX], ax
+                mov     [bp+OrigStepX], ax
                 les     di, [bp+ParamPtr]
                 mov     ax, es:[di+ParamRecord.StepY]
-                mov     [bp+StepY], ax
+                mov     [bp+OrigStepY], ax
                 mov     ax, 2
                 push    ax
                 call    Random
@@ -212,15 +216,8 @@ NotBlockedByPlayer:                     ; CODE XREF: TickHead+17B↑j
                 les     di, [bp+ParamPtr]
                 mov     ax, es:[di+ParamRecord.StepY]
                 cwd
-; Okay so at this point:
-; ax: StepY
-; bx: 0
-; cx: -1 or 1
-; dx: extended sign bit from ax
-                call    FancyMultiply   ; ax <= (ax*cx)
-                                        ; bx <=  ax
-                                        ; cx <= (cx*dx)
-                                        ; dx <= (ax*bx) + (cx*dx)
+                call    Multiply32      ; 32 bit multiply
+                                        ; ax:dx *= cx:bx
                 mov     [bp+Temp], ax   ; StepY * (-1 or 1)
                 mov     ax, 2
                 push    ax
@@ -233,10 +230,8 @@ NotBlockedByPlayer:                     ; CODE XREF: TickHead+17B↑j
                 les     di, [bp+ParamPtr]
                 mov     ax, es:[di+ParamRecord.StepX]
                 cwd
-                call    FancyMultiply   ; ax <= (ax*cx)
-                                        ; bx <=  ax
-                                        ; cx <= (cx*dx)
-                                        ; dx <= (ax*bx) + (cx*dx)
+                call    Multiply32      ; 32 bit multiply
+                                        ; ax:dx *= cx:bx
                 les     di, [bp+ParamPtr]
                 mov     es:[di+ParamRecord.StepY], ax ; StepX * (-1 or 1)
                 mov     ax, [bp+Temp]
@@ -295,6 +290,10 @@ NewDirBlocked:                          ; CODE XREF: TickHead+224↑j
                 jnz     short NotPlayerAgain
                 jmp     DoneSettingStep
 ; ---------------------------------------------------------------------------
+;
+; Try turning in the opposite direction (negate current step)
+;
+
 ; Negate StepX
 
 NotPlayerAgain:                         ; CODE XREF: TickHead+25A↑j
@@ -303,8 +302,8 @@ NotPlayerAgain:                         ; CODE XREF: TickHead+25A↑j
                 neg     ax
                 les     di, [bp+ParamPtr]
                 mov     es:[di+ParamRecord.StepX], ax
-                les     di, [bp+ParamPtr]
 ; Negate StepY
+                les     di, [bp+ParamPtr]
                 mov     ax, es:[di+ParamRecord.StepY]
                 neg     ax
                 les     di, [bp+ParamPtr]
@@ -361,20 +360,20 @@ ThirdDirBlocked:                        ; CODE XREF: TickHead+2BD↑j
                 jmp     DoneSettingStep
 ; ---------------------------------------------------------------------------
 ;
-; Check if the opposite direction of the last one is blocked
+; Check if the opposite direction of the original one is blocked
 ;
 
 StillNotPlayer:                         ; CODE XREF: TickHead+2F3↑j
                 les     di, [bp+ParamPtr]
                 mov     al, es:[di+ParamRecord.Y]
                 xor     ah, ah
-                sub     ax, [bp+StepY]
+                sub     ax, [bp+OrigStepY]
                 shl     ax, 1
                 mov     cx, ax
                 les     di, [bp+ParamPtr]
                 mov     al, es:[di+ParamRecord.X]
                 xor     ah, ah
-                sub     ax, [bp+StepX]
+                sub     ax, [bp+OrigStepX]
                 mov     dx, BytesPerColumn
                 mul     dx
                 mov     di, ax
@@ -392,30 +391,30 @@ StillNotPlayer:                         ; CODE XREF: TickHead+2F3↑j
                 les     di, [bp+ParamPtr]
                 mov     al, es:[di+ParamRecord.Y]
                 xor     ah, ah
-                sub     ax, [bp+StepY]
+                sub     ax, [bp+OrigStepY]
                 shl     ax, 1
                 mov     cx, ax
                 les     di, [bp+ParamPtr]
                 mov     al, es:[di+ParamRecord.X]
                 xor     ah, ah
-                sub     ax, [bp+StepX]
+                sub     ax, [bp+OrigStepX]
                 mov     dx, BytesPerColumn
                 mul     dx
                 mov     di, ax
                 add     di, cx
                 cmp     byte ptr BoardTopLeft.Type[di], TTPlayer
                 jnz     short HeadCantMove
-; Flip the step in the unblocked direction
+; Set the step to the unblocked direction (opposite of the original)
 
 NotBlockedInOppositeDirection:          ; CODE XREF: TickHead+32E↑j
-                mov     ax, [bp+StepX]
+                mov     ax, [bp+OrigStepX]
                 neg     ax
                 les     di, [bp+ParamPtr]
-                mov     es:[di+2], ax
-                mov     ax, [bp+StepY]
+                mov     es:[di+ParamRecord.StepX], ax
+                mov     ax, [bp+OrigStepY]
                 neg     ax
                 les     di, [bp+ParamPtr]
-                mov     es:[di+4], ax
+                mov     es:[di+ParamRecord.StepY], ax
                 jmp     short DoneSettingStep
 ; ---------------------------------------------------------------------------
 ; Zero out the step
@@ -718,10 +717,10 @@ ReadyToMove:                            ; CODE XREF: TickHead+4A8↑j
                 mov     [bp+CurrentY], ax
                 les     di, [bp+ParamPtr]
                 mov     ax, es:[di+ParamRecord.StepX]
-                mov     [bp+StepX], ax
+                mov     [bp+OrigStepX], ax
                 les     di, [bp+ParamPtr]
                 mov     ax, es:[di+ParamRecord.StepY]
-                mov     [bp+StepY], ax
+                mov     [bp+OrigStepY], ax
 ;
 ; Follow the step backwards to the previous position
 ;
@@ -748,10 +747,10 @@ FollowStepBackwards:                    ; CODE XREF: TickHead+825↓j
                 mov     [bp+CurrentY], ax
                 les     di, [bp+OriginalParamIdx]
                 mov     ax, es:[di+ParamRecord.StepX]
-                mov     [bp+StepX], ax
+                mov     [bp+OrigStepX], ax
                 les     di, [bp+OriginalParamIdx]
                 mov     ax, es:[di+ParamRecord.StepY]
-                mov     [bp+StepY], ax
+                mov     [bp+OrigStepY], ax
                 les     di, [bp+OriginalParamIdx]
 ;
 ; Check if this tile has a follower
@@ -766,11 +765,11 @@ FollowStepBackwards:                    ; CODE XREF: TickHead+825↓j
 
 NoFollower:                             ; CODE XREF: TickHead+636↑j
                 mov     ax, [bp+CurrentY]
-                sub     ax, [bp+StepY]
+                sub     ax, [bp+OrigStepY]
                 shl     ax, 1
                 mov     cx, ax
                 mov     ax, [bp+CurrentX]
-                sub     ax, [bp+StepX]
+                sub     ax, [bp+OrigStepX]
                 mov     dx, BytesPerColumn
                 mul     dx
                 mov     di, ax
@@ -779,10 +778,10 @@ NoFollower:                             ; CODE XREF: TickHead+636↑j
                 jnz     short NoSegmentAtPrevTile
 ; Check if the segment has a leader
                 mov     ax, [bp+CurrentX]
-                sub     ax, [bp+StepX]
+                sub     ax, [bp+OrigStepX]
                 push    ax
                 mov     ax, [bp+CurrentY]
-                sub     ax, [bp+StepY]
+                sub     ax, [bp+OrigStepY]
                 push    ax
                 call    ParamIdxForXY   ; Index for param at (X, Y) or -1 if not found
                 mov     dx, size ParamRecord
@@ -794,10 +793,10 @@ NoFollower:                             ; CODE XREF: TickHead+636↑j
 ; Set our follower to the segment at the previous tile
 ;
                 mov     ax, [bp+CurrentX]
-                sub     ax, [bp+StepX]
+                sub     ax, [bp+OrigStepX]
                 push    ax
                 mov     ax, [bp+CurrentY]
-                sub     ax, [bp+StepY]
+                sub     ax, [bp+OrigStepY]
                 push    ax
                 call    ParamIdxForXY   ; Index for param at (X, Y) or -1 if not found
                 les     di, [bp+OriginalParamIdx]
@@ -811,11 +810,11 @@ NoFollower:                             ; CODE XREF: TickHead+636↑j
 NoSegmentAtPrevTile:                    ; CODE XREF: TickHead+659↑j
                                         ; TickHead+67A↑j
                 mov     ax, [bp+CurrentY]
-                sub     ax, [bp+StepX]
+                sub     ax, [bp+OrigStepX]
                 shl     ax, 1
                 mov     cx, ax
                 mov     ax, [bp+CurrentX]
-                sub     ax, [bp+StepY]
+                sub     ax, [bp+OrigStepY]
                 mov     dx, BytesPerColumn
                 mul     dx
                 mov     di, ax
@@ -824,10 +823,10 @@ NoSegmentAtPrevTile:                    ; CODE XREF: TickHead+659↑j
                 jnz     short NoSegAt2ndPosition
 ; Check if the segment has a leader
                 mov     ax, [bp+CurrentX]
-                sub     ax, [bp+StepY]
+                sub     ax, [bp+OrigStepY]
                 push    ax
                 mov     ax, [bp+CurrentY]
-                sub     ax, [bp+StepX]
+                sub     ax, [bp+OrigStepX]
                 push    ax
                 call    ParamIdxForXY   ; Index for param at (X, Y) or -1 if not found
                 mov     dx, size ParamRecord
@@ -839,10 +838,10 @@ NoSegmentAtPrevTile:                    ; CODE XREF: TickHead+659↑j
 ; Set our follower to the segment at the 2nd try position
 ;
                 mov     ax, [bp+CurrentX]
-                sub     ax, [bp+StepY]
+                sub     ax, [bp+OrigStepY]
                 push    ax
                 mov     ax, [bp+CurrentY]
-                sub     ax, [bp+StepX]
+                sub     ax, [bp+OrigStepX]
                 push    ax
                 call    ParamIdxForXY   ; Index for param at (X, Y) or -1 if not found
                 les     di, [bp+OriginalParamIdx]
@@ -856,11 +855,11 @@ NoSegmentAtPrevTile:                    ; CODE XREF: TickHead+659↑j
 NoSegAt2ndPosition:                     ; CODE XREF: TickHead+6B7↑j
                                         ; TickHead+6D8↑j
                 mov     ax, [bp+CurrentY]
-                add     ax, [bp+StepX]
+                add     ax, [bp+OrigStepX]
                 shl     ax, 1
                 mov     cx, ax
                 mov     ax, [bp+CurrentX]
-                add     ax, [bp+StepY]
+                add     ax, [bp+OrigStepY]
                 mov     dx, BytesPerColumn
                 mul     dx
                 mov     di, ax
@@ -869,10 +868,10 @@ NoSegAt2ndPosition:                     ; CODE XREF: TickHead+6B7↑j
                 jnz     short MovingCheckFollower
 ; Check if the segment has a leader
                 mov     ax, [bp+CurrentX]
-                add     ax, [bp+StepY]
+                add     ax, [bp+OrigStepY]
                 push    ax
                 mov     ax, [bp+CurrentY]
-                add     ax, [bp+StepX]
+                add     ax, [bp+OrigStepX]
                 push    ax
                 call    ParamIdxForXY   ; Index for param at (X, Y) or -1 if not found
                 mov     dx, size ParamRecord
@@ -884,10 +883,10 @@ NoSegAt2ndPosition:                     ; CODE XREF: TickHead+6B7↑j
 ; Set our follower to the segment at the 3rd try position
 ;
                 mov     ax, [bp+CurrentX]
-                add     ax, [bp+StepY]
+                add     ax, [bp+OrigStepY]
                 push    ax
                 mov     ax, [bp+CurrentY]
-                add     ax, [bp+StepX]
+                add     ax, [bp+OrigStepX]
                 push    ax
                 call    ParamIdxForXY   ; Index for param at (X, Y) or -1 if not found
                 les     di, [bp+OriginalParamIdx]
@@ -1006,4 +1005,3 @@ TickHeadDone:                           ; CODE XREF: TickHead+472↑j
                 pop     bp
                 retf    2
 TickHead        endp
-

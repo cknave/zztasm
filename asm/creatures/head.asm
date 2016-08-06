@@ -4,7 +4,7 @@
 
 TickHead        proc far                ; DATA XREF: InitTileTypes:loc_15407↓o
 
-OriginalParamIdx= dword ptr -12h
+LeaderParamPtr  = dword ptr -12h
 ParamPtr        = dword ptr -0Eh
 Temp            = word ptr -0Ah
 CurrentY        = word ptr -8
@@ -702,6 +702,7 @@ ReadyToMove:                            ; CODE XREF: TickHead+4A8↑j
                 call    MoveTile
 ;
 ; Record the original position of this tile and its step
+; This is redundant as all 4 variables are overwritten in the next section
 ;
                 les     di, [bp+ParamPtr]
                 mov     al, es:[di+ParamRecord.X]
@@ -731,27 +732,27 @@ FollowStepBackwards:                    ; CODE XREF: TickHead+825↓j
                 mul     dx
                 mov     di, ax
                 add     di, offset BoardParams
-                mov     word ptr [bp+OriginalParamIdx], di
-                mov     word ptr [bp+OriginalParamIdx+2], ds
-                les     di, [bp+OriginalParamIdx]
+                mov     word ptr [bp+LeaderParamPtr], di
+                mov     word ptr [bp+LeaderParamPtr+2], ds
+                les     di, [bp+LeaderParamPtr]
                 mov     al, es:[di+ParamRecord.X]
                 xor     ah, ah
-                les     di, [bp+OriginalParamIdx]
+                les     di, [bp+LeaderParamPtr]
                 sub     ax, es:[di+ParamRecord.StepX]
                 mov     [bp+CurrentX], ax
-                les     di, [bp+OriginalParamIdx]
+                les     di, [bp+LeaderParamPtr]
                 mov     al, es:[di+ParamRecord.Y]
                 xor     ah, ah
-                les     di, [bp+OriginalParamIdx]
+                les     di, [bp+LeaderParamPtr]
                 sub     ax, es:[di+ParamRecord.StepY]
                 mov     [bp+CurrentY], ax
-                les     di, [bp+OriginalParamIdx]
+                les     di, [bp+LeaderParamPtr]
                 mov     ax, es:[di+ParamRecord.StepX]
                 mov     [bp+OrigStepX], ax
-                les     di, [bp+OriginalParamIdx]
+                les     di, [bp+LeaderParamPtr]
                 mov     ax, es:[di+ParamRecord.StepY]
                 mov     [bp+OrigStepY], ax
-                les     di, [bp+OriginalParamIdx]
+                les     di, [bp+LeaderParamPtr]
 ;
 ; Check if this tile has a follower
 ;
@@ -799,7 +800,7 @@ NoFollower:                             ; CODE XREF: TickHead+636↑j
                 sub     ax, [bp+OrigStepY]
                 push    ax
                 call    ParamIdxForXY   ; Index for param at (X, Y) or -1 if not found
-                les     di, [bp+OriginalParamIdx]
+                les     di, [bp+LeaderParamPtr]
                 mov     es:[di+ParamRecord.Follower], ax
                 jmp     MovingCheckFollower
 ; ---------------------------------------------------------------------------
@@ -844,7 +845,7 @@ NoSegmentAtPrevTile:                    ; CODE XREF: TickHead+659↑j
                 sub     ax, [bp+OrigStepX]
                 push    ax
                 call    ParamIdxForXY   ; Index for param at (X, Y) or -1 if not found
-                les     di, [bp+OriginalParamIdx]
+                les     di, [bp+LeaderParamPtr]
                 mov     es:[di+ParamRecord.Follower], ax
                 jmp     short MovingCheckFollower
 ; ---------------------------------------------------------------------------
@@ -889,12 +890,12 @@ NoSegAt2ndPosition:                     ; CODE XREF: TickHead+6B7↑j
                 add     ax, [bp+OrigStepX]
                 push    ax
                 call    ParamIdxForXY   ; Index for param at (X, Y) or -1 if not found
-                les     di, [bp+OriginalParamIdx]
+                les     di, [bp+LeaderParamPtr]
                 mov     es:[di+ParamRecord.Follower], ax
 
 MovingCheckFollower:                    ; CODE XREF: TickHead+638↑j
                                         ; TickHead+696↑j ...
-                les     di, [bp+OriginalParamIdx]
+                les     di, [bp+LeaderParamPtr]
                 cmp     es:[di+ParamRecord.Follower], 0
                 jg      short MovingHasFollower
                 jmp     DoneMoveFollower
@@ -903,32 +904,32 @@ MovingCheckFollower:                    ; CODE XREF: TickHead+638↑j
 
 MovingHasFollower:                      ; CODE XREF: TickHead+759↑j
                 mov     cx, [bp+ParamIdx]
-                les     di, [bp+OriginalParamIdx]
+                les     di, [bp+LeaderParamPtr]
                 mov     ax, es:[di+ParamRecord.Follower]
                 mov     dx, size ParamRecord
                 mul     dx
                 mov     di, ax
                 mov     BoardParams.Leader[di], cx
 ; Set our follower's intelligence to the original head's intelligence
-                les     di, [bp+OriginalParamIdx]
+                les     di, [bp+LeaderParamPtr]
                 mov     cl, es:[di+ParamRecord.Param1]
-                les     di, [bp+OriginalParamIdx]
+                les     di, [bp+LeaderParamPtr]
                 mov     ax, es:[di+ParamRecord.Follower]
                 mov     dx, size ParamRecord
                 mul     dx
                 mov     di, ax
                 mov     BoardParams.Param1[di], cl
 ; Set our follower's deviance to the original head's deviance
-                les     di, [bp+OriginalParamIdx]
+                les     di, [bp+LeaderParamPtr]
                 mov     cl, es:[di+ParamRecord.Param2]
-                les     di, [bp+OriginalParamIdx]
+                les     di, [bp+LeaderParamPtr]
                 mov     ax, es:[di+ParamRecord.Follower]
                 mov     dx, size ParamRecord
                 mul     dx
                 mov     di, ax
                 mov     BoardParams.Param2[di], cl
 ; Set the follower's StepX to CurrentX - Follower.X
-                les     di, [bp+OriginalParamIdx]
+                les     di, [bp+LeaderParamPtr]
                 mov     ax, es:[di+ParamRecord.Follower]
                 mov     dx, size ParamRecord
                 mul     dx
@@ -939,14 +940,14 @@ MovingHasFollower:                      ; CODE XREF: TickHead+759↑j
                 mov     ax, [bp+CurrentX]
                 sub     ax, dx
                 mov     cx, ax
-                les     di, [bp+OriginalParamIdx]
+                les     di, [bp+LeaderParamPtr]
                 mov     ax, es:[di+ParamRecord.Follower]
                 mov     dx, size ParamRecord
                 mul     dx
                 mov     di, ax
                 mov     BoardParams.StepX[di], cx
 ; Set the follower's StepY to CurrentY - Follower.Y
-                les     di, [bp+OriginalParamIdx]
+                les     di, [bp+LeaderParamPtr]
                 mov     ax, es:[di+ParamRecord.Follower]
                 mov     dx, size ParamRecord
                 mul     dx
@@ -957,14 +958,14 @@ MovingHasFollower:                      ; CODE XREF: TickHead+759↑j
                 mov     ax, [bp+CurrentY]
                 sub     ax, dx
                 mov     cx, ax
-                les     di, [bp+OriginalParamIdx]
+                les     di, [bp+LeaderParamPtr]
                 mov     ax, es:[di+ParamRecord.Follower]
                 mov     dx, size ParamRecord
                 mul     dx
                 mov     di, ax
                 mov     BoardParams.StepY[di], cx
 ; Move the follower tile to the new position
-                les     di, [bp+OriginalParamIdx]
+                les     di, [bp+LeaderParamPtr]
                 push    es:[di+ParamRecord.Follower]
                 push    [bp+CurrentX]
                 push    [bp+CurrentY]
@@ -990,7 +991,7 @@ MovingHasFollower:                      ; CODE XREF: TickHead+759↑j
 ;
 
 DoneMoveFollower:                       ; CODE XREF: TickHead+75B↑j
-                les     di, [bp+OriginalParamIdx]
+                les     di, [bp+LeaderParamPtr]
                 mov     ax, es:[di+ParamRecord.Follower]
                 mov     [bp+ParamIdx], ax
 ; If there are no more followers, we're done

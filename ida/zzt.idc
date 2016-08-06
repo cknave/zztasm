@@ -37,10 +37,10 @@ static GenInfo(void) {
 	Tabs(1);
 	Comments(0);
 	Voids(0);
-	XrefShow(0);
+	XrefShow(2);
 	AutoShow(1);
-	Indent(0);
-	CmtIndent(24);
+	Indent(16);
+	CmtIndent(40);
 	TailDepth(0x10);
 }
 
@@ -51,87 +51,87 @@ static Segments(void) {
 	;
 	SegCreate(0X10000,0X10930,0X1000,0,1,2);
 	SegRename(0X10000,"seg000");
-	SegClass (0X10000,"CODE");
+	SegClass (0X10000,"");
 	SegDefReg(0x10000,"ds",0x256D);
 	SetSegmentType(0X10000,2);
 	SegCreate(0X10930,0X15F90,0X1093,0,1,2);
 	SegRename(0X10930,"seg001");
-	SegClass (0X10930,"CODE");
+	SegClass (0X10930,"");
 	SegDefReg(0x10930,"ds",0x256D);
 	SetSegmentType(0X10930,2);
 	SegCreate(0X15F90,0X18F30,0X15F9,0,1,2);
 	SegRename(0X15F90,"seg002");
-	SegClass (0X15F90,"CODE");
+	SegClass (0X15F90,"");
 	SegDefReg(0x15F90,"ds",0x256D);
 	SetSegmentType(0X15F90,2);
 	SegCreate(0X18F30,0X1B400,0X18F3,0,1,2);
 	SegRename(0X18F30,"seg003");
-	SegClass (0X18F30,"CODE");
+	SegClass (0X18F30,"");
 	SegDefReg(0x18F30,"ds",0x256D);
 	SetSegmentType(0X18F30,2);
 	SegCreate(0X1B400,0X1FB90,0X1B40,0,1,2);
 	SegRename(0X1B400,"seg004");
-	SegClass (0X1B400,"CODE");
+	SegClass (0X1B400,"");
 	SegDefReg(0x1B400,"ds",0x256D);
 	SetSegmentType(0X1B400,2);
 	SegCreate(0X1FB90,0X1FBA0,0X1FB9,0,1,2);
 	SegRename(0X1FB90,"seg005");
-	SegClass (0X1FB90,"CODE");
+	SegClass (0X1FB90,"");
 	SegDefReg(0x1FB90,"ds",0x256D);
 	SetSegmentType(0X1FB90,2);
 	SegCreate(0X1FBA0,0X218D0,0X1FBA,0,1,2);
 	SegRename(0X1FBA0,"seg006");
-	SegClass (0X1FBA0,"CODE");
+	SegClass (0X1FBA0,"");
 	SegDefReg(0x1FBA0,"ds",0x256D);
 	SetSegmentType(0X1FBA0,2);
 	SegCreate(0X218D0,0X21910,0X218D,0,1,2);
 	SegRename(0X218D0,"seg007");
-	SegClass (0X218D0,"CODE");
+	SegClass (0X218D0,"");
 	SegDefReg(0x218D0,"ds",0x256D);
 	SetSegmentType(0X218D0,2);
 	SegCreate(0X21910,0X222D0,0X2191,0,1,2);
 	SegRename(0X21910,"seg008");
-	SegClass (0X21910,"CODE");
+	SegClass (0X21910,"");
 	SegDefReg(0x21910,"ds",0x256D);
 	SetSegmentType(0X21910,2);
 	SegCreate(0X222D0,0X22CC0,0X222D,0,1,2);
 	SegRename(0X222D0,"seg009");
-	SegClass (0X222D0,"CODE");
+	SegClass (0X222D0,"");
 	SegDefReg(0x222D0,"ds",0x256D);
 	SetSegmentType(0X222D0,2);
 	SegCreate(0X22CC0,0X22DA0,0X22CC,0,1,2);
 	SegRename(0X22CC0,"seg010");
-	SegClass (0X22CC0,"CODE");
+	SegClass (0X22CC0,"");
 	SegDefReg(0x22CC0,"ds",0x256D);
 	SetSegmentType(0X22CC0,2);
 	SegCreate(0X22DA0,0X23400,0X22DA,0,1,2);
 	SegRename(0X22DA0,"seg011");
-	SegClass (0X22DA0,"CODE");
+	SegClass (0X22DA0,"");
 	SegDefReg(0x22DA0,"ds",0x256D);
 	SetSegmentType(0X22DA0,2);
 	SegCreate(0X23400,0X235B0,0X2340,0,1,2);
 	SegRename(0X23400,"seg012");
-	SegClass (0X23400,"CODE");
+	SegClass (0X23400,"");
 	SegDefReg(0x23400,"ds",0x256D);
 	SetSegmentType(0X23400,2);
 	SegCreate(0X235B0,0X23BD0,0X235B,0,1,2);
 	SegRename(0X235B0,"seg013");
-	SegClass (0X235B0,"CODE");
+	SegClass (0X235B0,"");
 	SegDefReg(0x235B0,"ds",0x256D);
 	SetSegmentType(0X235B0,2);
 	SegCreate(0X23BD0,0X256D0,0X23BD,0,1,2);
 	SegRename(0X23BD0,"seg014");
-	SegClass (0X23BD0,"CODE");
+	SegClass (0X23BD0,"");
 	SegDefReg(0x23BD0,"ds",0x256D);
 	SetSegmentType(0X23BD0,2);
 	SegCreate(0X256D0,0X2FA50,0X256D,0,3,2);
-	SegRename(0X256D0,"dseg");
-	SegClass (0X256D0,"DATA");
+	SegRename(0X256D0,"seg015");
+	SegClass (0X256D0,"");
 	SegDefReg(0x256D0,"ds",0x256D);
 	SetSegmentType(0X256D0,3);
 	SegCreate(0X2FA50,0X3BA50,0X2FA5,0,1,5);
 	SegRename(0X2FA50,"seg016");
-	SegClass (0X2FA50,"STACK");
+	SegClass (0X2FA50,"");
 	SegDefReg(0x2FA50,"ds",0x256D);
 	SetSegmentType(0X2FA50,9);
 	LowVoids(0x20);
@@ -1723,7 +1723,8 @@ static Bytes_0(void) {
 	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	ExtLinA		(0X11597,	0,	";");
 	ExtLinA		(0X11597,	1,	"; Record the original position of this tile and its step");
-	ExtLinA		(0X11597,	2,	";");
+	ExtLinA		(0X11597,	2,	"; This is redundant as all 4 variables are overwritten in the next section");
+	ExtLinA		(0X11597,	3,	";");
 	MakeCode	(x=0X11597);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1159A);
@@ -4712,15 +4713,6 @@ static Bytes_0(void) {
 	MakeCode	(x=0X162B1);
 	OpOff		(x,	1,	0X15F90);
 	OpOff		(x,	129,	0X15F90);
-	MakeCode	(x=0X162C3);
-	OpOff		(x,	1,	0X15F90);
-	OpOff		(x,	129,	0X15F90);
-	MakeCode	(x=0X162D5);
-	OpOff		(x,	1,	0X15F90);
-	OpOff		(x,	129,	0X15F90);
-	MakeCode	(x=0X162E7);
-	OpOff		(x,	1,	0X15F90);
-	OpOff		(x,	129,	0X15F90);
 }
 
 //------------------------------------------------------------------------
@@ -4730,6 +4722,15 @@ static Bytes_1(void) {
         auto x;
 #define id x
 
+	MakeCode	(x=0X162C3);
+	OpOff		(x,	1,	0X15F90);
+	OpOff		(x,	129,	0X15F90);
+	MakeCode	(x=0X162D5);
+	OpOff		(x,	1,	0X15F90);
+	OpOff		(x,	129,	0X15F90);
+	MakeCode	(x=0X162E7);
+	OpOff		(x,	1,	0X15F90);
+	OpOff		(x,	129,	0X15F90);
 	MakeCode	(x=0X162F9);
 	OpOff		(x,	1,	0X15F90);
 	OpOff		(x,	129,	0X15F90);
@@ -10618,6 +10619,15 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1C3EE);
 	OpStkvar	(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_2(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X1C3FC);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1C400);
@@ -10628,15 +10638,6 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1C41F);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_2(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X1C429);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1C42F);
@@ -16160,6 +16161,15 @@ static Bytes_2(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X22645);
 	OpStkvar	(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_3(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X22657);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X22669);
@@ -16170,15 +16180,6 @@ static Bytes_2(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X22678);
 	OpStkvar	(x,	0);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_3(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X2267F);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X2268E);
@@ -17840,7 +17841,7 @@ static Functions_0(void) {
 	MakeFunction    (0X10FEF,0X1181D);
 	SetFunctionFlags(0X10FEF,0x12);
 	MakeFrame(0X10FEF, 0X12, 2, 0X2);
-	MakeLocal(0X10FEF, 0X1181D, "[bp-0X12]", "OriginalParamIdx");
+	MakeLocal(0X10FEF, 0X1181D, "[bp-0X12]", "LeaderParamPtr");
 	MakeLocal(0X10FEF, 0X1181D, "[bp-0XE]", "ParamPtr");
 	MakeLocal(0X10FEF, 0X1181D, "[bp-0XA]", "Temp");
 	MakeLocal(0X10FEF, 0X1181D, "[bp-0X8]", "CurrentY");

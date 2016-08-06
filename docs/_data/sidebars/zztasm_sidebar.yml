@@ -38,3 +38,7 @@ entries:
     - title: Creature behaviors
       url: /creature_behaviors.html
       output: web
+
+    - title: Centipede heads
+      url: /centipede_heads.html
+      output: web

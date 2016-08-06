@@ -54,6 +54,56 @@ func TickBear(int16 ParamIdx) {
 }
 ```
 
+## Centipede Head
+
+### Tick Function
+
+A centipede head will move towards the player when aligned if it passes an intelligence check.
+Otherwise, it will randomly change direction if it passes a deviance check.
+
+The centipede head tick function is implemented as a single procedure, but its behavior is
+so complex that I have broken it into multiple functions for this analysis.  All functions
+are listed in the [Centipede heads][centipede_heads] section.
+
+{% include asmlink.html file="creatures/head.asm" line="5" %}
+
+```swift
+func TickHead(int16 ParamIdx) {
+    let Params = BoardParams[ParamIdx]
+
+    // Seek the player if aligned and pass an intelligence check.  Otherwise change direction
+    // if we pass a deviance check.
+    ChooseDirection(Params)
+
+    // If we're blocked at the destination tile (but not by the player), try all other directions
+    // to find an unblocked tile.
+    ChangeStepIfBlocked(Params)
+
+    // If we're blocked (step is 0), become a segment with no leader and reverse the direction
+    // of this centipede.
+    if (Params.StepX == 0) && (Params.StepY == 0) {
+        BoardTiles[Params.X][Params.Y].Type = TTSegment
+        Params.Leader = -1
+        ReverseCentipede(ParamIdx)
+        return
+    }
+
+    // Die attacking the player if we're moving into them.
+    if BoardTiles[Params.X + Params.StepX][Params.Y + Params.StepY].Type == TTPlayer {
+        // Before attacking, free our follower if we have one.
+        if Params[Follower] != -1 {
+            MakeFollowerNewHead(Params)
+        }
+        DieAttackingPlayer(ParamIdx, Params.X + Params.StepX, Params.Y + Params.StepY)
+        return
+    }
+
+    // Move the entire centipede in the step we chose, attaching any adjacent leaderless segments
+    // to the tail.
+    MoveAndReattachCentipede(ParamIdx)
+}
+```
+
 
 ## Centipede Segment
 

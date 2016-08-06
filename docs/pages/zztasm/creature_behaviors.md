@@ -54,6 +54,122 @@ func TickBear(int16 ParamIdx) {
 }
 ```
 
+
+## Bullet
+
+### Tick Function
+
+Bullets move until they hit something.  If they hit a destructible tile, they attack it.
+If they hit an indestructible tile, they die.
+
+A bullet that hits a ricochet will bounce back.  A bullet that hits a tile with an adjacent
+ricochet will bounce at a right angle to its current direction, away from the ricochet.
+Enemy bullets can "corner ricochet" off destructible tiles, but player bullets will destroy
+them.
+
+Although this is implemented as a single procedure in ZZT, I have broken it into several
+smaller functions for clarity.
+
+{% include asmlink.html file="creatures/bullet.asm" line="5" %}
+
+```swift
+func TickBullet(int16 ParamIdx) {
+    let Params = BoardParams[ParamIdx]
+
+    // We can try moving an extra time if ricocheting.
+    var CanRicochet = true
+    while true {
+        // If we can move through the next tile, move and we're done.
+        // (Water is not passable, but bullets can still move over it.)
+        let NextX = Params.X + Params.StepX
+        let NextY = Params.Y + Params.StepY
+        let NextTileType = BoardTiles[NextX][NextY]
+        if (TileTypes[NextTileType].Passable != 0) || (NextTileType == TTWater) {
+            MoveTile(ParamIdx, NextX, NextY)
+            return
+        }
+
+        // Flip direction if hitting a ricochet and try moving again.
+        if (NextTileType == TTRicochet) && CanRicochet {
+            Params.StepX = -Params.StepX
+            Params.Stepy = -Params.StepY
+            PlaySoundPriority(1, Sounds.Ricochet)
+            CanRicochet = false
+            continue
+        }
+
+        // Breakables aren't "destructible" but can be killed with bullets.
+        if NextTileType == TTBreakable {
+            AttackNextTile(ParamIdx, NextTileType, NextX, NextY)
+            return
+        }
+
+        // Check for corner ricochet.  Player bullets only check on indestructible tiles.
+        if (TileTypes[NextTileType].Destructible == 0) || (Params.Param1 != SOPlayer) {
+            // Don't check for corner ricochet off the player, just attack.
+            if NextTileType == TTPlayer {
+                AttackNextTile(ParamIdx, NextTileType, NextX, NextY)
+                return
+            }
+
+            // If we can corner ricochet, update our step and try moving again.
+            if CanRicochet && TryCornerRicochet(Params.X, Params.StepX, Params.Y, Params.StepY) {
+                PlaySoundPriority(1, Sounds.Ricochet)
+                CanRicochet = false
+                continue
+            }
+        }
+
+        // We didn't ricochet, so either die hitting a destructible tile or attack a
+        // destructible one.
+        if TileTypes[NextTileType].Destructible == 0 {
+            RemoveParamAtIdx(ParamIdx)
+            MYSTERYParamCount -= 1  // TODO: what is this thing?
+            // If we hit an object or scroll, send it to SHOT.
+            if (NextTileType == TTObject) || (NextTileType == TTScroll) {
+                let DestIdx = ParamIdxForXY(NextX, NextY)
+                Send(-DestIdx, "SHOT", 0)
+            }
+        } else {
+            AttackNextTile(ParamIdx, NextTileType, NextX, NextY)
+        }
+        return
+    }
+}
+
+
+func AttackNextTile(int16 ParamIdx, int16 Type, int16 X, int16 Y) {
+    if TileTypes[Type].Score != 0 {
+        // Update the score and redraw the sidebar
+        CurrentScore += TileTypes[Type].Score
+        UpdateSideBar()
+    }
+    DieAttackingTile(ParamIdx, X, Y)
+}
+
+
+func TryCornerRicochet(int16 X, int16 StepX, int16 Y, int16 StepY) -> Bool {
+    // Check clockwise.
+    if BoardTiles[X + StepY][Y + StepX] == TTRicochet {
+        let Temp = Params.StepX
+        Params.StepX = -Params.StepY
+        Params.StepY = -Temp
+        return true
+    }
+
+    // Check counterclockwise.
+    if BoardTiles[X - StepY][Y - Stepx] == TTRicochet
+        let Temp = Params.StepX
+        Params.StepX = Params.StepY
+        Params.StepY = Temp
+        return true
+    }
+
+    return false
+}
+```
+
+
 ## Centipede Head
 
 ### Tick Function

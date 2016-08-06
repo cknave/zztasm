@@ -240,15 +240,15 @@ CheckCounRicochet:                      ; CODE XREF: TickBullet+16D↑j
                 cmp     [bp+CanRicochet], 0
                 jz      short BulletDies
                 les     di, [bp+ParamPtr]
-                mov     ax, es:[di+2]
+                mov     ax, es:[di+ParamRecord.StepX]
                 mov     [bp+NextX], ax
                 les     di, [bp+ParamPtr]
-                mov     ax, es:[di+4]
+                mov     ax, es:[di+ParamRecord.StepY]
                 les     di, [bp+ParamPtr]
-                mov     es:[di+2], ax
+                mov     es:[di+ParamRecord.StepX], ax
                 mov     ax, [bp+NextX]
                 les     di, [bp+ParamPtr]
-                mov     es:[di+4], ax
+                mov     es:[di+ParamRecord.StepY], ax
                 mov     ax, 1
                 push    ax
                 mov     di, offset sndRicochet
@@ -271,9 +271,9 @@ BulletDies:                             ; CODE XREF: TickBullet+1E4↑j
                                         ; TickBullet+1EA↑j
                 push    [bp+ParamIdx]
                 call    RemoveParamIdx
-                mov     ax, word_2CADA
+                mov     ax, MYSTERYParamCount ; Seems to be BoardParamCount+1... what is this for?
                 dec     ax
-                mov     word_2CADA, ax
+                mov     MYSTERYParamCount, ax ; Seems to be BoardParamCount+1... what is this for?
 ; If we hit an object or scroll, send it to SHOT
                 cmp     [bp+TypeAtNextPos], TTObject
                 jz      short SendObjectShot

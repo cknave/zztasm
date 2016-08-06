@@ -622,7 +622,19 @@ static Bytes_0(void) {
 	MakeCode	(0X10969);
 	MakeCode	(x=0X10974);
 	OpHex		(x,	1);
+	MakeCode	(x=0X10978);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10986);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X10989);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X1098C);
+	OpStkvar	(x,	1);
 	MakeCode	(0X10999);
+	MakeCode	(x=0X109AF);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X109C3);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X109C9);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
@@ -632,6 +644,14 @@ static Bytes_0(void) {
 	MakeCode	(x=0X109DD);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
+	MakeCode	(x=0X109EB);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X109F5);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X109FC);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10A06);
+	OpStkvar	(x,	0);
 	MakeCode	(0X10A25);
 	MakeCode	(0X10A43);
 	MakeName	(0X10A43,	"TickLion");
@@ -2388,16 +2408,24 @@ static Bytes_0(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X11A81);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X11A84);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X11A88);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X11A8B);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X11A8E);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X11A92);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X11A95);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X11A99);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11A9C);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X11A9F);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X11AA7);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
@@ -4520,6 +4548,15 @@ static Bytes_0(void) {
 	MakeCode	(x=0X15864);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_1(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X15872);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
@@ -4557,15 +4594,6 @@ static Bytes_0(void) {
 	MakeCode	(x=0X15908);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_1(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X15934);
 	OpSeg		(x,	1);
 	MakeCode	(x=0X15941);
@@ -10389,6 +10417,15 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1BB5E);
 	OpStkvar	(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_2(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X1BB61);
 	OpHex		(x,	1);
 	MakeCode	(x=0X1BB65);
@@ -10428,15 +10465,6 @@ static Bytes_1(void) {
 	OpHex		(x,	1);
 	MakeCode	(x=0X1BC89);
 	OpStkvar	(x,	0);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_2(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X1BC90);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1BC93);
@@ -13693,8 +13721,17 @@ static Bytes_2(void) {
 	OpOff		(x,	129,	0X1B400);
 	MakeCode	(x=0X1F359);
 	OpHex		(x,	1);
+	MakeCode	(x=0X1F36B);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	MakeCode	(x=0X1F379);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X1F382);
 	OpHex		(x,	1);
+	MakeCode	(x=0X1F394);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
 	MakeCode	(x=0X1F3A2);
 	OpOff		(x,	1,	0X1B400);
 	OpOff		(x,	129,	0X1B400);
@@ -13749,6 +13786,11 @@ static Bytes_2(void) {
 	MakeCode	(x=0X1F5E1);
 	OpHex		(x,	1);
 	MakeCode	(0X1F65F);
+	MakeCode	(x=0X1F66B);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1F672);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X1F676);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1F679);
@@ -15904,6 +15946,15 @@ static Bytes_2(void) {
 	MakeCode	(0X219D2);
 	MakeCode	(x=0X219DD);
 	OpHex		(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_3(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X219E1);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X219E6);
@@ -15962,15 +16013,6 @@ static Bytes_2(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X21AEC);
 	OpStkvar	(x,	0);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_3(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X21AF0);
 	OpStkvar	(x,	1);
 	MakeStr		(0X21AF7,	0X21B27);
@@ -17975,7 +18017,9 @@ static Bytes_3(void) {
 	MakeByte	(0X2CAD0);
 	MakeWord	(0X2CAD6);
 	MakeWord	(0X2CAD8);
+	MakeRptCmt	(0X2CADA,	"Seems to be BoardParamCount+1... what is this for?");
 	MakeWord	(0X2CADA);
+	MakeName	(0X2CADA,	"MYSTERYParamCount");
 	MakeByte	(0X2CADC);
 	MakeByte	(0X2CAE0);
 	MakeByte	(0X2CAE1);
@@ -18091,6 +18135,9 @@ static Functions_0(void) {
 	MakeFunction    (0X10264,0X1052D);
 	SetFunctionFlags(0X10264,0x10);
 	MakeFrame(0X10264, 0X204, 2, 0X0);
+	MakeFunction    (0X10969,0X10A25);
+	SetFunctionFlags(0X10969,0x12);
+	MakeFrame(0X10969, 0X104, 2, 0X2);
 	MakeFunction    (0X10A43,0X10B5D);
 	SetFunctionFlags(0X10A43,0x12);
 	MakeFrame(0X10A43, 0X8, 2, 0X2);

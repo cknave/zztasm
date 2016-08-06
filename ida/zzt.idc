@@ -197,6 +197,9 @@ static Enums_0(id) {
 	AddConstEx(id,"TTPurpleText",	0X33,	-1);
 	AddConstEx(id,"TTBrownText",	0X34,	-1);
 	AddConstEx(id,"TTBlackText",	0X35,	-1);
+	id = AddEnum(-1,"ShootOwner",0x1100000);
+	AddConstEx(id,"SOPlayer",	0X0,	-1);
+	AddConstEx(id,"SOEnemy",	0X1,	-1);
 	return id;
 }
 
@@ -242,7 +245,7 @@ static Structures_0(id) {
 	id = GetStrucIdByName("TileType");
 	AddStrucMember(id,"Character",	0X0,	0x000400,	-1,	1);
 	AddStrucMember(id,"Color",	0X1,	0x000400,	-1,	1);
-	AddStrucMember(id,"field_2",	0X2,	0x000400,	-1,	1);
+	AddStrucMember(id,"Destructible",	0X2,	0x000400,	-1,	1);
 	AddStrucMember(id,"field_3",	0X3,	0x000400,	-1,	1);
 	AddStrucMember(id,"field_4",	0X4,	0x000400,	-1,	1);
 	AddStrucMember(id,"field_5",	0X5,	0x000400,	-1,	1);
@@ -807,6 +810,8 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X10BEE);
 	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10C04);
+	OpEnumEx		(x,	1,	GetEnum("ShootOwner"),0);
 	MakeCode	(x=0X10C0D);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X10C12);
@@ -838,6 +843,8 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X10C50);
 	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10C68);
+	OpEnumEx		(x,	1,	GetEnum("ShootOwner"),0);
 	MakeCode	(x=0X10C71);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X10C74);
@@ -2141,34 +2148,282 @@ static Bytes_0(void) {
 	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeByte	(0X1188D);
 	MakeArray	(0X1188D,	0X3);
+	MakeName	(0X1188D,	"sndRicochet");
 	MakeStr		(0X11890,	0X11895);
 	MakeName	(0X11890,	"aShot");
 	MakeCode	(0X11895);
+	MakeName	(0X11895,	"TickBullet");
 	MakeCode	(x=0X118A0);
 	OpHex		(x,	1);
+	MakeCode	(x=0X118A3);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X118A6);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X118AD);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X118B1);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X118B4);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X118B7);
+	OpStkvar	(x,	0);
+	ExtLinA		(0X118BB,	0,	";");
+	ExtLinA		(0X118BB,	1,	"; Check if we can move through the next tile");
+	ExtLinA		(0X118BB,	2,	";");
+	MakeCode	(x=0X118BB);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X118BE);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X118C3);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X118C6);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X118CA);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X118CD);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X118D0);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X118D6);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X118D9);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X118DD);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X118E0);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X118E3);
 	OpHex		(x,	1);
-	MakeCode	(0X11924);
+	MakeCode	(x=0X118E7);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X118EA);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X118F3);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X118F7);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X118FA);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X118FF);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X11906);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	ExtLinA		(0X1190D,	0,	"; Water is not passable but we can still move over it");
+	MakeCode	(x=0X1190D);
+	OpStkvar	(x,	0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	ExtLinA		(0X11913,	0,	";");
+	ExtLinA		(0X11913,	1,	": Move into the next tile");
+	ExtLinA		(0X11913,	2,	";");
+	MakeCode	(x=0X11913);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X11916);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X11919);
+	OpStkvar	(x,	0);
+	ExtLinA		(0X11924,	0,	"; Bounce off a ricochet");
+	MakeCode	(x=0X11924);
+	OpStkvar	(x,	0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	MakeCode	(x=0X1192A);
+	OpStkvar	(x,	0);
+	ExtLinA		(0X11930,	0,	";");
+	ExtLinA		(0X11930,	1,	"; Ricochet: flip stepX and stepY");
+	ExtLinA		(0X11930,	2,	";");
+	MakeCode	(x=0X11930);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11933);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11939);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1193C);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11940);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11943);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11949);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1194C);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X11954);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
+	MakeCode	(x=0X1195E);
+	OpStkvar	(x,	0);
+	ExtLinA		(0X11962,	0,	"; Now try to move with the new direction");
 	MakeCode	(0X11965);
-	MakeCode	(0X11968);
-	MakeCode	(0X119D1);
+	ExtLinA		(0X11968,	0,	"; Breakables aren't \"destructible\", but can be killed with bullets");
+	MakeCode	(x=0X11968);
+	OpStkvar	(x,	0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	ExtLinA		(0X1196E,	0,	";");
+	ExtLinA		(0X1196E,	1,	"; Check if the tile we're blocked by is destructible");
+	ExtLinA		(0X1196E,	2,	";");
+	MakeCode	(x=0X1196E);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11973);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X1197A);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	ExtLinA		(0X11981,	0,	"; If we hit the player, just attack; don't check for corner ricochet");
+	MakeCode	(x=0X11981);
+	OpStkvar	(x,	0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	ExtLinA		(0X11987,	0,	"; If we're an enemy bullet and hit something destructible that's not the");
+	ExtLinA		(0X11987,	1,	"; player, check for ricochet like we hit something non-destructible");
+	MakeCode	(x=0X11987);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1198A);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	OpEnumEx		(x,	1,	GetEnum("ShootOwner"),0);
+	ExtLinA		(0X11991,	0,	";");
+	ExtLinA		(0X11991,	1,	"; Check if attacking this tile gives score");
+	ExtLinA		(0X11991,	2,	";");
+	MakeCode	(x=0X11991);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11996);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X1199D);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	ExtLinA		(0X119A4,	0,	";");
+	ExtLinA		(0X119A4,	1,	"; Update the score and redraw the sidebar");
+	ExtLinA		(0X119A4,	2,	";");
+	MakeCode	(x=0X119A4);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X119A9);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X119B0);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X119C0);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X119C3);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X119C6);
+	OpStkvar	(x,	0);
+	ExtLinA		(0X119D1,	0,	"; Check the clockwise tile for a corner ricochet");
+	MakeCode	(x=0X119D1);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X119D4);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X119DA);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X119DD);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X119E1);
 	OpHex		(x,	1);
+	MakeCode	(x=0X119E5);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X119E8);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X119ED);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X119F0);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X119F4);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X119FD);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	MakeCode	(x=0X11A04);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X11A0A);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11A0D);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11A11);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X11A14);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11A17);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11A1D);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11A20);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11A24);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11A29);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11A2C);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X11A34);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
+	MakeCode	(x=0X11A3E);
+	OpStkvar	(x,	0);
 	MakeCode	(0X11A45);
-	MakeCode	(0X11A48);
+	MakeCode	(x=0X11A48);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11A4B);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11A51);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11A54);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X11A58);
 	OpHex		(x,	1);
+	MakeCode	(x=0X11A5C);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11A5F);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11A64);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11A67);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11A6B);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X11A74);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	MakeCode	(x=0X11A7B);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X11A81);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11A88);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X11A8B);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11A92);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11A99);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11A9C);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X11AA7);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
+	MakeCode	(x=0X11AB1);
+	OpStkvar	(x,	0);
 	MakeCode	(0X11AB8);
-	MakeCode	(0X11ABA);
+	ExtLinA		(0X11ABA,	0,	";");
+	ExtLinA		(0X11ABA,	1,	"; Hit an indestructible tile, we die!");
+	ExtLinA		(0X11ABA,	2,	";");
+	MakeCode	(x=0X11ABA);
+	OpStkvar	(x,	0);
+	ExtLinA		(0X11AC9,	0,	"; If we hit an object or scroll, send it to SHOT");
+	MakeCode	(x=0X11AC9);
+	OpStkvar	(x,	0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	MakeCode	(x=0X11ACF);
+	OpStkvar	(x,	0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	MakeCode	(x=0X11AD5);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X11AD8);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X11AE0);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X11AE3);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X11AE9);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
@@ -3582,6 +3837,7 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X149DB);
 	OpStkvar	(x,	1);
+	MakeComm	(0X149ED,	"ax = SOPlayer");
 	MakeCode	(x=0X14A09);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
@@ -3992,6 +4248,9 @@ static Bytes_0(void) {
 	MakeCode	(x=0X1527D);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X152AA);
+	OpOff		(x,	1,	0X10930);
+	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X152AD);
 	OpSeg		(x,	1);
 	MakeCode	(x=0X152C2);
@@ -4106,6 +4365,9 @@ static Bytes_0(void) {
 	MakeCode	(x=0X154B8);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X154E1);
+	OpOff		(x,	1,	0X10930);
+	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X154E4);
 	OpSeg		(x,	1);
 	MakeCode	(x=0X154F1);
@@ -4295,6 +4557,15 @@ static Bytes_0(void) {
 	MakeCode	(x=0X15908);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_1(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X15934);
 	OpSeg		(x,	1);
 	MakeCode	(x=0X15941);
@@ -4713,15 +4984,6 @@ static Bytes_0(void) {
 	MakeCode	(x=0X162B1);
 	OpOff		(x,	1,	0X15F90);
 	OpOff		(x,	129,	0X15F90);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_1(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X162C3);
 	OpOff		(x,	1,	0X15F90);
 	OpOff		(x,	129,	0X15F90);
@@ -8448,6 +8710,7 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeStr		(0X1A256,	0X1A259);
 	MakeCode	(0X1A259);
+	MakeName	(0X1A259,	"Send");
 	MakeCode	(x=0X1A264);
 	OpHex		(x,	1);
 	MakeCode	(x=0X1A268);
@@ -10165,6 +10428,15 @@ static Bytes_1(void) {
 	OpHex		(x,	1);
 	MakeCode	(x=0X1BC89);
 	OpStkvar	(x,	0);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_2(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X1BC90);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1BC93);
@@ -10619,15 +10891,6 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1C3EE);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_2(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X1C3FC);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1C400);
@@ -11568,6 +11831,7 @@ static Bytes_2(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(0X1D5D8);
 	MakeCode	(0X1D5DE);
+	MakeName	(0X1D5DE,	"Spawn");
 	MakeCode	(x=0X1D5E9);
 	OpHex		(x,	1);
 	MakeCode	(x=0X1D5EC);
@@ -12792,7 +13056,17 @@ static Bytes_2(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1E72C);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1E731);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X1E738);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X1E743);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X1E74F);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1E756);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X1E75A);
@@ -12803,16 +13077,24 @@ static Bytes_2(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1E763);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1E766);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1E76A);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1E76D);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1E770);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1E774);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1E777);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1E77A);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1E77E);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1E781);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1E786);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1E78D);
@@ -15680,6 +15962,15 @@ static Bytes_2(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X21AEC);
 	OpStkvar	(x,	0);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_3(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X21AF0);
 	OpStkvar	(x,	1);
 	MakeStr		(0X21AF7,	0X21B27);
@@ -15931,8 +16222,9 @@ static Bytes_2(void) {
 	MakeCode	(0X2226A);
 	MakeCode	(0X22283);
 	MakeArray	(0X222CD,	0X3);
+	ExtLinA		(0X222D0,	0,	"; TODO: figure this out");
 	MakeCode	(0X222D0);
-	MakeName	(0X222D0,	"MaybePlaySound");
+	MakeName	(0X222D0,	"PlaySoundPriority");
 	MakeCode	(x=0X222DB);
 	OpHex		(x,	1);
 	MakeCode	(x=0X222DF);
@@ -15942,8 +16234,13 @@ static Bytes_2(void) {
 	MakeCode	(0X222FD);
 	MakeCode	(x=0X22304);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X2230D);
+	OpSign		(x,	1);
+	OpHex		(x,	1);
 	MakeCode	(x=0X22314);
 	OpStkvar	(x,	0);
+	OpSign		(x,	1);
+	OpHex		(x,	1);
 	MakeCode	(x=0X2231D);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X2232A);
@@ -16161,15 +16458,6 @@ static Bytes_2(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X22645);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_3(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X22657);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X22669);
@@ -17744,7 +18032,9 @@ static Bytes_3(void) {
 	MakeByte	(0X2DFC3);
 	MakeByte	(0X2E0C2);
 	MakeByte	(0X2E0C3);
+	MakeName	(0X2E0C3,	"GameIsOver");
 	MakeWord	(0X2E0C4);
+	MakeName	(0X2E0C4,	"CurSoundPriority");
 	MakeByte	(0X2E2C4);
 	MakeByte	(0X2E2C5);
 	MakeByte	(0X2E2C6);
@@ -17886,6 +18176,27 @@ static Functions_0(void) {
 	MakeLocal(0X1181D, 0X1188D, "[bp+0X6]", "ParamIdx");
 	MakeNameEx(0X11878, "SegmentWait", SN_LOCAL);
 	MakeNameEx(0X11887, "DoneTickSegment", SN_LOCAL);
+	MakeFunction    (0X11895,0X11B00);
+	SetFunctionFlags(0X11895,0x12);
+	MakeFrame(0X11895, 0XC, 2, 0X2);
+	MakeLocal(0X11895, 0X11B00, "[bp-0XC]", "ParamPtr");
+	MakeLocal(0X11895, 0X11B00, "[bp-0X8]", "CanRicochet");
+	MakeLocal(0X11895, 0X11B00, "[bp-0X7]", "TypeAtNextPos");
+	MakeLocal(0X11895, 0X11B00, "[bp-0X6]", "ObjectParamIdx");
+	MakeLocal(0X11895, 0X11B00, "[bp-0X4]", "NextY");
+	MakeLocal(0X11895, 0X11B00, "[bp-0X2]", "NextX");
+	MakeLocal(0X11895, 0X11B00, "[bp+0X6]", "ParamIdx");
+	MakeNameEx(0X118BB, "TryNext", SN_LOCAL);
+	MakeNameEx(0X11913, "MoveBullet", SN_LOCAL);
+	MakeNameEx(0X11924, "CheckRicochet", SN_LOCAL);
+	MakeNameEx(0X11968, "CheckBreakable", SN_LOCAL);
+	MakeNameEx(0X11991, "AttackNextTile", SN_LOCAL);
+	MakeNameEx(0X119C0, "BulletAttacks", SN_LOCAL);
+	MakeNameEx(0X119D1, "CheckClocRicochet", SN_LOCAL);
+	MakeNameEx(0X11A48, "CheckCounRicochet", SN_LOCAL);
+	MakeNameEx(0X11ABA, "BulletDies", SN_LOCAL);
+	MakeNameEx(0X11AD5, "SendObjectShot", SN_LOCAL);
+	MakeNameEx(0X11AFA, "DoneTickBullet", SN_LOCAL);
 	MakeFunction    (0X11D5C,0X1204C);
 	SetFunctionFlags(0X11D5C,0x12);
 	MakeFrame(0X11D5C, 0X24, 2, 0X6);
@@ -18261,6 +18572,8 @@ static Functions_0(void) {
 	MakeFunction    (0X1E6BF,0X1E83F);
 	SetFunctionFlags(0X1E6BF,0x12);
 	MakeFrame(0X1E6BF, 0X6, 2, 0XC);
+	MakeLocal(0X1E6BF, 0X1E83F, "[bp-0X6]", "ParamPtr");
+	MakeLocal(0X1E6BF, 0X1E83F, "[bp-0X1]", "DidShoot");
 	MakeLocal(0X1E6BF, 0X1E83F, "[bp+0X6]", "Owner");
 	MakeLocal(0X1E6BF, 0X1E83F, "[bp+0X8]", "StepY");
 	MakeLocal(0X1E6BF, 0X1E83F, "[bp+0XA]", "StepX");
@@ -18411,6 +18724,10 @@ static Functions_0(void) {
 	MakeFunction    (0X222D0,0X223CC);
 	SetFunctionFlags(0X222D0,0x12);
 	MakeFrame(0X222D0, 0X200, 2, 0X6);
+	MakeLocal(0X222D0, 0X223CC, "[bp-0X100]", "SoundCopy");
+	MakeLocal(0X222D0, 0X223CC, "[bp+0X6]", "SoundPtr");
+	MakeLocal(0X222D0, 0X223CC, "[bp+0XA]", "Priority");
+	MakeNameEx(0X223C6, "DonePlaySound", SN_LOCAL);
 	MakeFunction    (0X223CC,0X223E9);
 	SetFunctionFlags(0X223CC,0x12);
 	MakeFrame(0X223CC, 0X0, 2, 0X0);

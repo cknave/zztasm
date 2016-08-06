@@ -93,7 +93,7 @@ ParamRecord     ends
 TileType        struc ; (sizeof=0xC3)
 Character       db ?
 Color           db ?
-field_2         db ?
+Destructible    db ?
 field_3         db ?
 field_4         db ?
 field_5         db ?
@@ -116,3 +116,10 @@ field_97        db 21 dup(?)            ; string(pascal)
 field_AC        db 21 dup(?)            ; string(pascal)
 Score           dw ?
 TileType        ends
+
+; ---------------------------------------------------------------------------
+
+; enum ShootOwner
+SOPlayer         = 0
+SOEnemy          = 1
+

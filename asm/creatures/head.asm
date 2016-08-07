@@ -699,7 +699,7 @@ ReadyToMove:                            ; CODE XREF: TickHead+4A8↑j
                 les     di, [bp+ParamPtr]
                 add     ax, es:[di+ParamRecord.StepY]
                 push    ax
-                call    MoveTile
+                call    MoveTileWithIdx
 ;
 ; Record the original position of this tile and its step
 ; This is redundant as all 4 variables are overwritten in the next section
@@ -969,7 +969,7 @@ MovingHasFollower:                      ; CODE XREF: TickHead+759↑j
                 push    es:[di+ParamRecord.Follower]
                 push    [bp+CurrentX]
                 push    [bp+CurrentY]
-                call    MoveTile
+                call    MoveTileWithIdx
 ;
 ; Change param index to the follower.
 ;

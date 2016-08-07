@@ -43,7 +43,7 @@ func TickBear(int16 ParamIdx) {
     let DestY = Params.Y + StepY
     let DestTile = BoardTiles[DestX][DestY]
     if TileType[DestTile.Type].Passable {
-        MoveTile(ParamIdx, DestX, DestY)
+        MoveTileWithIdx(ParamIdx, DestX, DestY)
         return
     }
 
@@ -85,7 +85,7 @@ func TickBullet(int16 ParamIdx) {
         let NextY = Params.Y + Params.StepY
         let NextTileType = BoardTiles[NextX][NextY]
         if (TileTypes[NextTileType].Passable != 0) || (NextTileType == TTWater) {
-            MoveTile(ParamIdx, NextX, NextY)
+            MoveTileWithIdx(ParamIdx, NextX, NextY)
             return
         }
 
@@ -283,7 +283,7 @@ func TickLion(int16 ParamIdx) {
     let DestY = Params.Y + StepY
     let DestTile = BoardTiles[DestX][DestY]
     if TileTypes[DestTile.Type].Passable {
-        MoveTile(ParamIdx, DestX, DestY)
+        MoveTileWithIdx(ParamIdx, DestX, DestY)
         return
     }
 

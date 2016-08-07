@@ -158,7 +158,7 @@ BearCheckMove:                          ; CODE XREF: TickBear+78↑j
                 xor     ah, ah
                 add     ax, [bp+StepY]
                 push    ax
-                call    MoveTile
+                call    MoveTileWithIdx
                 jmp     short BearDone
 ; ---------------------------------------------------------------------------
 ; Check if we're blocked by the player

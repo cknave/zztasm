@@ -205,7 +205,7 @@ func ReattachOrphan(ParamRecord* Params, int16 X, int16 Y, int16 StepX, int16 St
 func MoveAndReattachCentipede(int16 ParamIdx) {
     // Move this tile.
     var Params = BoardParams[ParamIdx]
-    MoveTile(ParamIdx, Params.X + Params.StepX, Params.Y + Params.StepY)
+    MoveTileWithIdx(ParamIdx, Params.X + Params.StepX, Params.Y + Params.StepY)
 
     // Move all followers.
     do {
@@ -229,7 +229,7 @@ func MoveAndReattachCentipede(int16 ParamIdx) {
             FollowerParams.StepX = CurrentX - FollowerParams.X
             FollowerParams.StepY = CurrentY - FollowerParams.Y
             // Move the follower to its new position.
-            MoveTile(LeaderParams.Follower, CurrentX, CurrentY)
+            MoveTileWithIdx(LeaderParams.Follower, CurrentX, CurrentY)
         }
 
         // Continue on to the next follower.

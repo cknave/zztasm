@@ -1,6 +1,6 @@
 ---
 title: Support Functions
-keywords: DieAttackingTile, Distance, MoveTile, Random, RandomStep, SeekStep, StepForDelta
+keywords: DieAttackingTile, Distance, MoveTileWithIdx, Random, RandomStep, SeekStep, StepForDelta
 sidebar: zztasm_sidebar
 permalink: support_functions.html
 ---
@@ -29,10 +29,10 @@ func Distance(int16 A, int16 B) -> int16
 Calculate the distance between two scalar values, i.e. `abs(A - B)`.
 
 
-## MoveTile
+## MoveTileWithIdx
 
 ```swift
-func MoveTile(int16 ParamIdx, int16 X, int16 Y)
+func MoveTileWithIdx(int16 ParamIdx, int16 X, int16 Y)
 ```
 
 Move the tile with the given parameter index to (X, Y).  The tile under the moved tile's

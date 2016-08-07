@@ -96,7 +96,7 @@ LionMove:                               ; CODE XREF: TickLion+49↑j
                 xor     ah, ah
                 add     ax, [bp+StepY]
                 push    ax
-                call    MoveTile
+                call    MoveTileWithIdx
                 jmp     short LionDoneTick
 ; ---------------------------------------------------------------------------
 ; We're blocked, check if it's by the player

@@ -71,7 +71,7 @@ MoveBullet:                             ; CODE XREF: TickBullet+76↑j
                 push    [bp+ParamIdx]
                 push    [bp+NextX]
                 push    [bp+NextY]
-                call    MoveTile
+                call    MoveTileWithIdx
                 jmp     DoneTickBullet
 ; ---------------------------------------------------------------------------
 ; Bounce off a ricochet

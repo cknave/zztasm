@@ -1,6 +1,6 @@
 ---
 title: Creature Behaviors
-keywords: Tick Functions, Bear, Lion, Tiger
+keywords: Tick functions, Bear, Bullet, Centipede, Head, Lion, Segment, Star, Tiger
 sidebar: zztasm_sidebar
 permalink: creature_behaviors.html
 ---
@@ -8,7 +8,7 @@ permalink: creature_behaviors.html
 
 ## Bear
 
-### Tick Function
+### Tick function
 
 A bear will check if the player is within the range defined by its Sensitivity parameter and
 walk towards them if they are.  If the bear encounters the player or a breakable wall, it dies
@@ -57,7 +57,7 @@ func TickBear(int16 ParamIdx) {
 
 ## Bullet
 
-### Tick Function
+### Tick function
 
 Bullets move until they hit something.  If they hit a destructible tile, they attack it.
 If they hit an indestructible tile, they die.
@@ -172,7 +172,7 @@ func TryCornerRicochet(int16 X, int16 StepX, int16 Y, int16 StepY) -> Bool {
 
 ## Centipede Head
 
-### Tick Function
+### Tick function
 
 A centipede head will move towards the player when aligned if it passes an intelligence check.
 Otherwise, it will randomly change direction if it passes a deviance check.
@@ -223,7 +223,7 @@ func TickHead(int16 ParamIdx) {
 
 ## Centipede Segment
 
-### Tick Function
+### Tick function
 
 A centipede head doesn't need to do anything as long as it has a leader.  Its movement is
 handled by the head of the centipede.  If it has no leader, it waits a tick by decrementing
@@ -255,7 +255,7 @@ func TickSegment(int16 ParamIdx) {
 
 ## Lion
 
-### Tick Function
+### Tick function
 
 A lion will, depending on its intelligence parameter, either walk towards the player or in a
 random direction.
@@ -295,9 +295,58 @@ func TickLion(int16 ParamIdx) {
 ```
 
 
+## Star
+
+### Tick function
+
+Stars have a limited lifetime, and constantly seek the player.  They are able to push other
+tiles out of the way.
+
+{% include asmlink.html file="creatures/star.asm" line="5" %}
+
+```swift
+func TickStar(int16 ParamIdx) {
+    // Decrement ticks left (Param2) and check if still alive.
+    let Params = BoardParams[ParamIdx]
+    Params.Param2 -= 1
+    if Params.Param2 <= 0 {
+        // Out of ticks, time to die.
+        RemoveParamIdx(ParamIdx)
+        return
+    }
+
+    // Move every 2 ticks; otherwise just redraw.
+    if Params.Param2 % 2 == 0 {
+        DrawTile(Params.X, Params.Y)
+        return
+    }
+
+    // Try to step towards the player.
+    Params.StepX, Params.StepY = SeekStep(Params.X, Params.Y)
+    let DestTile = BoardTiles[Params.X + Params.StepX][Params.Y + Params.StepY]
+
+    // Attack the player or breakable wall.
+    if (DestTile.Type == TTPlayer) || (DestTile.Type == TTBreakable) {
+        DieAttackingTile(ParamIdx, Params.X + Params.StepX, Params.Y + Params.StepY)
+        return
+    }
+
+    // If blocked, try pushing the tile out of the way.
+    if TileTypes[DestTile.Type].Passable == 0 {
+        TryPush(Params.X + Params.StepX, Params.Y + Params.StepY, Params.StepX, Params.StepY)
+    }
+
+    // We can move over passable tiles as well as water.
+    if (TileTypes[DestTile.Type].Passable != 0) || (DestTile.Type == TTWater) {
+        MoveTileWithIdx(ParamIdx, Params.X + Params.StepX, Params.Y + Params.StepY)
+    }
+}
+```
+
+
 ## Tiger
 
-### Tick Function
+### Tick function
 
 A tiger is a lion that will shoot bullets or stars at the player depending on its firing rate
 and alignment to the player.

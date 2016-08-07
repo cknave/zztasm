@@ -110,16 +110,16 @@ StarTryMove:                            ; CODE XREF: TickStar+5A↑j
 StarAttack:                             ; CODE XREF: TickStar+C6↑j
                 push    [bp+ParamIdx]
                 les     di, [bp+ParamPtr]
-                mov     al, es:[di]
+                mov     al, es:[di+ParamRecord.X]
                 xor     ah, ah
                 les     di, [bp+ParamPtr]
-                add     ax, es:[di+2]
+                add     ax, es:[di+ParamRecord.StepX]
                 push    ax
                 les     di, [bp+ParamPtr]
-                mov     al, es:[di+1]
+                mov     al, es:[di+ParamRecord.Y]
                 xor     ah, ah
                 les     di, [bp+ParamPtr]
-                add     ax, es:[di+4]
+                add     ax, es:[di+ParamRecord.StepY]
                 push    ax
                 call    DieAttackingTile
                 jmp     StarDoneAction

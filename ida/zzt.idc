@@ -37,10 +37,10 @@ static GenInfo(void) {
 	Tabs(1);
 	Comments(0);
 	Voids(0);
-	XrefShow(2);
+	XrefShow(0);
 	AutoShow(1);
-	Indent(16);
-	CmtIndent(40);
+	Indent(0);
+	CmtIndent(24);
 	TailDepth(0x10);
 }
 
@@ -170,7 +170,7 @@ static Enums_0(id) {
 	AddConstEx(id,"TTBreakable",	0X17,	-1);
 	AddConstEx(id,"TTBoulder",	0X18,	-1);
 	AddConstEx(id,"TTSliderNS",	0X19,	-1);
-	AddConstEx(id,"TTSliderTW",	0X1A,	-1);
+	AddConstEx(id,"TTSliderEW",	0X1A,	-1);
 	AddConstEx(id,"TTFake",	0X1B,	-1);
 	AddConstEx(id,"TTInvisible",	0X1C,	-1);
 	AddConstEx(id,"TTBlinkWall",	0X1D,	-1);
@@ -246,7 +246,7 @@ static Structures_0(id) {
 	AddStrucMember(id,"Character",	0X0,	0x000400,	-1,	1);
 	AddStrucMember(id,"Color",	0X1,	0x000400,	-1,	1);
 	AddStrucMember(id,"Destructible",	0X2,	0x000400,	-1,	1);
-	AddStrucMember(id,"field_3",	0X3,	0x000400,	-1,	1);
+	AddStrucMember(id,"Pushable",	0X3,	0x000400,	-1,	1);
 	AddStrucMember(id,"field_4",	0X4,	0x000400,	-1,	1);
 	AddStrucMember(id,"field_5",	0X5,	0x000400,	-1,	1);
 	AddStrucMember(id,"Passable",	0X6,	0x000400,	-1,	1);
@@ -2789,6 +2789,7 @@ static Bytes_0(void) {
 	MakeCode	(0X123BE);
 	MakeCode	(x=0X123C3);
 	OpHex		(x,	1);
+	MakeName	(0X123CF,	"TryTransport");
 	MakeCode	(x=0X123DA);
 	OpHex		(x,	1);
 	MakeCode	(x=0X123DD);
@@ -2938,14 +2939,205 @@ static Bytes_0(void) {
 	MakeCode	(x=0X126FE);
 	OpHex		(x,	1);
 	MakeCode	(0X12719);
+	MakeName	(0X12719,	"TickStar");
 	MakeCode	(x=0X12724);
 	OpHex		(x,	1);
-	MakeCode	(0X12761);
-	MakeCode	(0X12778);
+	MakeCode	(x=0X12727);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1272A);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12731);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X12735);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X12738);
+	OpStkvar	(x,	0);
+	ExtLinA		(0X1273B,	0,	";");
+	ExtLinA		(0X1273B,	1,	"; Decrement ticks left (Param2) and check if still alive");
+	ExtLinA		(0X1273B,	2,	";");
+	MakeCode	(x=0X1273B);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1273E);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12745);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12748);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1274C);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1274F);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X12756,	0,	";");
+	ExtLinA		(0X12756,	1,	"; Out of ticks, time to die");
+	ExtLinA		(0X12756,	2,	";");
+	MakeCode	(x=0X12756);
+	OpStkvar	(x,	0);
+	ExtLinA		(0X12761,	0,	";");
+	ExtLinA		(0X12761,	1,	"; Move every 2 ticks; otherwise just redraw");
+	ExtLinA		(0X12761,	2,	";");
+	MakeCode	(x=0X12761);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12764);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X12778,	0,	";");
+	ExtLinA		(0X12778,	1,	"; Try to step towards the player");
+	ExtLinA		(0X12778,	2,	";");
+	MakeCode	(x=0X12778);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1277B);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12781);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12784);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1278B);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1278E);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12794);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12797);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X127A2,	0,	";");
+	ExtLinA		(0X127A2,	1,	"; Check the destination tile");
+	ExtLinA		(0X127A2,	2,	";");
+	MakeCode	(x=0X127A2);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X127A5);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X127AB);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X127AE);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X127B2);
 	OpHex		(x,	1);
-	MakeCode	(0X12816);
-	MakeCode	(0X128A9);
+	MakeCode	(x=0X127B6);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X127B9);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X127BE);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X127C1);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X127C5);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X127CE);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X127D2);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X127D5);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X127D8);
+	OpStkvar	(x,	1);
+	ExtLinA		(0X127DB,	0,	"; Attack the player or a breakable wall");
+	MakeCode	(x=0X127DB);
+	OpStroffEx	(x,	0,	GetStrucIdByName("Tile"),	0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	MakeCode	(x=0X127E1);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X127E4);
+	OpStroffEx	(x,	0,	GetStrucIdByName("Tile"),	0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	MakeCode	(x=0X127EA);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X127ED);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X127F0);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X127F5);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X127F8);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X127FD);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12800);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12806);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12809);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12816);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12819);
+	OpStroffEx	(x,	1,	GetStrucIdByName("Tile"),	0);
+	MakeCode	(x=0X1281E);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X12825);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	ExtLinA		(0X1282C,	0,	";");
+	ExtLinA		(0X1282C,	1,	"; Try pushing the destination tile out of the way");
+	ExtLinA		(0X1282C,	2,	";");
+	MakeCode	(x=0X1282C);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1282F);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12834);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12837);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1283C);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1283F);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12845);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12848);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1284D);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12850);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12854);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12857);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X1285F,	0,	";");
+	ExtLinA		(0X1285F,	1,	"; If pushing worked, check if we can move into this tile now");
+	ExtLinA		(0X1285F,	2,	";");
+	MakeCode	(x=0X1285F);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12862);
+	OpStroffEx	(x,	1,	GetStrucIdByName("Tile"),	0);
+	MakeCode	(x=0X12867);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X1286E);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	ExtLinA		(0X12875,	0,	"; Also allow stars to move over water");
+	MakeCode	(x=0X12875);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12878);
+	OpStroffEx	(x,	0,	GetStrucIdByName("Tile"),	0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	MakeCode	(x=0X1287E);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X12881);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12884);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12889);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1288C);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12891);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12894);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1289A);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1289D);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X128A9);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X128AC);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X128B2);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X128B5);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeByte	(0X128C7);
 	MakeArray	(0X128C7,	0X71);
 	MakeStr		(0X12938,	0X12957);
@@ -3077,6 +3269,7 @@ static Bytes_0(void) {
 	OpHex		(x,	1);
 	MakeCode	(0X130F6);
 	MakeCode	(0X1310D);
+	MakeName	(0X1310D,	"MoveTile");
 	MakeCode	(x=0X13118);
 	OpHex		(x,	1);
 	MakeCode	(x=0X1311B);
@@ -3093,55 +3286,97 @@ static Bytes_0(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X13135);
 	OpStkvar	(x,	0);
+	ExtLinA		(0X1313F,	0,	"; Copy the tile to the destination");
 	MakeCode	(x=0X1313F);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X13142);
 	OpHex		(x,	1);
 	MakeCode	(x=0X13146);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X13149);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X13152);
 	MakeCode	(x=0X13156);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X13159);
 	OpHex		(x,	1);
 	MakeCode	(x=0X1315D);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X13160);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X13169);
+	ExtLinA		(0X1316D,	0,	"; Draw the destination tile");
 	MakeCode	(x=0X1316D);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X13170);
 	OpStkvar	(x,	0);
+	ExtLinA		(0X13178,	0,	"; Replace the source tile with an empty black tile");
 	MakeCode	(x=0X13178);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1317B);
 	OpHex		(x,	1);
 	MakeCode	(x=0X1317F);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X13182);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X1318B);
+	ExtLinA		(0X13190,	0,	"; Draw the source tile");
 	MakeCode	(x=0X13190);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X13193);
 	OpStkvar	(x,	0);
 	MakeCode	(0X131A1);
+	MakeName	(0X131A1,	"TryPush");
 	MakeCode	(x=0X131AC);
 	OpHex		(x,	1);
+	ExtLinA		(0X131AF,	0,	";");
+	ExtLinA		(0X131AF,	1,	"; Check if the tile type is pushable");
+	ExtLinA		(0X131AF,	2,	";");
 	MakeCode	(x=0X131AF);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X131B2);
 	OpHex		(x,	1);
 	MakeCode	(x=0X131B6);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X131B9);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X131C2);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X131C6);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X131C9);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X131CC);
 	OpStkvar	(x,	1);
+	ExtLinA		(0X131CF,	0,	"; Check for north/south slider");
+	MakeCode	(x=0X131CF);
+	OpStroffEx	(x,	0,	GetStrucIdByName("Tile"),	0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	ExtLinA		(0X131D5,	0,	"; Check we're not pushing a NS slider on the X axis");
 	MakeCode	(x=0X131D5);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X131DB);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X131DE);
+	OpStroffEx	(x,	0,	GetStrucIdByName("Tile"),	0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	ExtLinA		(0X131E4,	0,	"; Check we're not pushing an EW slider on the Y axis");
 	MakeCode	(x=0X131E4);
 	OpStkvar	(x,	0);
+	ExtLinA		(0X131EA,	0,	"; Check for other pushable tiles");
 	MakeCode	(x=0X131EA);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X131ED);
+	OpStroffEx	(x,	1,	GetStrucIdByName("Tile"),	0);
+	MakeCode	(x=0X131F2);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X131F9);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	ExtLinA		(0X13203,	0,	";");
+	ExtLinA		(0X13203,	1,	"; Found a pushable, try pushing it");
+	ExtLinA		(0X13203,	2,	";");
 	MakeCode	(x=0X13203);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X13206);
@@ -3152,6 +3387,13 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X13210);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X13213);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	ExtLinA		(0X1321C,	0,	"; Special case: pushing into a transporter");
+	MakeCode	(x=0X1321C);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
 	MakeCode	(x=0X13223);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X13226);
@@ -3160,6 +3402,7 @@ static Bytes_0(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1322C);
 	OpStkvar	(x,	0);
+	ExtLinA		(0X13235,	0,	"; If the next tile isn't empty, try pushing it out of the way");
 	MakeCode	(x=0X13235);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X13238);
@@ -3170,6 +3413,12 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X13242);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X13245);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X1324E);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
 	MakeCode	(x=0X13255);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X13258);
@@ -3182,6 +3431,10 @@ static Bytes_0(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X13266);
 	OpStkvar	(x,	0);
+	ExtLinA		(0X1326D,	0,	";");
+	ExtLinA		(0X1326D,	1,	"; The next tile has been pushed out of the way if it could be");
+	ExtLinA		(0X1326D,	2,	"; Deal with whatever's left in that space");
+	ExtLinA		(0X1326D,	3,	";");
 	MakeCode	(x=0X1326D);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X13270);
@@ -3192,6 +3445,17 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1327A);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1327D);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X13286);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X1328C);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X13293);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	ExtLinA		(0X1329A,	0,	"; Check for a (non-player) destructible tile in the way");
 	MakeCode	(x=0X1329A);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1329D);
@@ -3202,6 +3466,16 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X132A7);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X132AA);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X132B3);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X132B9);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X132C0);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
 	MakeCode	(x=0X132C7);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X132CA);
@@ -3212,6 +3486,12 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X132D4);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X132D7);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X132E0);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
 	MakeCode	(x=0X132E7);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X132EA);
@@ -3220,6 +3500,9 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X132F1);
 	OpStkvar	(x,	1);
+	ExtLinA		(0X132FA,	0,	";");
+	ExtLinA		(0X132FA,	1,	"; Final check to see if we can move into the destination");
+	ExtLinA		(0X132FA,	2,	";");
 	MakeCode	(x=0X132FA);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X132FD);
@@ -3230,6 +3513,19 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X13307);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1330A);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X13313);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X13319);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X13320);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	ExtLinA		(0X13327,	0,	";");
+	ExtLinA		(0X13327,	1,	"; Move the tile!");
+	ExtLinA		(0X13327,	2,	";");
 	MakeCode	(x=0X13327);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1332A);
@@ -4058,6 +4354,15 @@ static Bytes_0(void) {
 	MakeName	(0X14F83,	"aMovementSpeed?");
 	MakeStr		(0X14F96,	0X14F9C);
 	MakeName	(0X14F96,	"aShark");
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_1(void) {
+        auto x;
+#define id x
+
 	MakeStr		(0X14F9C,	0X14FA6);
 	MakeName	(0X14F9C,	"aClockwise");
 	MakeStr		(0X14FA6,	0X14FB1);
@@ -4356,6 +4661,8 @@ static Bytes_0(void) {
 	OpSeg		(x,	1);
 	MakeCode	(x=0X15417);
 	OpSeg		(x,	1);
+	MakeCode	(x=0X15421);
+	OpSeg		(x,	0);
 	MakeCode	(x=0X1542C);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
@@ -4406,6 +4713,9 @@ static Bytes_0(void) {
 	MakeCode	(x=0X15500);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X15523);
+	OpOff		(x,	1,	0X10930);
+	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X15526);
 	OpSeg		(x,	1);
 	MakeCode	(x=0X15533);
@@ -4548,15 +4858,6 @@ static Bytes_0(void) {
 	MakeCode	(x=0X15864);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_1(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X15872);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
@@ -9798,6 +10099,15 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1B16D);
 	OpStkvar	(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_2(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X1B179);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1B188);
@@ -10417,15 +10727,6 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1BB5E);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_2(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X1BB61);
 	OpHex		(x,	1);
 	MakeCode	(x=0X1BB65);
@@ -12153,7 +12454,7 @@ static Bytes_2(void) {
 	MakeCode	(x=0X1DA80);
 	OpStkvar	(x,	1);
 	MakeCode	(0X1DA89);
-	MakeName	(0X1DA89,	"MoveTile");
+	MakeName	(0X1DA89,	"MoveTileWithIdx");
 	MakeCode	(x=0X1DA94);
 	OpHex		(x,	1);
 	MakeCode	(x=0X1DA97);
@@ -12941,7 +13242,10 @@ static Bytes_2(void) {
 	OpOff		(x,	129,	0X1B400);
 	MakeCode	(x=0X1E56B);
 	OpStkvar	(x,	0);
+	ExtLinA		(0X1E578,	0,	"; If tile X,Y has a parameter record, attack it");
+	ExtLinA		(0X1E578,	1,	"; Otherwise, replace it with empty");
 	MakeCode	(0X1E578);
+	MakeName	(0X1E578,	"Destroy");
 	MakeCode	(x=0X1E583);
 	OpHex		(x,	1);
 	MakeCode	(x=0X1E586);
@@ -12962,6 +13266,12 @@ static Bytes_2(void) {
 	OpHex		(x,	1);
 	MakeCode	(x=0X1E5A9);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1E5AC);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X1E5B5);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
 	MakeCode	(x=0X1E5BA);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1E5BD);
@@ -15392,6 +15702,15 @@ static Bytes_2(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X21119);
 	OpStkvar	(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_3(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X2111C);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X21120);
@@ -15946,15 +16265,6 @@ static Bytes_2(void) {
 	MakeCode	(0X219D2);
 	MakeCode	(x=0X219DD);
 	OpHex		(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_3(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X219E1);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X219E6);
@@ -18250,12 +18560,47 @@ static Functions_0(void) {
 	MakeFunction    (0X123CF,0X12571);
 	SetFunctionFlags(0X123CF,0x12);
 	MakeFrame(0X123CF, 0X14, 2, 0X8);
+	MakeFunction    (0X12719,0X128C7);
+	SetFunctionFlags(0X12719,0x12);
+	MakeFrame(0X12719, 0X8, 2, 0X2);
+	MakeLocal(0X12719, 0X128C7, "[bp-0X8]", "DestTilePtr");
+	MakeLocal(0X12719, 0X128C7, "[bp-0X4]", "ParamPtr");
+	MakeLocal(0X12719, 0X128C7, "[bp+0X6]", "ParamIdx");
+	MakeNameEx(0X12761, "StarStillAlive", SN_LOCAL);
+	MakeNameEx(0X12778, "StarTryMove", SN_LOCAL);
+	MakeNameEx(0X127EA, "StarAttack", SN_LOCAL);
+	MakeNameEx(0X12816, "StarCheckPassable", SN_LOCAL);
+	MakeNameEx(0X1285F, "StarDestPassable", SN_LOCAL);
+	MakeNameEx(0X1287E, "DoStarMove", SN_LOCAL);
+	MakeNameEx(0X128A7, "StarDoneAction", SN_LOCAL);
+	MakeNameEx(0X128A9, "RedrawStar", SN_LOCAL);
+	MakeNameEx(0X128C1, "DoneTickStar", SN_LOCAL);
 	MakeFunction    (0X1310D,0X131A1);
 	SetFunctionFlags(0X1310D,0x12);
 	MakeFrame(0X1310D, 0X2, 2, 0X8);
+	MakeLocal(0X1310D, 0X131A1, "[bp-0X2]", "ParamIdx");
+	MakeLocal(0X1310D, 0X131A1, "[bp+0X6]", "DestY");
+	MakeLocal(0X1310D, 0X131A1, "[bp+0X8]", "DestX");
+	MakeLocal(0X1310D, 0X131A1, "[bp+0XA]", "SrcY");
+	MakeLocal(0X1310D, 0X131A1, "[bp+0XC]", "SrcX");
+	MakeNameEx(0X1313F, "MoveWithNoParams", SN_LOCAL);
+	MakeNameEx(0X1319B, "DoneMoveTile", SN_LOCAL);
 	MakeFunction    (0X131A1,0X13345);
 	SetFunctionFlags(0X131A1,0x12);
 	MakeFrame(0X131A1, 0X6, 2, 0X8);
+	MakeLocal(0X131A1, 0X13345, "[bp-0X6]", "TilePtr");
+	MakeLocal(0X131A1, 0X13345, "[bp+0X6]", "StepY");
+	MakeLocal(0X131A1, 0X13345, "[bp+0X8]", "StepX");
+	MakeLocal(0X131A1, 0X13345, "[bp+0XA]", "Y");
+	MakeLocal(0X131A1, 0X13345, "[bp+0XC]", "X");
+	MakeNameEx(0X131D5, "CheckSliderNSStep", SN_LOCAL);
+	MakeNameEx(0X131DB, "CheckSliderEW", SN_LOCAL);
+	MakeNameEx(0X131EA, "CheckPushable", SN_LOCAL);
+	MakeNameEx(0X13203, "FoundPushable", SN_LOCAL);
+	MakeNameEx(0X13235, "TryPushNextTile", SN_LOCAL);
+	MakeNameEx(0X1326D, "HandleNextTile", SN_LOCAL);
+	MakeNameEx(0X132FA, "FinalMoveCheck", SN_LOCAL);
+	MakeNameEx(0X1333F, "DoneTryPush", SN_LOCAL);
 	MakeFunction    (0X14466,0X14601);
 	SetFunctionFlags(0X14466,0x12);
 	MakeFrame(0X14466, 0X10, 2, 0X6);
@@ -18609,6 +18954,8 @@ static Functions_0(void) {
 	MakeLocal(0X1E578, 0X1E5CA, "[bp-0X2]", "ParamIdx");
 	MakeLocal(0X1E578, 0X1E5CA, "[bp+0X6]", "Y");
 	MakeLocal(0X1E578, 0X1E5CA, "[bp+0X8]", "X");
+	MakeNameEx(0X1E5A2, "ReplaceWithEmpty", SN_LOCAL);
+	MakeNameEx(0X1E5C4, "DoneDestroy", SN_LOCAL);
 	MakeFunction    (0X1E5CD,0X1E6BC);
 	SetFunctionFlags(0X1E5CD,0x12);
 	MakeFrame(0X1E5CD, 0X0, 2, 0X6);

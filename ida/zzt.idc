@@ -8424,6 +8424,7 @@ static Bytes_1(void) {
 	MakeStr		(0X19885,	0X1988D);
 	MakeName	(0X19885,	"aRestart");
 	MakeCode	(0X1988D);
+	MakeName	(0X1988D,	"FindLabel");
 	MakeCode	(x=0X19898);
 	OpHex		(x,	1);
 	MakeCode	(x=0X1989C);
@@ -8436,6 +8437,9 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X198C4);
 	OpStkvar	(x,	0);
+	ExtLinA		(0X198C9,	0,	";");
+	ExtLinA		(0X198C9,	1,	"; Check if the label has a destination prefix, e.g. \"others:label\"");
+	ExtLinA		(0X198C9,	2,	";");
 	MakeCode	(x=0X198C9);
 	OpOff		(x,	1,	0X18F30);
 	OpOff		(x,	129,	0X18F30);
@@ -9040,12 +9044,14 @@ static Bytes_1(void) {
 	MakeStr		(0X1A256,	0X1A259);
 	MakeCode	(0X1A259);
 	MakeName	(0X1A259,	"Send");
+	ExtLinA		(0X1A264,	0,	"; Make a copy of the label string");
 	MakeCode	(x=0X1A264);
 	OpHex		(x,	1);
 	MakeCode	(x=0X1A268);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1A26D);
 	OpStkvar	(x,	1);
+	ExtLinA		(0X1A27C,	0,	"; If the index was negative, make it positive and make a note of it");
 	MakeCode	(x=0X1A27C);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1A282);
@@ -9073,12 +9079,22 @@ static Bytes_1(void) {
 	OpOff		(x,	129,	0X18F30);
 	MakeCode	(x=0X1A2C1);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1A2C5);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeComm	(0X1A2CC,	"locked");
+	MakeCode	(x=0X1A2CC);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
 	MakeCode	(x=0X1A2D3);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1A2D9);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1A2DC);
 	OpStkvar	(x,	1);
+	ExtLinA		(0X1A2E2,	0,	"; The object's locked and we're not overriding it, and search returned the same index.");
+	ExtLinA		(0X1A2E2,	1,	"; If our original index was negative, don't perform the send.");
+	ExtLinA		(0X1A2E2,	2,	"; If the original index was positive... DO perform the send?!");
+	ExtLinA		(0X1A2E2,	3,	"; WHAT DOES THIS MEAN?!");
 	MakeCode	(x=0X1A2E2);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1A2E9);
@@ -9091,6 +9107,11 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1A2FA);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1A2FE);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1A305);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
 	MakeCode	(x=0X1A30B);
 	OpStkvar	(x,	1);
 	MakeStr		(0X1A314,	0X1A322);
@@ -10024,6 +10045,15 @@ static Bytes_1(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1B028);
 	OpStkvar	(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_2(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X1B035);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1B044);
@@ -10099,15 +10129,6 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1B16D);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_2(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X1B179);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1B188);
@@ -15625,6 +15646,15 @@ static Bytes_2(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X20FF0);
 	OpHex		(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_3(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X20FF2);
 	OpHex		(x,	1);
 	MakeCode	(x=0X20FF4);
@@ -15702,15 +15732,6 @@ static Bytes_2(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X21119);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_3(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X2111C);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X21120);
@@ -17757,9 +17778,11 @@ static Bytes_3(void) {
 	MakeCode	(0X2427B);
 	MakeCode	(0X24287);
 	MakeCode	(0X242B3);
+	MakeName	(0X242B3,	"StrIndexOf");
 	MakeCode	(0X242D6);
 	MakeCode	(0X242F3);
 	MakeCode	(0X242FF);
+	MakeName	(0X242FF,	"StrCmp");
 	MakeCode	(0X2432A);
 	MakeCode	(0X2433C);
 	MakeCode	(0X24357);
@@ -18754,6 +18777,14 @@ static Functions_0(void) {
 	MakeFunction    (0X1988D,0X19A0D);
 	SetFunctionFlags(0X1988D,0x10);
 	MakeFrame(0X1988D, 0X334, 2, 0X12);
+	MakeLocal(0X1988D, 0X19A0D, "[bp-0X204]", "ColonIdx");
+	MakeLocal(0X1988D, 0X19A0D, "[bp-0X202]", "PrefixCopy");
+	MakeLocal(0X1988D, 0X19A0D, "[bp-0X102]", "LabelCopy");
+	MakeLocal(0X1988D, 0X19A0D, "[bp+0X4]", "Prefix");
+	MakeLocal(0X1988D, 0X19A0D, "[bp+0X8]", "InstructionPtr");
+	MakeLocal(0X1988D, 0X19A0D, "[bp+0XC]", "ResultIdxPtr");
+	MakeLocal(0X1988D, 0X19A0D, "[bp+0X10]", "LabelPtr");
+	MakeLocal(0X1988D, 0X19A0D, "[bp+0X14]", "ParamIdx");
 	MakeFunction    (0X19A0D,0X19A6E);
 	SetFunctionFlags(0X19A0D,0x12);
 	MakeFrame(0X19A0D, 0X38, 2, 0X4);
@@ -18787,6 +18818,21 @@ static Functions_0(void) {
 	MakeFunction    (0X1A259,0X1A314);
 	SetFunctionFlags(0X1A259,0x12);
 	MakeFrame(0X1A259, 0X108, 2, 0X8);
+	MakeLocal(0X1A259, 0X1A314, "[bp-0X107]", "IdxWasNegative");
+	MakeLocal(0X1A259, 0X1A314, "[bp-0X106]", "ResultIdx");
+	MakeLocal(0X1A259, 0X1A314, "[bp-0X104]", "InstructionPtr");
+	MakeLocal(0X1A259, 0X1A314, "[bp-0X102]", "LabelCopy");
+	MakeLocal(0X1A259, 0X1A314, "[bp-0X1]", "DidSend");
+	MakeLocal(0X1A259, 0X1A314, "[bp+0X6]", "OverrideLock");
+	MakeLocal(0X1A259, 0X1A314, "[bp+0X8]", "LabelPtr");
+	MakeLocal(0X1A259, 0X1A314, "[bp+0XC]", "ParamIdx");
+	MakeNameEx(0X1A291, "IdxNotNegative", SN_LOCAL);
+	MakeNameEx(0X1A296, "SendPrepareLoop", SN_LOCAL);
+	MakeNameEx(0X1A2A0, "SendFindLoop", SN_LOCAL);
+	MakeNameEx(0X1A2E9, "NotLocked", SN_LOCAL);
+	MakeNameEx(0X1A2F6, "UpdateInstructionPtr", SN_LOCAL);
+	MakeNameEx(0X1A309, "SendFindContinue", SN_LOCAL);
+	MakeNameEx(0X1A30B, "DoneSend", SN_LOCAL);
 	MakeFunction    (0X1A429,0X1B3EE);
 	SetFunctionFlags(0X1A429,0x12);
 	MakeFrame(0X1A429, 0X239C, 2, 0XA);

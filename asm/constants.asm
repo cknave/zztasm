@@ -1,6 +1,7 @@
 ; enum Constants
-BytesPerColumn   = 36h
+BytesPerColumn      = 36h
 FiringRateStarMask  = 80h
+MaxBoardParams      = 96h
 
 ; ---------------------------------------------------------------------------
 
@@ -96,7 +97,7 @@ Color           db ?
 Destructible    db ?
 field_3         db ?
 field_4         db ?
-field_5         db ?
+DefaultColor    db ?
 Passable        db ?                    ; 0=blocks player, 1=passable
 field_7         db ?
 field_8         dw ?

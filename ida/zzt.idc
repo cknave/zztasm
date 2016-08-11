@@ -2507,8 +2507,12 @@ static Bytes_0(void) {
 	ExtLinA		(0X11BF9,	2,	";");
 	MakeCode	(x=0X11BF9);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X11BFC);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X11C02);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X11C05);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	ExtLinA		(0X11C11,	0,	";");
 	ExtLinA		(0X11C11,	1,	"; Check the high bit of the firing rate for shoot type");
 	ExtLinA		(0X11C11,	2,	";");
@@ -4136,10 +4140,6 @@ static Bytes_0(void) {
 	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X138C2);
 	OpStkvar	(x,	1);
-	MakeCode	(x=0X138C5);
-	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
-	MakeCode	(0X138CF);
-	MakeName	(0X138CF,	"TickScroll");
 }
 
 //------------------------------------------------------------------------
@@ -4149,6 +4149,10 @@ static Bytes_1(void) {
         auto x;
 #define id x
 
+	MakeCode	(x=0X138C5);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(0X138CF);
+	MakeName	(0X138CF,	"TickScroll");
 	MakeCode	(x=0X138DA);
 	OpHex		(x,	1);
 	MakeCode	(x=0X138DD);
@@ -9672,13 +9676,6 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1A19F);
 	OpStkvar	(x,	1);
-	MakeCode	(x=0X1A1A4);
-	OpStkvar	(x,	0);
-	MakeCode	(x=0X1A1AA);
-	OpStkvar	(x,	0);
-	MakeCode	(x=0X1A1AF);
-	OpOff		(x,	1,	0X256D0);
-	OpOff		(x,	129,	0X256D0);
 }
 
 //------------------------------------------------------------------------
@@ -9688,6 +9685,13 @@ static Bytes_2(void) {
         auto x;
 #define id x
 
+	MakeCode	(x=0X1A1A4);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X1A1AA);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X1A1AF);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
 	MakeCode	(0X1A1C0);
 	MakeCode	(x=0X1A1C2);
 	OpStkvar	(x,	0);
@@ -14991,9 +14995,6 @@ static Bytes_2(void) {
 	MakeName	(0X1F964,	"a_msg");
 	MakeStr		(0X1F969,	0X1F96B);
 	MakeName	(0X1F969,	"a@");
-	MakeStr		(0X1F96B,	0X1F984);
-	MakeName	(0X1F96B,	"aPressAnyKeyToE");
-	MakeStr		(0X1F984,	0X1F99D);
 }
 
 //------------------------------------------------------------------------
@@ -15003,6 +15004,9 @@ static Bytes_3(void) {
         auto x;
 #define id x
 
+	MakeStr		(0X1F96B,	0X1F984);
+	MakeName	(0X1F96B,	"aPressAnyKeyToE");
+	MakeStr		(0X1F984,	0X1F99D);
 	MakeCode	(0X1F99D);
 	MakeCode	(x=0X1F9A8);
 	OpHex		(x,	1);

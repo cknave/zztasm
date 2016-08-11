@@ -1,6 +1,7 @@
 ---
 title: Creature Behaviors
-keywords: Tick functions, Bear, Bullet, Centipede, Duplicator, Head, Lion, Segment, Star, Tiger
+keywords: Tick functions, Bear, Bullet, Centipede, Duplicator, Head, Lion, Scroll, Segment,
+          Spinning Gun, Star, Tiger
 sidebar: zztasm_sidebar
 permalink: creature_behaviors.html
 ---
@@ -170,7 +171,7 @@ func TryCornerRicochet(int16 X, int16 StepX, int16 Y, int16 StepY) -> Bool {
 ```
 
 
-## Centipede Head
+## Centipede head
 
 ### Tick function
 
@@ -221,7 +222,7 @@ func TickHead(int16 ParamIdx) {
 ```
 
 
-## Centipede Segment
+## Centipede segment
 
 ### Tick function
 
@@ -409,6 +410,54 @@ func TickScroll(int16 ParamIdx) {
     }
 
     DrawTile(Params.X, Params.Y)
+}
+```
+
+
+## Spinning gun
+
+### Tick function
+
+Spinning guns have a random chance of shooting based on their firing rate.  If they do fire,
+they have a random chance of shooting towards a player that is nearly aligned based on their
+intelligence.
+
+{% include asmlink.html file="creatures/spinning_gun.asm" line="5" %}
+
+```swift
+func TickSpinningGun(int16 ParamIdx) {
+    // Redraw every tick to keep spinning
+    let Params = BoardParams[ParamIdx]
+    DrawTile(Params.X, Params.Y)
+
+    // Check the high bit of the firing rate for the shoot type
+    let FiringRate = Params.Param2 & 0x7f
+    let ShootStars = Params.Param2 & 0x80
+    let ShootType = ShootStars ? TTStar : TTBullet
+
+    // Firing rate check
+    if FiringRate <= Random(9) {
+        return
+    }
+
+    // Intelligence check
+    var DidShoot = false
+    if Params.Param1 < Random(9) {
+        // Shoot randomly
+        let StepX, StepY = RandomStep()
+        DidShoot = Shoot(ShootType, Params.X, Params.Y, StepX, StepY, SOEnemy)
+    } else {
+        // If the player's close on the X axis, shoot on the Y axis
+        if Distance(Params.X, PlayerX) <= 2 {
+            let StepY = StepForDelta(PlayerY - Params.Y)
+            DidShoot = Shoot(ShootType, Params.X, Params.Y, 0, StepY, SOEnemy)
+        }
+        // If we haven't shot yet, and the player's close on the Y axis, shoot on the X axis
+        if !DidShoot && Distance(Params.Y, PlayerY) <= 2 {
+            let StepX = StepForDelta(PlayerX - Params.X)
+            DidShoot = Shoot(ShootType, Params.X, Params.Y, StepX, 0, SOEnemy)
+        }
+    }
 }
 ```
 

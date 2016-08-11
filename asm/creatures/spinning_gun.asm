@@ -27,11 +27,11 @@ ParamIdx        = word ptr  6
 ; Redraw every tick
 ;
                 les     di, [bp+ParamPtr]
-                mov     al, es:[di]
+                mov     al, es:[di+ParamRecord.X]
                 xor     ah, ah
                 push    ax
                 les     di, [bp+ParamPtr]
-                mov     al, es:[di+1]
+                mov     al, es:[di+ParamRecord.Y]
                 xor     ah, ah
                 push    ax
                 call    DrawTile

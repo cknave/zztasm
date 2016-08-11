@@ -618,6 +618,7 @@ static Bytes_0(void) {
 	MakeArray	(0X10928,	0X8);
 	MakeCode	(0X10930);
 	MakeCode	(0X10940);
+	MakeName	(0X10940,	"TouchNoOp");
 	MakeCode	(0X10950);
 	MakeStr		(0X10967,	0X10969);
 	MakeCode	(0X10969);
@@ -4008,22 +4009,100 @@ static Bytes_0(void) {
 	MakeCode	(x=0X138C5);
 	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(0X138CF);
+	MakeName	(0X138CF,	"TickScroll");
 	MakeCode	(x=0X138DA);
 	OpHex		(x,	1);
+	MakeCode	(x=0X138DD);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X138E0);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X138E7);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X138EB);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X138EE);
+	OpStkvar	(x,	0);
+	ExtLinA		(0X138F1,	0,	";");
+	ExtLinA		(0X138F1,	1,	"; Increment the scroll's color");
+	ExtLinA		(0X138F1,	2,	";");
+	MakeCode	(x=0X138F1);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X138F4);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X138FA);
 	OpHex		(x,	1);
+	MakeCode	(x=0X138FE);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13901);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X13906);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X1390F);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X13918);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1391B);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X13921);
 	OpHex		(x,	1);
+	MakeCode	(x=0X13925);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13928);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1392D);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X13936);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	MakeCode	(x=0X1393A);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1393D);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X13943);
 	OpHex		(x,	1);
+	MakeCode	(x=0X13947);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1394A);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1394F);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	ExtLinA		(0X13958,	0,	";");
+	ExtLinA		(0X13958,	1,	"; Wrap back around to blue after white");
+	ExtLinA		(0X13958,	2,	";");
+	MakeCode	(x=0X13958);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	MakeCode	(x=0X1395F);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13962);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X13968);
 	OpHex		(x,	1);
+	MakeCode	(x=0X1396C);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1396F);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X13974);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X1397D);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	MakeCode	(x=0X13982);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13985);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1398B);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1398E);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeStr		(0X139A0,	0X139B4);
 	MakeName	(0X139A0,	"aCCDDEEFFGG");
 	MakeStr		(0X139B4,	0X139BB);
 	MakeName	(0X139B4,	"aScroll");
 	MakeCode	(0X139BB);
-	MakeName	(0X139BB,	"TickScroll");
+	MakeName	(0X139BB,	"TouchScroll");
 	MakeCode	(x=0X139C6);
 	OpHex		(x,	1);
 	MakeCode	(x=0X139CA);
@@ -4106,6 +4185,15 @@ static Bytes_0(void) {
 	MakeCode	(x=0X13BED);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_1(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X13C07);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
@@ -4224,15 +4312,6 @@ static Bytes_0(void) {
 	OpOff		(x,	129,	0X10930);
 	MakeByte	(0X141D7);
 	MakeArray	(0X141D7,	0X3);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_1(void) {
-        auto x;
-#define id x
-
 	MakeStr		(0X141DA,	0X14200);
 	MakeName	(0X141DA,	"aAPathIsCleared");
 	MakeCode	(0X14200);
@@ -5223,6 +5302,9 @@ static Bytes_1(void) {
 	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X1569F);
 	OpSeg		(x,	1);
+	MakeCode	(x=0X156A9);
+	OpOff		(x,	1,	0X10930);
+	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X156AC);
 	OpSeg		(x,	1);
 	MakeCode	(x=0X156CC);
@@ -9619,6 +9701,15 @@ static Bytes_1(void) {
 	MakeStr		(0X1A3AE,	0X1A3B0);
 	MakeStr		(0X1A3B0,	0X1A3B5);
 	MakeName	(0X1A3B0,	"aLock");
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_2(void) {
+        auto x;
+#define id x
+
 	MakeStr		(0X1A3B5,	0X1A3BC);
 	MakeName	(0X1A3B5,	"aUnlock");
 	MakeStr		(0X1A3BC,	0X1A3C1);
@@ -9727,15 +9818,6 @@ static Bytes_1(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1A549);
 	OpStkvar	(x,	0);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_2(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X1A553);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1A55D);
@@ -15021,6 +15103,15 @@ static Bytes_2(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1FE16);
 	OpStkvar	(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_3(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X1FE1D);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
@@ -15151,15 +15242,6 @@ static Bytes_2(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X20046);
 	OpStkvar	(x,	0);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_3(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X20049);
 	OpStkvar	(x,	0);
 	MakeCode	(0X20050);
@@ -19029,6 +19111,9 @@ static Functions_0(void) {
 	MakeFunction    (0X10264,0X1052D);
 	SetFunctionFlags(0X10264,0x10);
 	MakeFrame(0X10264, 0X204, 2, 0X0);
+	MakeFunction    (0X10940,0X10950);
+	SetFunctionFlags(0X10940,0x12);
+	MakeFrame(0X10940, 0X0, 2, 0XE);
 	MakeFunction    (0X10969,0X10A25);
 	SetFunctionFlags(0X10969,0x12);
 	MakeFrame(0X10969, 0X104, 2, 0X2);
@@ -19210,6 +19295,12 @@ static Functions_0(void) {
 	MakeNameEx(0X1387F, "PlayBlockedSound", SN_LOCAL);
 	MakeNameEx(0X1388D, "DoneDuplicating", SN_LOCAL);
 	MakeNameEx(0X138AD, "DoneTickDuplicator", SN_LOCAL);
+	MakeFunction    (0X138CF,0X139A0);
+	SetFunctionFlags(0X138CF,0x12);
+	MakeFrame(0X138CF, 0X4, 2, 0X2);
+	MakeLocal(0X138CF, 0X139A0, "[bp-0X4]", "ParamPtr");
+	MakeLocal(0X138CF, 0X139A0, "[bp+0X6]", "ParamIdx");
+	MakeNameEx(0X13982, "DoneTickScroll", SN_LOCAL);
 	MakeFunction    (0X139BB,0X13A4D);
 	SetFunctionFlags(0X139BB,0x12);
 	MakeFrame(0X139BB, 0X2142, 2, 0XE);

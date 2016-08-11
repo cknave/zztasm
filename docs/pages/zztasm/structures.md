@@ -83,16 +83,15 @@ ZZT.
 
 ```
 struct TileType {
-    uint8      TileType         // Tile type code
-    uint8      Color            // Default color
-    uint8      field_2
-    uint8      field_3
+    uint8      Character        // Tile character
+    uint8      Color            // Tile color
+    uint8      Destructible     // If the tile can be destroyed
+    uint8      Pushable         // If the tile can be pushed
     uint8      field_4
-    uint8      field_5
+    uint8      DefaultColor     // Default color flag
     uint8      Passable         // 0=blocks player, 1=passable
     uint8      field_7
-    int16      field_8
-    int16      field_A
+    void*      DrawFunction
     int16      field_C
     void*      TickFunction     // Pointer to tick function
     void*      TouchFunction    // Pointer to touch function

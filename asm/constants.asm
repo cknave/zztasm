@@ -100,8 +100,7 @@ field_4         db ?
 DefaultColor    db ?
 Passable        db ?                    ; 0=blocks player, 1=passable
 field_7         db ?
-field_8         dw ?
-field_A         dw ?
+DrawFunction    dd ?
 field_C         dw ?
 TickFunction    dd ?
 TouchFunction   dd ?

@@ -253,8 +253,7 @@ static Structures_0(id) {
 	AddStrucMember(id,"Passable",	0X6,	0x000400,	-1,	1);
 	SetMemberComment(id,	0X6,	"0=blocks player, 1=passable",	1);
 	AddStrucMember(id,"field_7",	0X7,	0x000400,	-1,	1);
-	AddStrucMember(id,"field_8",	0X8,	0x10000400,	-1,	2);
-	AddStrucMember(id,"field_A",	0XA,	0x10000400,	-1,	2);
+	AddStrucMember(id,"DrawFunction",	0X8,	0x20000400,	-1,	4);
 	AddStrucMember(id,"field_C",	0XC,	0x10000400,	-1,	2);
 	AddStrucMember(id,"TickFunction",	0XE,	0x20000400,	-1,	4);
 	AddStrucMember(id,"TouchFunction",	0X12,	0x20000400,	-1,	4);
@@ -2465,9 +2464,17 @@ static Bytes_0(void) {
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
 	MakeCode	(0X11B00);
+	MakeName	(0X11B00,	"DrawSpinningGun");
+	MakeCode	(x=0X11B1E);
+	OpStkvar	(x,	1);
 	MakeCode	(0X11B27);
+	MakeCode	(x=0X11B31);
+	OpStkvar	(x,	1);
 	MakeCode	(0X11B3A);
-	MakeCode	(0X11B4D);
+	MakeCode	(x=0X11B44);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11B4D);
+	OpStkvar	(x,	1);
 	MakeCode	(0X11B5A);
 	MakeCode	(x=0X11B65);
 	OpHex		(x,	1);
@@ -2481,12 +2488,135 @@ static Bytes_0(void) {
 	MakeCode	(x=0X11BB9);
 	OpHex		(x,	1);
 	MakeCode	(0X11BD7);
+	MakeName	(0X11BD7,	"TickSpinningGun");
 	MakeCode	(x=0X11BE2);
 	OpHex		(x,	1);
+	MakeCode	(x=0X11BE5);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11BE8);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11BEF);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X11BF3);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X11BF6);
+	OpStkvar	(x,	0);
+	ExtLinA		(0X11BF9,	0,	";");
+	ExtLinA		(0X11BF9,	1,	"; Redraw every tick");
+	ExtLinA		(0X11BF9,	2,	";");
+	MakeCode	(x=0X11BF9);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11C02);
+	OpStkvar	(x,	1);
+	ExtLinA		(0X11C11,	0,	";");
+	ExtLinA		(0X11C11,	1,	"; Check the high bit of the firing rate for shoot type");
+	ExtLinA		(0X11C11,	2,	";");
+	MakeCode	(x=0X11C11);
+	OpStkvar	(x,	0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	MakeCode	(x=0X11C15);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11C18);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X11C1F);
+	OpStkvar	(x,	0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	ExtLinA		(0X11C23,	0,	";");
+	ExtLinA		(0X11C23,	1,	"; Firing rate check");
+	ExtLinA		(0X11C23,	2,	";");
+	MakeCode	(x=0X11C2E);
+	OpStkvar	(x,	1);
+	MakeComm	(0X11C31,	"firing rate");
+	MakeCode	(x=0X11C31);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X11C37,	0,	"; Clear star flag by integer division");
+	MakeCode	(x=0X11C38);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	ExtLinA		(0X11C45,	0,	";");
+	ExtLinA		(0X11C45,	1,	"; Shoot seek only if we pass an intelligence check.");
+	ExtLinA		(0X11C45,	2,	"; Otherwise shoot randomly");
+	ExtLinA		(0X11C45,	3,	";");
 	MakeCode	(0X11C45);
-	MakeCode	(0X11C60);
-	MakeCode	(0X11CBA);
-	MakeCode	(0X11D1E);
+	MakeCode	(x=0X11C50);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11C53);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X11C60,	0,	";");
+	ExtLinA		(0X11C60,	1,	"; If the player's close on the X axis, shoot on the Y axis");
+	ExtLinA		(0X11C60,	2,	";");
+	MakeCode	(x=0X11C60);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11C63);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11C79);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11C7D);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11C80);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11C86);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11C89);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11C93);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11C96);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11CAC);
+	OpEnumEx		(x,	1,	GetEnum("ShootOwner"),0);
+	MakeCode	(x=0X11CB5);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X11CBA);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X11CBE);
+	OpStkvar	(x,	0);
+	ExtLinA		(0X11CC4,	0,	";");
+	ExtLinA		(0X11CC4,	1,	"; If the player's close on the Y axis, shoot on the X axis");
+	ExtLinA		(0X11CC4,	2,	";");
+	MakeCode	(x=0X11CC4);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11CC7);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11CDE);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11CE2);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11CE5);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11CEB);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11CEE);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11CF5);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11CF8);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11D19);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X11D1E);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11D23);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11D2D);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11D31);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11D34);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11D3A);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X11D3D);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X11D44);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X11D47);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X11D4A);
+	OpEnumEx		(x,	1,	GetEnum("ShootOwner"),0);
+	MakeCode	(x=0X11D53);
+	OpStkvar	(x,	0);
 	MakeCode	(0X11D5C);
 	MakeCode	(x=0X11D67);
 	OpHex		(x,	1);
@@ -4010,6 +4140,15 @@ static Bytes_0(void) {
 	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(0X138CF);
 	MakeName	(0X138CF,	"TickScroll");
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_1(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X138DA);
 	OpHex		(x,	1);
 	MakeCode	(x=0X138DD);
@@ -4185,15 +4324,6 @@ static Bytes_0(void) {
 	MakeCode	(x=0X13BED);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_1(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X13C07);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
@@ -5352,8 +5482,14 @@ static Bytes_1(void) {
 	MakeCode	(x=0X15791);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X157AA);
+	OpOff		(x,	1,	0X10930);
+	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X157AD);
 	OpSeg		(x,	1);
+	MakeCode	(x=0X157BC);
+	OpOff		(x,	1,	0X10930);
+	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X157BF);
 	OpSeg		(x,	1);
 	MakeCode	(x=0X157D4);
@@ -9543,6 +9679,15 @@ static Bytes_1(void) {
 	MakeCode	(x=0X1A1AF);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_2(void) {
+        auto x;
+#define id x
+
 	MakeCode	(0X1A1C0);
 	MakeCode	(x=0X1A1C2);
 	OpStkvar	(x,	0);
@@ -9701,15 +9846,6 @@ static Bytes_1(void) {
 	MakeStr		(0X1A3AE,	0X1A3B0);
 	MakeStr		(0X1A3B0,	0X1A3B5);
 	MakeName	(0X1A3B0,	"aLock");
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_2(void) {
-        auto x;
-#define id x
-
 	MakeStr		(0X1A3B5,	0X1A3BC);
 	MakeName	(0X1A3B5,	"aUnlock");
 	MakeStr		(0X1A3BC,	0X1A3C1);
@@ -14858,6 +14994,15 @@ static Bytes_2(void) {
 	MakeStr		(0X1F96B,	0X1F984);
 	MakeName	(0X1F96B,	"aPressAnyKeyToE");
 	MakeStr		(0X1F984,	0X1F99D);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_3(void) {
+        auto x;
+#define id x
+
 	MakeCode	(0X1F99D);
 	MakeCode	(x=0X1F9A8);
 	OpHex		(x,	1);
@@ -15103,15 +15248,6 @@ static Bytes_2(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1FE16);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_3(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X1FE1D);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
@@ -19229,6 +19365,27 @@ static Functions_0(void) {
 	MakeNameEx(0X11ABA, "BulletDies", SN_LOCAL);
 	MakeNameEx(0X11AD5, "SendObjectShot", SN_LOCAL);
 	MakeNameEx(0X11AFA, "DoneTickBullet", SN_LOCAL);
+	MakeFunction    (0X11B00,0X11B5A);
+	SetFunctionFlags(0X11B00,0x12);
+	MakeFrame(0X11B00, 0X0, 2, 0X8);
+	MakeLocal(0X11B00, 0X11B5A, "[bp+0X6]", "CharPtr");
+	MakeFunction    (0X11BD7,0X11D5C);
+	SetFunctionFlags(0X11BD7,0x12);
+	MakeFrame(0X11BD7, 0XC, 2, 0X2);
+	MakeLocal(0X11BD7, 0X11D5C, "[bp-0XC]", "ParamPtr");
+	MakeLocal(0X11BD7, 0X11D5C, "[bp-0X7]", "ShootType");
+	MakeLocal(0X11BD7, 0X11D5C, "[bp-0X6]", "StepY");
+	MakeLocal(0X11BD7, 0X11D5C, "[bp-0X4]", "StepX");
+	MakeLocal(0X11BD7, 0X11D5C, "[bp-0X1]", "DidShoot");
+	MakeLocal(0X11BD7, 0X11D5C, "[bp+0X6]", "ParamIdx");
+	MakeNameEx(0X11C23, "PickedShootType", SN_LOCAL);
+	MakeNameEx(0X11C45, "IntelligenceCheck", SN_LOCAL);
+	MakeNameEx(0X11C60, "CheckCloseXAxis", SN_LOCAL);
+	MakeNameEx(0X11CBA, "NotCloseOnX", SN_LOCAL);
+	MakeNameEx(0X11CBE, "CheckShotYAxis", SN_LOCAL);
+	MakeNameEx(0X11D1C, "DoneTryingToShoot", SN_LOCAL);
+	MakeNameEx(0X11D1E, "ShootRandomly", SN_LOCAL);
+	MakeNameEx(0X11D56, "DoneTickSpinningGun", SN_LOCAL);
 	MakeFunction    (0X11D5C,0X1204C);
 	SetFunctionFlags(0X11D5C,0x12);
 	MakeFrame(0X11D5C, 0X24, 2, 0X6);

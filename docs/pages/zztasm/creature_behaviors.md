@@ -388,6 +388,31 @@ func TickLion(int16 ParamIdx) {
 ```
 
 
+## Scroll
+
+### Tick function
+
+Scrolls are objects that die when touched.  Every tick the scroll cycles through the intense
+foreground colors.
+
+{% include asmlink.html file="creatures/scroll.asm" line="5" %}
+
+```swift
+func TickScroll(int16 ParamIdx) {
+    // Increment the scroll's color
+    let Params = BoardParams[ParamIdx]
+    BoardTiles[Params.X][Params.Y].Color += 1
+
+    // Wrap back around to blue after white
+    if BoardTiles[Params.X][Params.Y].Color > 15 {
+        BoardTiles[Params.X][Params.Y].Color = 9
+    }
+
+    DrawTile(Params.X, Params.Y)
+}
+```
+
+
 ## Star
 
 ### Tick function

@@ -879,15 +879,218 @@ static Bytes_0(void) {
 	OpStkvar	(x,	0);
 	MakeComm	(0X10C78,	"Use the same movement behavior as a lion");
 	MakeCode	(0X10C81);
+	MakeName	(0X10C81,	"TickRuffian");
 	MakeCode	(x=0X10C8C);
 	OpHex		(x,	1);
-	MakeCode	(0X10CB0);
-	MakeCode	(0X10D19);
-	MakeCode	(0X10D33);
+	MakeCode	(x=0X10C8F);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10C92);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10C99);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X10C9D);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X10CA0);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X10CA3);
+	OpStkvar	(x,	1);
+	ExtLinA		(0X10CA6,	0,	"; Check if we're moving on the X axis");
+	MakeCode	(x=0X10CA6);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X10CB0,	0,	"; Check if we're moving on the Y axis");
+	MakeCode	(x=0X10CB0);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10CB3);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X10CBA,	0,	";");
+	ExtLinA		(0X10CBA,	1,	"; Resting time check");
+	ExtLinA		(0X10CBA,	2,	";");
+	MakeComm	(0X10CC3,	"random in [0,11)");
+	MakeCode	(x=0X10CC5);
+	OpStkvar	(x,	1);
+	MakeComm	(0X10CC8,	"resting time");
+	MakeCode	(x=0X10CC8);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeComm	(0X10CD3,	"if (8 + resting time) > Random(11)");
+	ExtLinA		(0X10CD5,	0,	";");
+	ExtLinA		(0X10CD5,	1,	"; Intelligence check to step towards the player or randomly");
+	ExtLinA		(0X10CD5,	2,	";");
+	MakeCode	(x=0X10CE0);
+	OpStkvar	(x,	1);
+	MakeComm	(0X10CE3,	"intelligence");
+	MakeCode	(x=0X10CE3);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10CED);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10CF0);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10CF6);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10CF9);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10D00);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10D03);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10D09);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10D0C);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10D19);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10D1C);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10D22);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10D25);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X10D33,	0,	";");
+	ExtLinA		(0X10D33,	1,	"; We're currently moving.");
+	ExtLinA		(0X10D33,	2,	";");
+	ExtLinA		(0X10D33,	3,	"; If we're aligned with the player, do an intelligence check to seek them");
+	ExtLinA		(0X10D33,	4,	";");
+	MakeCode	(x=0X10D33);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10D36);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10D40);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10D43);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10D57);
+	OpStkvar	(x,	1);
+	MakeComm	(0X10D5A,	"intelligence");
+	MakeCode	(x=0X10D5A);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10D64);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10D67);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10D6D);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10D70);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10D77);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10D7A);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10D80);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10D83);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X10D8E,	0,	";");
+	ExtLinA		(0X10D8E,	1,	"; Check if we're about to hit the player");
+	ExtLinA		(0X10D8E,	2,	";");
+	MakeCode	(x=0X10D8E);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10D91);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10D97);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10D9A);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X10D9E);
 	OpHex		(x,	1);
-	MakeCode	(0X10DF9);
-	MakeCode	(0X10E67);
+	MakeCode	(x=0X10DA2);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10DA5);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10DAA);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10DAD);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10DB1);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X10DBA);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X10DBE);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X10DC1);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X10DC4);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10DC7);
+	OpStroffEx	(x,	0,	GetStrucIdByName("Tile"),	0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	ExtLinA		(0X10DCD,	0,	";");
+	ExtLinA		(0X10DCD,	1,	"; Die attacking the player");
+	ExtLinA		(0X10DCD,	2,	";");
+	MakeCode	(x=0X10DCD);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X10DD0);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10DD3);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10DD8);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10DDB);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10DE0);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10DE3);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10DE9);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10DEC);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10DF9);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10DFC);
+	OpStroffEx	(x,	1,	GetStrucIdByName("Tile"),	0);
+	MakeCode	(x=0X10E01);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X10E08);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	ExtLinA		(0X10E0F,	0,	"; Move in the current direction");
+	MakeCode	(x=0X10E0F);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X10E12);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10E15);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10E1A);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10E1D);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10E22);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10E25);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10E2B);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10E2E);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X10E38,	0,	";");
+	ExtLinA		(0X10E38,	1,	"; Resting time check to stop moving");
+	ExtLinA		(0X10E38,	2,	";");
+	MakeCode	(x=0X10E43);
+	OpStkvar	(x,	1);
+	MakeComm	(0X10E46,	"resting time");
+	MakeCode	(x=0X10E46);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeComm	(0X10E51,	"stop if (8 + resting time) <= Random(11)");
+	MakeCode	(x=0X10E53);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10E58);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10E5C);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10E61);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X10E67,	0,	";");
+	ExtLinA		(0X10E67,	1,	"; Stop moving when blocked");
+	ExtLinA		(0X10E67,	2,	";");
+	MakeCode	(x=0X10E67);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10E6C);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10E70);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X10E75);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(0X10E7F);
 	MakeName	(0X10E7F,	"TickBear");
 	MakeCode	(x=0X10E8A);
@@ -3922,6 +4125,15 @@ static Bytes_0(void) {
 	OpOff		(x,	0,	0X256D0);
 	OpOff		(x,	128,	0X256D0);
 	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_1(void) {
+        auto x;
+#define id x
+
 	ExtLinA		(0X136D2,	0,	";");
 	ExtLinA		(0X136D2,	1,	"; Check if the source tile has a parameter record");
 	ExtLinA		(0X136D2,	2,	";");
@@ -4140,15 +4352,6 @@ static Bytes_0(void) {
 	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X138C2);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_1(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X138C5);
 	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(0X138CF);
@@ -9295,6 +9498,15 @@ static Bytes_1(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X19B93);
 	OpStkvar	(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_2(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X19B99);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X19BA3);
@@ -9676,15 +9888,6 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1A19F);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_2(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X1A1A4);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1A1AA);
@@ -14643,6 +14846,15 @@ static Bytes_2(void) {
 	MakeName	(0X1EE9A,	"aPlay_0");
 	MakeStr		(0X1EEA0,	0X1EEA4);
 	MakeName	(0X1EEA0,	"aR");
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_3(void) {
+        auto x;
+#define id x
+
 	MakeStr		(0X1EEA4,	0X1EEB2);
 	MakeName	(0X1EEA4,	"aRestoreGame");
 	MakeStr		(0X1EEB2,	0X1EEB6);
@@ -14995,15 +15207,6 @@ static Bytes_2(void) {
 	MakeName	(0X1F964,	"a_msg");
 	MakeStr		(0X1F969,	0X1F96B);
 	MakeName	(0X1F969,	"a@");
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_3(void) {
-        auto x;
-#define id x
-
 	MakeStr		(0X1F96B,	0X1F984);
 	MakeName	(0X1F96B,	"aPressAnyKeyToE");
 	MakeStr		(0X1F984,	0X1F99D);
@@ -19286,6 +19489,22 @@ static Functions_0(void) {
 	MakeNameEx(0X10C12, "TigerDontShootY", SN_LOCAL);
 	MakeNameEx(0X10C16, "TigerCheckYAxis", SN_LOCAL);
 	MakeNameEx(0X10C74, "EndTickTiger", SN_LOCAL);
+	MakeFunction    (0X10C81,0X10E7F);
+	SetFunctionFlags(0X10C81,0x12);
+	MakeFrame(0X10C81, 0X8, 2, 0X2);
+	MakeLocal(0X10C81, 0X10E7F, "[bp-0X8]", "TargetTilePtr");
+	MakeLocal(0X10C81, 0X10E7F, "[bp-0X4]", "ParamPtr");
+	MakeLocal(0X10C81, 0X10E7F, "[bp+0X6]", "ParamIdx");
+	MakeNameEx(0X10CB0, "NotMovingX", SN_LOCAL);
+	MakeNameEx(0X10D19, "FailedIntCheck", SN_LOCAL);
+	MakeNameEx(0X10D30, "DontMove", SN_LOCAL);
+	MakeNameEx(0X10D33, "CheckAlignedY", SN_LOCAL);
+	MakeNameEx(0X10D4C, "AlignedWPlayer", SN_LOCAL);
+	MakeNameEx(0X10D8E, "PrepareToMove", SN_LOCAL);
+	MakeNameEx(0X10DF9, "CheckBlocked", SN_LOCAL);
+	MakeNameEx(0X10E65, "DoneMoving", SN_LOCAL);
+	MakeNameEx(0X10E67, "IsBlocked", SN_LOCAL);
+	MakeNameEx(0X10E79, "DoneTickRuffian", SN_LOCAL);
 	MakeFunction    (0X10E7F,0X10FEF);
 	SetFunctionFlags(0X10E7F,0x12);
 	MakeFrame(0X10E7F, 0XC, 2, 0X2);

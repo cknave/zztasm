@@ -1,7 +1,7 @@
 ---
 title: Creature Behaviors
-keywords: Tick functions, Bear, Bullet, Centipede, Duplicator, Head, Lion, Ruffian, Scroll, Segment,
-          Spinning Gun, Star, Tiger
+keywords: Tick functions, Bear, Bullet, Centipede, Duplicator, Head, Lion, Ruffian, Scroll, Shark,
+	  Segment, Spinning Gun, Star, Tiger
 sidebar: zztasm_sidebar
 permalink: creature_behaviors.html
 ---
@@ -393,6 +393,12 @@ func TickLion(int16 ParamIdx) {
 
 ### Tick function
 
+Ruffians do a resting time check to start or stop moving.  They stay moving in the same
+direction, unless aligned with the player.  If aligned, the ruffian will do an intelligence
+check to change direction towards the player.
+
+{% include asmlink.html file="creatures/ruffian.asm" line="5" %}
+
 ```swift
 func TickRuffian(int16 ParamIdx) {
     let Params = BoardParams[ParamIdx]
@@ -469,6 +475,35 @@ func TickScroll(int16 ParamIdx) {
 }
 ```
 
+
+## Shark
+
+### Tick function
+
+Sharks move through water tiles only.  If they pass an intelligence check, they move towards
+the player.  Otherwise they move randomly.
+
+{% include asmlink.html file="creatures/shark.asm" line="5" %}
+
+```swift
+func TickShark(int16 ParamIdx) {
+    let Params = BoardParams[ParamIdx]
+
+    // Intelligence check to step towards player instead of randomly
+    if Params.Param1 < Random(10) {
+        (Params.StepX, Params.StepY) = RandomStep()
+    } else {
+        (Params.StepX, Params.StepY) = SeekStep(Params.X, Params.Y)
+    }
+
+    // Move through water tiles, or die attacking the player
+    if BoardTiles[Params.X + Params.StepX][Params.Y + Params.StepY] == TTWater {
+        MoveTileWithIdx(ParamIdx, Params.X + Params.StepX, Params.Y + Params.StepY)
+    } else if BoardTiles[Params.X + Params.StepX][Params.Y + Params.StepY] == TTPlayer) {
+        DieAttackingTile(ParamIdx, Params.X + Params.StepX, Params.Y + Params.StepY)
+    }
+}
+```
 
 ## Spinning gun
 

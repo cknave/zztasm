@@ -1,6 +1,6 @@
 ---
 title: Creature Behaviors
-keywords: Tick functions, Bear, Bullet, Centipede, Duplicator, Head, Lion, Scroll, Segment,
+keywords: Tick functions, Bear, Bullet, Centipede, Duplicator, Head, Lion, Ruffian, Scroll, Segment,
           Spinning Gun, Star, Tiger
 sidebar: zztasm_sidebar
 permalink: creature_behaviors.html
@@ -388,6 +388,62 @@ func TickLion(int16 ParamIdx) {
 }
 ```
 
+
+## Ruffian
+
+### Tick function
+
+```swift
+func TickRuffian(int16 ParamIdx) {
+    let Params = BoardParams[ParamIdx]
+    let Intelligence = Params.Param1
+    let RestingTime = Params.Param2
+    
+    // If we're not moving, do a resting time check.  If passed, set our direction towards the
+    // player if we pass an intelligence check.  Otherwise, set it randomly.
+    if (Params.StepX == 0) && (Params.StepY == 0) {
+        if (RestingTime + 8) < Random(11) {
+            if Intelligence >= Random(9) {
+                (Params.StepX, Params.StepY) = SeekStep(Params.X, Params.Y)
+            } else {
+                (Params.StepX, Params.StepY) = RandomStep()
+            }
+        }
+        return
+    }
+
+    // We're currently moving.  If we're aligned with the player, do an intelligence check
+    // to seek them.
+    if (Params.Y == PlayerY) || (Params.X == PlayerX) {
+        if Intelligence >= Random(9) {
+            (Params.StepX, Params.StepY) = SeekStep(Params.X, Params.Y)
+        }
+    }
+
+    // If we'll hit the player, attack.
+    let TargetTile = BoardTiles[Params.X + Params.StepX][Params.Y + Params.StepY]
+    if TargetTile.Type == TTPlayer {
+        DieAttackingTile(Params.X + Params.StepX, Params.Y + Params.StepY)
+        return
+    }
+
+    // If we're blocked, stop moving.
+    if TileTypes[TargetTile.Type].Passable == 0 {
+        Params.StepX = 0
+        Params.StepY = 0
+        return
+    }
+
+    // Move in the current direction.
+    MoveTileWIthIdx(ParamIdx, Params.X + Params.StepX, Params.Y + Params.StepY)
+
+    // Resting time check to stop moving.
+    if (RestingTime + 8) <= Random(11) {
+        Params.StepX = 0
+        Params.StepY = 0
+    }
+}
+```
 
 ## Scroll
 

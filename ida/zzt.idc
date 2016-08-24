@@ -2826,30 +2826,42 @@ static Bytes_0(void) {
 	MakeCode	(x=0X11D53);
 	OpStkvar	(x,	0);
 	MakeCode	(0X11D5C);
+	MakeName	(0X11D5C,	"Convey");
 	MakeCode	(x=0X11D67);
 	OpHex		(x,	1);
 	MakeCode	(x=0X11D6A);
 	OpStkvar	(x,	0);
+	ExtLinA		(0X11D70,	0,	"; Loop in [0,8)");
 	MakeCode	(x=0X11D72);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X11D75);
 	OpStkvar	(x,	0);
+	ExtLinA		(0X11D7C,	0,	"; Loop in [7,-1)");
 	MakeCode	(x=0X11D7C);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X11D81);
 	OpStkvar	(x,	0);
+	OpSign		(x,	1);
+	OpHex		(x,	1);
 	MakeCode	(x=0X11D86);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X11D8A);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11D8D);
 	OpStkvar	(x,	0);
+	ExtLinA		(0X11D90,	0,	";");
+	ExtLinA		(0X11D90,	1,	"; Get all the tiles around this conveyor, looping over the conveyor X and Y offsets");
+	ExtLinA		(0X11D90,	2,	"; Keep track of whether the last tile is empty or pushable");
+	ExtLinA		(0X11D90,	3,	";");
 	MakeCode	(x=0X11D90);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11D93);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11D96);
 	OpHex		(x,	1);
+	MakeCode	(x=0X11D98);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X11D9C);
 	OpHex		(x,	1);
 	MakeCode	(x=0X11DA0);
@@ -2858,6 +2870,12 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11DA6);
 	OpHex		(x,	1);
+	MakeCode	(x=0X11DA8);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X11DAC);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X11DB5);
 	MakeCode	(x=0X11DB9);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11DBC);
@@ -2876,10 +2894,20 @@ static Bytes_0(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X11DCF);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X11DD2);
+	OpStroffEx	(x,	0,	GetStrucIdByName("Tile"),	0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
 	MakeCode	(x=0X11DD8);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X11DDE);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X11DE1);
+	OpStroffEx	(x,	1,	GetStrucIdByName("Tile"),	0);
+	MakeCode	(x=0X11DE6);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X11DED);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
 	MakeCode	(x=0X11DF4);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X11DF8);
@@ -2910,12 +2938,20 @@ static Bytes_0(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X11E26);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X11E2E);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X11E35);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
 	MakeCode	(x=0X11E3F);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11E42);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11E51);
 	OpHex		(x,	1);
+	MakeCode	(x=0X11E53);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X11E57);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11E5A);
@@ -2926,18 +2962,33 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11E6F);
 	OpHex		(x,	1);
+	MakeCode	(x=0X11E71);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X11E75);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11E78);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X11E7B);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X11E7E);
+	OpStroffEx	(x,	1,	GetStrucIdByName("Tile"),	0);
+	MakeCode	(x=0X11E83);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X11E8A);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	OpSign		(x,	1);
+	OpHex		(x,	1);
 	MakeCode	(x=0X11E94);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11E97);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11E9A);
 	OpHex		(x,	1);
+	MakeCode	(x=0X11E9C);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X11EA0);
 	OpHex		(x,	1);
 	MakeCode	(x=0X11EA4);
@@ -2946,6 +2997,12 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11EAA);
 	OpHex		(x,	1);
+	MakeCode	(x=0X11EAC);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X11EB0);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X11EB9);
 	MakeCode	(x=0X11EBD);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X11EC0);
@@ -2954,12 +3011,18 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11EC6);
 	OpHex		(x,	1);
+	MakeCode	(x=0X11EC8);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X11ECD);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11ED0);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11ED3);
 	OpHex		(x,	1);
+	MakeCode	(x=0X11ED5);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X11EDF);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X11EE2);
@@ -2974,6 +3037,9 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11EF0);
 	OpHex		(x,	1);
+	MakeCode	(x=0X11EF2);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X11EF6);
 	OpHex		(x,	1);
 	MakeCode	(x=0X11EFA);
@@ -2982,12 +3048,24 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11F00);
 	OpHex		(x,	1);
+	MakeCode	(x=0X11F02);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X11F06);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X11F0F);
 	MakeCode	(x=0X11F13);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11F16);
 	OpHex		(x,	1);
 	MakeCode	(x=0X11F1A);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X11F1D);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X11F26);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
 	MakeCode	(x=0X11F2B);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X11F2E);
@@ -3002,6 +3080,9 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11F42);
 	OpHex		(x,	1);
+	MakeCode	(x=0X11F44);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X11F48);
 	OpHex		(x,	1);
 	MakeCode	(x=0X11F4C);
@@ -3010,6 +3091,12 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11F52);
 	OpHex		(x,	1);
+	MakeCode	(x=0X11F54);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X11F58);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X11F61);
 	MakeCode	(x=0X11F67);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11F6A);
@@ -3022,6 +3109,9 @@ static Bytes_0(void) {
 	OpHex		(x,	1);
 	MakeCode	(x=0X11F76);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X11F79);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X11F82);
 	MakeCode	(x=0X11F86);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X11F89);
@@ -3034,12 +3124,20 @@ static Bytes_0(void) {
 	OpHex		(x,	1);
 	MakeCode	(x=0X11FA5);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X11FAA);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X11FB1);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
 	MakeCode	(x=0X11FB8);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11FBB);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11FBE);
 	OpHex		(x,	1);
+	MakeCode	(x=0X11FC0);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X11FC4);
 	OpHex		(x,	1);
 	MakeCode	(x=0X11FC8);
@@ -3048,26 +3146,51 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11FCE);
 	OpHex		(x,	1);
+	MakeCode	(x=0X11FD0);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X11FD4);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X11FDD);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
 	MakeCode	(x=0X11FE2);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11FE5);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11FE8);
 	OpHex		(x,	1);
+	MakeCode	(x=0X11FEA);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X11FEF);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11FF2);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11FF5);
 	OpHex		(x,	1);
+	MakeCode	(x=0X11FF7);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X12003);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X12009);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1200C);
+	OpStroffEx	(x,	0,	GetStrucIdByName("Tile"),	0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
 	MakeCode	(x=0X12012);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X12018);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1201B);
+	OpStroffEx	(x,	1,	GetStrucIdByName("Tile"),	0);
+	MakeCode	(x=0X12020);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X12027);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
 	MakeCode	(x=0X1202E);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X12032);
@@ -3086,14 +3209,82 @@ static Bytes_0(void) {
 	MakeCode	(0X12081);
 	MakeCode	(0X1208F);
 	MakeCode	(0X1209C);
+	MakeName	(0X1209C,	"TickConveyorCW");
 	MakeCode	(x=0X120A7);
 	OpHex		(x,	1);
+	MakeCode	(x=0X120AA);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X120AD);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X120B4);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X120B8);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X120BB);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X120BE);
+	OpStkvar	(x,	1);
+	ExtLinA		(0X120C1,	0,	"; Force a redraw every tick");
+	MakeCode	(x=0X120C1);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X120C7);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X120CA);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X120D6);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X120D9);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X120DF);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X120E2);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(0X120F7);
+	MakeName	(0X120F7,	"DrawConveyorCCW");
+	MakeCode	(x=0X12115);
+	OpStkvar	(x,	1);
 	MakeCode	(0X1211E);
+	MakeCode	(x=0X12123);
+	OpStkvar	(x,	1);
 	MakeCode	(0X1212C);
-	MakeCode	(0X1213A);
+	MakeCode	(x=0X12131);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1213A);
+	OpStkvar	(x,	1);
 	MakeCode	(0X12147);
+	MakeName	(0X12147,	"TickConveyorCCW");
 	MakeCode	(x=0X12152);
+	OpHex		(x,	1);
+	MakeCode	(x=0X12155);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12158);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1215F);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X12163);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X12166);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X12169);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1216C);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12172);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12175);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12181);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12184);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1218A);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1218D);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12194);
+	OpSign		(x,	1);
 	OpHex		(x,	1);
 	MakeCode	(0X121A2);
 	MakeCode	(x=0X121AD);
@@ -3266,8 +3457,31 @@ static Bytes_0(void) {
 	OpOff		(x,	129,	0X10930);
 	MakeCode	(0X12571);
 	MakeCode	(0X125B5);
+	MakeName	(0X125B5,	"TickTransporter");
 	MakeCode	(x=0X125C0);
 	OpHex		(x,	1);
+	MakeCode	(x=0X125C3);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X125C6);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X125CD);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X125D1);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X125D4);
+	OpStkvar	(x,	0);
+	ExtLinA		(0X125D7,	0,	";");
+	ExtLinA		(0X125D7,	1,	"; Force a redraw every tick");
+	ExtLinA		(0X125D7,	2,	";");
+	MakeCode	(x=0X125D7);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X125DA);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X125E0);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X125E3);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(0X125F5);
 	MakeCode	(x=0X12600);
 	OpHex		(x,	1);
@@ -3859,6 +4073,15 @@ static Bytes_0(void) {
 	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X12D01);
 	OpStkvar	(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_1(void) {
+        auto x;
+#define id x
+
 	ExtLinA		(0X12D0C,	0,	";");
 	ExtLinA		(0X12D0C,	1,	"; If blocked by the player, die attacking them");
 	ExtLinA		(0X12D0C,	2,	";");
@@ -4095,15 +4318,6 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X13242);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_1(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X13245);
 	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
 	MakeCode	(x=0X1324E);
@@ -6145,6 +6359,9 @@ static Bytes_1(void) {
 	MakeCode	(x=0X159C1);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X159DF);
+	OpOff		(x,	1,	0X10930);
+	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X159E2);
 	OpSeg		(x,	1);
 	MakeCode	(x=0X159EF);
@@ -6161,8 +6378,14 @@ static Bytes_1(void) {
 	MakeCode	(x=0X15A1C);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X15A3A);
+	OpOff		(x,	1,	0X10930);
+	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X15A3D);
 	OpSeg		(x,	1);
+	MakeCode	(x=0X15A47);
+	OpOff		(x,	1,	0X10930);
+	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X15A4A);
 	OpSeg		(x,	1);
 	MakeCode	(x=0X15A5F);
@@ -6237,6 +6460,9 @@ static Bytes_1(void) {
 	OpSeg		(x,	1);
 	MakeCode	(x=0X15BFE);
 	OpSeg		(x,	1);
+	MakeCode	(x=0X15C0E);
+	OpOff		(x,	1,	0X10930);
+	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X15C11);
 	OpSeg		(x,	1);
 	MakeCode	(x=0X15C26);
@@ -8972,6 +9198,15 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X18E0C);
 	OpStkvar	(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_2(void) {
+        auto x;
+#define id x
+
 	MakeStr		(0X18E20,	0X18E2E);
 	MakeName	(0X18E20,	"aAddNewBoard");
 	MakeCode	(0X18E2E);
@@ -9285,15 +9520,6 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X19366);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_2(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X19371);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
@@ -14500,6 +14726,15 @@ static Bytes_2(void) {
 	OpOff		(x,	129,	0X1B400);
 	MakeCode	(x=0X1E46F);
 	OpStkvar	(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_3(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X1E472);
 	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1E478);
@@ -14744,15 +14979,6 @@ static Bytes_2(void) {
 	MakeCode	(x=0X1E743);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_3(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X1E74F);
 	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1E756);
@@ -19581,6 +19807,12 @@ static Bytes_3(void) {
 	MakeCode	(0X2567E);
 	MakeCode	(0X256B0);
 	MakeArray	(0X256C3,	0XD);
+	MakeWord	(0X25A9E);
+	MakeArray	(0X25A9E,	0X8);
+	MakeName	(0X25A9E,	"ConveyorXOffsets");
+	MakeWord	(0X25AAE);
+	MakeArray	(0X25AAE,	0X8);
+	MakeName	(0X25AAE,	"ConveyorYOffsets");
 	MakeWord	(0X25ABE);
 	MakeArray	(0X25ABE,	0X4);
 	MakeName	(0X25ABE,	"SlimeXOffsets");
@@ -19731,6 +19963,15 @@ static Bytes_3(void) {
 	MakeByte	(0X2DF9E);
 	MakeWord	(0X2DFA0);
 	MakeWord	(0X2DFA2);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_4(void) {
+        auto x;
+#define id x
+
 	MakeWord	(0X2DFA4);
 	MakeWord	(0X2DFA6);
 	MakeWord	(0X2DFA8);
@@ -19966,9 +20207,51 @@ static Functions_0(void) {
 	MakeFunction    (0X11D5C,0X1204C);
 	SetFunctionFlags(0X11D5C,0x12);
 	MakeFrame(0X11D5C, 0X24, 2, 0X6);
+	MakeLocal(0X11D5C, 0X1204C, "[bp-0X24]", "CurrentTile");
+	MakeLocal(0X11D5C, 0X1204C, "[bp-0X20]", "SrcTile");
+	MakeLocal(0X11D5C, 0X1204C, "[bp-0X1E]", "OffsetEnd");
+	MakeLocal(0X11D5C, 0X1204C, "[bp-0X1C]", "OffsetStart");
+	MakeLocal(0X11D5C, 0X1204C, "[bp-0X1A]", "Tiles");
+	MakeLocal(0X11D5C, 0X1204C, "[bp-0X9]", "NextTileMovable");
+	MakeLocal(0X11D5C, 0X1204C, "[bp-0X8]", "DestY");
+	MakeLocal(0X11D5C, 0X1204C, "[bp-0X6]", "DestX");
+	MakeLocal(0X11D5C, 0X1204C, "[bp-0X4]", "SrcParamIdx");
+	MakeLocal(0X11D5C, 0X1204C, "[bp-0X2]", "OffsetIdx");
+	MakeLocal(0X11D5C, 0X1204C, "[bp+0X6]", "Direction");
+	MakeLocal(0X11D5C, 0X1204C, "[bp+0X8]", "Y");
+	MakeLocal(0X11D5C, 0X1204C, "[bp+0XA]", "X");
+	MakeNameEx(0X11D7C, "InitBackwardsLoop", SN_LOCAL);
+	MakeNameEx(0X11D86, "Prepare1stLoop", SN_LOCAL);
+	MakeNameEx(0X11D90, "GetTilesLoop", SN_LOCAL);
+	MakeNameEx(0X11DDE, "NonEmpty1stLoop", SN_LOCAL);
+	MakeNameEx(0X11DF8, "Check1stLoop", SN_LOCAL);
+	MakeNameEx(0X11E0F, "RotateLoop", SN_LOCAL);
+	MakeNameEx(0X11E26, "MovableCheckPushable", SN_LOCAL);
+	MakeNameEx(0X11E3F, "PrepareToRotate", SN_LOCAL);
+	MakeNameEx(0X11E94, "RotateParamTile", SN_LOCAL);
+	MakeNameEx(0X11F67, "RotatePlainTile", SN_LOCAL);
+	MakeNameEx(0X12046, "DoneConvey", SN_LOCAL);
+	MakeFunction    (0X1209C,0X120F7);
+	SetFunctionFlags(0X1209C,0x12);
+	MakeFrame(0X1209C, 0X4, 2, 0X2);
+	MakeLocal(0X1209C, 0X120F7, "[bp-0X4]", "ParamPtr");
+	MakeLocal(0X1209C, 0X120F7, "[bp+0X6]", "ParamIdx");
+	MakeFunction    (0X120F7,0X12147);
+	SetFunctionFlags(0X120F7,0x12);
+	MakeFrame(0X120F7, 0X0, 2, 0X8);
+	MakeFunction    (0X12147,0X121A2);
+	SetFunctionFlags(0X12147,0x12);
+	MakeFrame(0X12147, 0X4, 2, 0X2);
+	MakeLocal(0X12147, 0X121A2, "[bp-0X4]", "ParamPtr");
+	MakeLocal(0X12147, 0X121A2, "[bp+0X6]", "ParamIdx");
 	MakeFunction    (0X123CF,0X12571);
 	SetFunctionFlags(0X123CF,0x12);
 	MakeFrame(0X123CF, 0X14, 2, 0X8);
+	MakeFunction    (0X125B5,0X125F5);
+	SetFunctionFlags(0X125B5,0x12);
+	MakeFrame(0X125B5, 0X4, 2, 0X2);
+	MakeLocal(0X125B5, 0X125F5, "[bp-0X4]", "ParamPtr");
+	MakeLocal(0X125B5, 0X125F5, "[bp+0X6]", "ParamIdx");
 	MakeFunction    (0X12719,0X128C7);
 	SetFunctionFlags(0X12719,0x12);
 	MakeFrame(0X12719, 0X8, 2, 0X2);
@@ -21049,6 +21332,7 @@ static Bytes(void) {
 	Bytes_1();
 	Bytes_2();
 	Bytes_3();
+	Bytes_4();
 }
 
 // End of file.

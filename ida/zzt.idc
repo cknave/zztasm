@@ -254,7 +254,7 @@ static Structures_0(id) {
 	SetMemberComment(id,	0X6,	"0=blocks player, 1=passable",	1);
 	AddStrucMember(id,"field_7",	0X7,	0x000400,	-1,	1);
 	AddStrucMember(id,"DrawFunction",	0X8,	0x20000400,	-1,	4);
-	AddStrucMember(id,"field_C",	0XC,	0x10000400,	-1,	2);
+	AddStrucMember(id,"Cycle",	0XC,	0x10000400,	-1,	2);
 	AddStrucMember(id,"TickFunction",	0XE,	0x20000400,	-1,	4);
 	AddStrucMember(id,"TouchFunction",	0X12,	0x20000400,	-1,	4);
 	AddStrucMember(id,"EditorPage",	0X16,	0x10000400,	-1,	2);
@@ -945,6 +945,7 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X10D25);
 	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeName	(0X10D30,	"DontMove");
 	ExtLinA		(0X10D33,	0,	";");
 	ExtLinA		(0X10D33,	1,	"; We're currently moving.");
 	ExtLinA		(0X10D33,	2,	";");
@@ -3503,40 +3504,268 @@ static Bytes_0(void) {
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
 	MakeCode	(0X129DE);
+	MakeName	(0X129DE,	"TickSlime");
 	MakeCode	(x=0X129E9);
 	OpHex		(x,	1);
-	MakeCode	(0X12A24);
+	MakeCode	(x=0X129EC);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X129EF);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X129F6);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X129FA);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X129FD);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X12A00);
+	OpStkvar	(x,	1);
+	MakeComm	(0X12A03,	"ticks to move");
+	ExtLinA		(0X12A03,	0,	";");
+	ExtLinA		(0X12A03,	1,	"; Increment tick count until it's time to move");
+	ExtLinA		(0X12A03,	2,	";");
+	MakeCode	(x=0X12A03);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12A07);
+	OpStkvar	(x,	1);
+	MakeComm	(0X12A0A,	"movement speed");
+	MakeCode	(x=0X12A0A);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12A10);
+	OpStkvar	(x,	1);
+	MakeComm	(0X12A13,	"ticks to move");
+	MakeCode	(x=0X12A13);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12A1A);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12A1D);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X12A24,	0,	"; Get slime color");
+	MakeCode	(x=0X12A24);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12A27);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X12A2D);
 	OpHex		(x,	1);
-	MakeCode	(0X12A76);
+	MakeCode	(x=0X12A31);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12A34);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12A39);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X12A42);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X12A48);
+	OpStkvar	(x,	0);
+	ExtLinA		(0X12A4B,	0,	"; Reset ticks to move");
+	MakeCode	(x=0X12A4B);
+	OpStkvar	(x,	1);
+	MakeComm	(0X12A4E,	"ticks to move");
+	MakeCode	(x=0X12A4E);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12A53);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12A56);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12A5B);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X12A5E);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12A61);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12A67);
+	OpStkvar	(x,	0);
+	ExtLinA		(0X12A6A,	0,	";");
+	ExtLinA		(0X12A6A,	1,	"; Loop over the directions N, S, W, E");
+	ExtLinA		(0X12A6A,	2,	";");
+	MakeCode	(x=0X12A6C);
+	OpStkvar	(x,	0);
+	MakeComm	(0X12A71,	"Offset into the SlimeXOffsets and SlimeYOffsets arrays");
+	MakeCode	(x=0X12A71);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X12A76);
+	OpStkvar	(x,	0);
+	ExtLinA		(0X12A79,	0,	";");
+	ExtLinA		(0X12A79,	1,	"; Slime expansion loop");
+	ExtLinA		(0X12A79,	2,	";");
+	ExtLinA		(0X12A79,	3,	"");
+	ExtLinA		(0X12A79,	4,	"; Check if the next tile is passable");
+	MakeCode	(x=0X12A79);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12A7C);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X12A7F);
 	OpHex		(x,	1);
+	MakeCode	(x=0X12A81);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X12A85);
 	OpHex		(x,	1);
+	MakeCode	(x=0X12A89);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12A8C);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X12A8F);
 	OpHex		(x,	1);
-	MakeCode	(0X12AB5);
+	MakeCode	(x=0X12A91);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X12A95);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X12A9E);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X12AA4);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X12AAB);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	ExtLinA		(0X12AB5,	0,	";");
+	ExtLinA		(0X12AB5,	1,	"; If this is the first passable tile found, move into that tile, and create a");
+	ExtLinA		(0X12AB5,	2,	"; breakable wall at the original space.");
+	ExtLinA		(0X12AB5,	3,	";");
+	ExtLinA		(0X12AB5,	4,	"; For every other passable tile found, spawn a new slime in that tile.");
+	ExtLinA		(0X12AB5,	5,	";");
+	MakeCode	(x=0X12AB5);
+	OpStkvar	(x,	0);
+	ExtLinA		(0X12ABB,	0,	";");
+	ExtLinA		(0X12ABB,	1,	"; Move and create a breakable wall at the old location");
+	ExtLinA		(0X12ABB,	2,	";");
+	MakeCode	(x=0X12ABB);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X12ABE);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12AC1);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X12AC4);
 	OpHex		(x,	1);
+	MakeCode	(x=0X12AC6);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X12ACB);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12ACE);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X12AD1);
 	OpHex		(x,	1);
+	MakeCode	(x=0X12AD3);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X12ADD);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12AE0);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X12AE3);
 	OpHex		(x,	1);
+	MakeCode	(x=0X12AE7);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12AEA);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X12AF3);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	MakeCode	(x=0X12AF7);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X12AFA);
 	OpHex		(x,	1);
-	MakeCode	(0X12B1C);
+	MakeCode	(x=0X12AFE);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12B01);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X12B0A);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	ExtLinA		(0X12B0F,	0,	"; Draw the new breakable");
+	MakeCode	(x=0X12B0F);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X12B12);
+	OpStkvar	(x,	0);
+	ExtLinA		(0X12B1C,	0,	";");
+	ExtLinA		(0X12B1C,	1,	"; Spawn a new slime");
+	ExtLinA		(0X12B1C,	2,	";");
+	MakeCode	(x=0X12B1C);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12B1F);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X12B22);
 	OpHex		(x,	1);
+	MakeCode	(x=0X12B24);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X12B29);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12B2C);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X12B2F);
 	OpHex		(x,	1);
+	MakeCode	(x=0X12B31);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X12B36);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	MakeCode	(x=0X12B39);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X12B3C);
 	MakeCode	(x=0X12B40);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
-	MakeCode	(0X12B6F);
+	ExtLinA		(0X12B4A,	0,	"; Copy movement speed to new slime");
+	MakeCode	(x=0X12B4A);
+	OpStkvar	(x,	1);
+	MakeComm	(0X12B4D,	"movement speed");
+	MakeCode	(x=0X12B4D);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12B54);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12B5B);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	MakeCode	(x=0X12B5F);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12B63);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X12B66);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X12B6F);
+	OpStkvar	(x,	0);
+	ExtLinA		(0X12B75,	0,	";");
+	ExtLinA		(0X12B75,	1,	"; Couldn't find any passable tiles to move into.");
+	ExtLinA		(0X12B75,	2,	"; Die and turn into a breakable.");
+	ExtLinA		(0X12B75,	3,	";");
+	MakeCode	(x=0X12B75);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X12B7D);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X12B80);
 	OpHex		(x,	1);
+	MakeCode	(x=0X12B84);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12B87);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X12B90);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	MakeCode	(x=0X12B95);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12B98);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X12B9B);
 	OpHex		(x,	1);
+	MakeCode	(x=0X12B9F);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12BA2);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X12BAB);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	ExtLinA		(0X12BAF,	0,	"; Draw the new breakable");
+	MakeCode	(x=0X12BAF);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X12BB2);
+	OpStkvar	(x,	0);
 	MakeByte	(0X12BC0);
 	MakeArray	(0X12BC0,	0X5);
 	MakeCode	(0X12BC5);
@@ -3552,14 +3781,121 @@ static Bytes_0(void) {
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
 	MakeCode	(0X12C51);
+	MakeName	(0X12C51,	"TickShark");
 	MakeCode	(x=0X12C5C);
 	OpHex		(x,	1);
-	MakeCode	(0X12C9C);
+	MakeCode	(x=0X12C5F);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12C62);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12C69);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X12C6D);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X12C70);
+	OpStkvar	(x,	0);
+	ExtLinA		(0X12C73,	0,	";");
+	ExtLinA		(0X12C73,	1,	"; Intelligence check to step towards player instead of randomly");
+	ExtLinA		(0X12C73,	2,	";");
+	MakeCode	(x=0X12C7E);
+	OpStkvar	(x,	1);
+	MakeComm	(0X12C81,	"intelligence");
+	MakeCode	(x=0X12C81);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12C8B);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12C90);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12C9C);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12C9F);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12CA5);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12CA8);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12CAF);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12CB4);
+	OpStkvar	(x,	1);
+	ExtLinA		(0X12CBE,	0,	";");
+	ExtLinA		(0X12CBE,	1,	"; Check if the destination tile has water");
+	ExtLinA		(0X12CBE,	2,	";");
+	MakeCode	(x=0X12CBE);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12CC1);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12CC7);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X12CCA);
 	OpHex		(x,	1);
-	MakeCode	(0X12D0C);
+	MakeCode	(x=0X12CCE);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12CD1);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12CD6);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12CD9);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X12CE2);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	ExtLinA		(0X12CE9,	0,	";");
+	ExtLinA		(0X12CE9,	1,	"; Move to the destination water tile");
+	ExtLinA		(0X12CE9,	2,	";");
+	MakeCode	(x=0X12CE9);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X12CEC);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12CEF);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12CF4);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12CF8);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12CFB);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12D01);
+	OpStkvar	(x,	1);
+	ExtLinA		(0X12D0C,	0,	";");
+	ExtLinA		(0X12D0C,	1,	"; If blocked by the player, die attacking them");
+	ExtLinA		(0X12D0C,	2,	";");
+	MakeCode	(x=0X12D0C);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12D0F);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12D15);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X12D18);
 	OpHex		(x,	1);
+	MakeCode	(x=0X12D1C);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12D1F);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12D24);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12D27);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X12D30);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	MakeCode	(x=0X12D37);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X12D3A);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12D3D);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12D42);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12D46);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12D49);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12D4F);
+	OpStkvar	(x,	1);
 	MakeCode	(0X12D5E);
 	MakeCode	(0X12D75);
 	MakeCode	(x=0X12D80);
@@ -3759,6 +4095,15 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X13242);
 	OpStkvar	(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_1(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X13245);
 	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
 	MakeCode	(x=0X1324E);
@@ -4125,15 +4470,6 @@ static Bytes_0(void) {
 	OpOff		(x,	0,	0X256D0);
 	OpOff		(x,	128,	0X256D0);
 	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_1(void) {
-        auto x;
-#define id x
-
 	ExtLinA		(0X136D2,	0,	";");
 	ExtLinA		(0X136D2,	1,	"; Check if the source tile has a parameter record");
 	ExtLinA		(0X136D2,	2,	";");
@@ -5723,6 +6059,9 @@ static Bytes_1(void) {
 	MakeCode	(x=0X15812);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X1583A);
+	OpOff		(x,	1,	0X10930);
+	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X1583D);
 	OpSeg		(x,	1);
 	MakeCode	(x=0X1584A);
@@ -5770,6 +6109,9 @@ static Bytes_1(void) {
 	MakeCode	(x=0X15908);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X15931);
+	OpOff		(x,	1,	0X10930);
+	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X15934);
 	OpSeg		(x,	1);
 	MakeCode	(x=0X15941);
@@ -5786,6 +6128,9 @@ static Bytes_1(void) {
 	MakeCode	(x=0X1596E);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X15991);
+	OpOff		(x,	1,	0X10930);
+	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X15994);
 	OpSeg		(x,	1);
 	MakeCode	(x=0X159A9);
@@ -8940,6 +9285,15 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X19366);
 	OpStkvar	(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_2(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X19371);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
@@ -9498,15 +9852,6 @@ static Bytes_1(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X19B93);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_2(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X19B99);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X19BA3);
@@ -14070,6 +14415,8 @@ static Bytes_2(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1E32F);
 	OpStkvar	(x,	0);
+	MakeCode	(x=0X1E33C);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
 	MakeCode	(x=0X1E346);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
@@ -14397,6 +14744,15 @@ static Bytes_2(void) {
 	MakeCode	(x=0X1E743);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_3(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X1E74F);
 	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1E756);
@@ -14846,15 +15202,6 @@ static Bytes_2(void) {
 	MakeName	(0X1EE9A,	"aPlay_0");
 	MakeStr		(0X1EEA0,	0X1EEA4);
 	MakeName	(0X1EEA0,	"aR");
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_3(void) {
-        auto x;
-#define id x
-
 	MakeStr		(0X1EEA4,	0X1EEB2);
 	MakeName	(0X1EEA4,	"aRestoreGame");
 	MakeStr		(0X1EEB2,	0X1EEB6);
@@ -19234,8 +19581,16 @@ static Bytes_3(void) {
 	MakeCode	(0X2567E);
 	MakeCode	(0X256B0);
 	MakeArray	(0X256C3,	0XD);
+	MakeWord	(0X25ABE);
+	MakeArray	(0X25ABE,	0X4);
+	MakeName	(0X25ABE,	"SlimeXOffsets");
+	MakeWord	(0X25AC6);
+	MakeArray	(0X25AC6,	0X4);
+	MakeName	(0X25AC6,	"SlimeYOffsets");
 	MakeWord	(0X25ACE);
 	MakeWord	(0X25AD0);
+	MakeStruct	(0X25AD2,	"ParamRecord");
+	MakeName	(0X25AD2,	"UnknownParamBuf");
 	MakeWord	(0X25B08);
 	MakeWord	(0X25B0E);
 	MakeWord	(0X25B10);
@@ -19497,7 +19852,6 @@ static Functions_0(void) {
 	MakeLocal(0X10C81, 0X10E7F, "[bp+0X6]", "ParamIdx");
 	MakeNameEx(0X10CB0, "NotMovingX", SN_LOCAL);
 	MakeNameEx(0X10D19, "FailedIntCheck", SN_LOCAL);
-	MakeNameEx(0X10D30, "DontMove", SN_LOCAL);
 	MakeNameEx(0X10D33, "CheckAlignedY", SN_LOCAL);
 	MakeNameEx(0X10D4C, "AlignedWPlayer", SN_LOCAL);
 	MakeNameEx(0X10D8E, "PrepareToMove", SN_LOCAL);
@@ -19630,6 +19984,35 @@ static Functions_0(void) {
 	MakeNameEx(0X128A7, "StarDoneAction", SN_LOCAL);
 	MakeNameEx(0X128A9, "RedrawStar", SN_LOCAL);
 	MakeNameEx(0X128C1, "DoneTickStar", SN_LOCAL);
+	MakeFunction    (0X129DE,0X12BC0);
+	SetFunctionFlags(0X129DE,0x12);
+	MakeFrame(0X129DE, 0XE, 2, 0X2);
+	MakeLocal(0X129DE, 0X12BC0, "[bp-0XE]", "ParamPtr");
+	MakeLocal(0X129DE, 0X12BC0, "[bp-0XA]", "Y");
+	MakeLocal(0X129DE, 0X12BC0, "[bp-0X8]", "X");
+	MakeLocal(0X129DE, 0X12BC0, "[bp-0X6]", "NumPassableTiles");
+	MakeLocal(0X129DE, 0X12BC0, "[bp-0X4]", "Color");
+	MakeLocal(0X129DE, 0X12BC0, "[bp-0X2]", "OffsetIdx");
+	MakeLocal(0X129DE, 0X12BC0, "[bp+0X6]", "ParamIdx");
+	MakeNameEx(0X12A24, "PrepareToLoop", SN_LOCAL);
+	MakeNameEx(0X12A76, "NextLoop", SN_LOCAL);
+	MakeNameEx(0X12A79, "ExpandLoop", SN_LOCAL);
+	MakeNameEx(0X12AB5, "MoveOrSpawn", SN_LOCAL);
+	MakeNameEx(0X12B1C, "SpawnSlime", SN_LOCAL);
+	MakeNameEx(0X12B5F, "IncrementPassable", SN_LOCAL);
+	MakeNameEx(0X12B66, "CheckLoop", SN_LOCAL);
+	MakeNameEx(0X12B6F, "DoneLoop", SN_LOCAL);
+	MakeNameEx(0X12BBA, "EndTickSlime", SN_LOCAL);
+	MakeFunction    (0X12C51,0X12D5E);
+	SetFunctionFlags(0X12C51,0x12);
+	MakeFrame(0X12C51, 0X8, 2, 0X2);
+	MakeLocal(0X12C51, 0X12D5E, "[bp-0X8]", "ParamPtr");
+	MakeLocal(0X12C51, 0X12D5E, "[bp-0X4]", "StepY");
+	MakeLocal(0X12C51, 0X12D5E, "[bp-0X2]", "StepX");
+	MakeLocal(0X12C51, 0X12D5E, "[bp+0X6]", "ParamIdx");
+	MakeNameEx(0X12CBE, "CheckDestWater", SN_LOCAL);
+	MakeNameEx(0X12D0C, "CheckPlayer", SN_LOCAL);
+	MakeNameEx(0X12D58, "EndTickShark", SN_LOCAL);
 	MakeFunction    (0X1310D,0X131A1);
 	SetFunctionFlags(0X1310D,0x12);
 	MakeFrame(0X1310D, 0X2, 2, 0X8);

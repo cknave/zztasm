@@ -9,11 +9,11 @@ permalink: creature_behaviors.html
 
 ## Bear
 
-### Tick function
-
 A bear will check if the player is within the range defined by its Sensitivity parameter and
 walk towards them if they are.  If the bear encounters the player or a breakable wall, it dies
 attacking that tile.
+
+### Tick function
 
 {% include asmlink.html file="creatures/bear.asm" line="5" %}
 
@@ -58,8 +58,6 @@ func TickBear(int16 ParamIdx) {
 
 ## Bullet
 
-### Tick function
-
 Bullets move until they hit something.  If they hit a destructible tile, they attack it.
 If they hit an indestructible tile, they die.
 
@@ -70,6 +68,8 @@ them.
 
 Although this is implemented as a single procedure in ZZT, I have broken it into several
 smaller functions for clarity.
+
+### Tick function
 
 {% include asmlink.html file="creatures/bullet.asm" line="5" %}
 
@@ -173,14 +173,14 @@ func TryCornerRicochet(int16 X, int16 StepX, int16 Y, int16 StepY) -> Bool {
 
 ## Centipede head
 
-### Tick function
-
 A centipede head will move towards the player when aligned if it passes an intelligence check.
 Otherwise, it will randomly change direction if it passes a deviance check.
 
 The centipede head tick function is implemented as a single procedure, but its behavior is
 so complex that I have broken it into multiple functions for this analysis.  All functions
 are listed in the [Centipede heads][centipede_heads] section.
+
+### Tick function
 
 {% include asmlink.html file="creatures/head.asm" line="5" %}
 
@@ -224,11 +224,11 @@ func TickHead(int16 ParamIdx) {
 
 ## Centipede segment
 
-### Tick function
-
 A centipede head doesn't need to do anything as long as it has a leader.  Its movement is
 handled by the head of the centipede.  If it has no leader, it waits a tick by decrementing
 its leader index, then turns into a new head.
+
+### Tick function
 
 {% include asmlink.html file="creatures/segment.asm" line="5" %}
 
@@ -256,8 +256,6 @@ func TickSegment(int16 ParamIdx) {
 
 ## Duplicator
 
-### Tick function
-
 Duplicators periodically copy the tile from the source side to the opposite side.  If blocked,
 they will try to push the blocking tile out of the way.
 
@@ -267,6 +265,7 @@ will call the source tile's touch function.
 Although this is implemented as a single procedure in ZZT, I have broken it into several
 smaller functions for clarity.
 
+### Tick function
 
 {% include asmlink.html file="creatures/duplicator.asm" line="5" %}
 
@@ -349,10 +348,10 @@ func CanDuplicate(ParamRecord* Params) -> Bool {
 
 ## Lion
 
-### Tick function
-
 A lion will, depending on its intelligence parameter, either walk towards the player or in a
 random direction.
+
+### Tick function
 
 {% include asmlink.html file="creatures/lion.asm" line="5" %}
 
@@ -391,11 +390,11 @@ func TickLion(int16 ParamIdx) {
 
 ## Ruffian
 
-### Tick function
-
 Ruffians do a resting time check to start or stop moving.  They stay moving in the same
 direction, unless aligned with the player.  If aligned, the ruffian will do an intelligence
 check to change direction towards the player.
+
+### Tick function
 
 {% include asmlink.html file="creatures/ruffian.asm" line="5" %}
 
@@ -454,10 +453,10 @@ func TickRuffian(int16 ParamIdx) {
 
 ## Scroll
 
-### Tick function
-
 Scrolls are objects that die when touched.  Every tick the scroll cycles through the intense
 foreground colors.
+
+### Tick function
 
 {% include asmlink.html file="creatures/scroll.asm" line="5" %}
 
@@ -479,10 +478,10 @@ func TickScroll(int16 ParamIdx) {
 
 ## Shark
 
-### Tick function
-
 Sharks move through water tiles only.  If they pass an intelligence check, they move towards
 the player.  Otherwise they move randomly.
+
+### Tick function
 
 {% include asmlink.html file="creatures/shark.asm" line="5" %}
 
@@ -509,11 +508,11 @@ func TickShark(int16 ParamIdx) {
 
 ## Slime
 
-### Tick function
-
 Slimes expand out in all 4 directions, leaving a trail of breakables behind.  In ZZT, this
 expansion is accomplished by moving into the first passable tile, and spawning new slimes
 in the remaining passable tiles.
+
+### Tick function
 
 {% include asmlink.html file="creatures/slime.asm" line="5" %}
 
@@ -621,10 +620,10 @@ func TickSpinningGun(int16 ParamIdx) {
 
 ## Star
 
-### Tick function
-
 Stars have a limited lifetime, and constantly seek the player.  They are able to push other
 tiles out of the way.
+
+### Tick function
 
 {% include asmlink.html file="creatures/star.asm" line="5" %}
 
@@ -670,10 +669,10 @@ func TickStar(int16 ParamIdx) {
 
 ## Tiger
 
-### Tick function
-
 A tiger is a lion that will shoot bullets or stars at the player depending on its firing rate
 and alignment to the player.
+
+### Tick function
 
 {% include asmlink.html file="creatures/tiger.asm" line="5" %}
 
@@ -711,9 +710,9 @@ func TickTiger(int16 ParamIdx) {
 
 ## Transporter
 
-### Tick function
-
 Transporters provide a shortcut across the board to another aligned transporter.
+
+### Tick function
 
 {% include asmlink.html file="creatures/transporter.asm" line="5" %}
 

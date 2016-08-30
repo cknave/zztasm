@@ -1,7 +1,7 @@
 ---
 title: Creature Behaviors
-keywords: Tick functions, Bear, Bullet, Centipede, Duplicator, Head, Lion, Ruffian, Scroll, Shark,
-	  Segment, Spinning Gun, Star, Tiger
+keywords: Tick functions, Bear, Bullet, Centipede, Duplicator, Head, Lion, Ruffian, Scroll, Segment,
+          Shark, Slime, Spinning Gun, Star, Tiger
 sidebar: zztasm_sidebar
 permalink: creature_behaviors.html
 ---
@@ -501,6 +501,69 @@ func TickShark(int16 ParamIdx) {
         MoveTileWithIdx(ParamIdx, Params.X + Params.StepX, Params.Y + Params.StepY)
     } else if BoardTiles[Params.X + Params.StepX][Params.Y + Params.StepY] == TTPlayer) {
         DieAttackingTile(ParamIdx, Params.X + Params.StepX, Params.Y + Params.StepY)
+    }
+}
+```
+
+## Slime
+
+### Tick function
+
+Slimes expand out in all 4 directions, leaving a trail of breakables behind.  In ZZT, this
+expansion is accomplished by moving into the first passable tile, and spawning new slimes
+in the remaining passable tiles.
+
+{% include asmlink.html file="creatures/spinning_gun.asm" line="5" %}
+
+```swift
+func TickSlime(int16 ParamIdx) {
+    let Params = BoardParams[ParamIdx]
+
+    // Increment tick count until it's time to move
+    let TicksToMove = Params.Param1
+    let MovementSpeed = Params.Param2
+    if TicksToMove < MovementSpeed {
+        Params.Param1 += 1
+        return
+    }
+    // Reset ticks to next move
+    Params.Param1 = 0
+
+    let X = Params.X
+    let Y = Params.Y
+    let Color = BoardTiles[X][Y].Color
+
+    // Loop over the directions N, S, W, E
+    var NumPassableTiles = 0
+    for (XOffset, YOffset) in [(0, -1), (0, 1), (-1, 0), (1, 0)] {
+        // Check if the next tile is passable
+        let Tile = BoardTiles[X + XOffset][Y + YOffset]
+        if TileTypes[Tile.Type].Passable == 0 {
+            continue
+        }
+        // If this is the first passable tile found, move into that tile and create a breakable
+        // wall at the original space.
+        //
+        // For every other passable tile found, spawn a new slime in that tile.
+        if NumPassableTiles == 0 {
+            MoveTileWithIdx(ParamIdx, X + XOffset, Y + YOffset)
+            BoardTiles[X][Y].Color = Color
+            BoardTiles[X][Y].Type = TTBreakable
+            DrawTile(X, Y)
+        } else {
+            Spawn(X + XOffset, Y + YOffset, TTSlime, Color, TileTypes[TTSlime].Cycle,
+                  UnknownParamBuf)  // TODO: what is this parameter buffer?
+            BoardParams[BoardParamCount].Param2 = MovementSpeed
+        }
+        NumPassableTiles += 1
+    }
+
+    // If we couldn't find any passable tiles to move into, die and turn into a breakable.
+    if NumPassableTiles == 0 {
+        RemoveParamIdx(ParamIdx)
+        BoardTiles[X][Y].Color = Color
+        BoardTiles[X][Y].Type = TTBreakable
+        DrawTile(X, Y)
     }
 }
 ```

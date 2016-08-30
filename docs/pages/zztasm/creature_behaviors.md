@@ -1,7 +1,7 @@
 ---
 title: Creature Behaviors
 keywords: Tick functions, Bear, Bullet, Centipede, Duplicator, Head, Lion, Ruffian, Scroll, Segment,
-          Shark, Slime, Spinning Gun, Star, Tiger
+          Shark, Slime, Spinning Gun, Star, Tiger, Transporter
 sidebar: zztasm_sidebar
 permalink: creature_behaviors.html
 ---
@@ -451,6 +451,7 @@ func TickRuffian(int16 ParamIdx) {
 }
 ```
 
+
 ## Scroll
 
 ### Tick function
@@ -505,6 +506,7 @@ func TickShark(int16 ParamIdx) {
 }
 ```
 
+
 ## Slime
 
 ### Tick function
@@ -513,7 +515,7 @@ Slimes expand out in all 4 directions, leaving a trail of breakables behind.  In
 expansion is accomplished by moving into the first passable tile, and spawning new slimes
 in the remaining passable tiles.
 
-{% include asmlink.html file="creatures/spinning_gun.asm" line="5" %}
+{% include asmlink.html file="creatures/slime.asm" line="5" %}
 
 ```swift
 func TickSlime(int16 ParamIdx) {
@@ -567,6 +569,7 @@ func TickSlime(int16 ParamIdx) {
     }
 }
 ```
+
 
 ## Spinning gun
 
@@ -702,6 +705,23 @@ func TickTiger(int16 ParamIdx) {
 
     // Use the same movement behavior as a lion.
     TickLion(ParamIdx)
+}
+```
+
+
+## Transporter
+
+### Tick function
+
+Transporters provide a shortcut across the board to another aligned transporter.
+
+{% include asmlink.html file="creatures/transporter.asm" line="5" %}
+
+```swift
+func TickTransporter(int16 ParamIdx) {
+    let Params = BoardParams[ParamIdx]
+    // Force a redraw every tick
+    DrawTile(Params.X, Params.Y)
 }
 ```
 

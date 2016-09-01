@@ -2924,6 +2924,9 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11E0C);
 	OpStkvar	(x,	0);
+	ExtLinA		(0X11E0F,	0,	";");
+	ExtLinA		(0X11E0F,	1,	"; Start rotating as soon as the previous tile is movable");
+	ExtLinA		(0X11E0F,	2,	";");
 	MakeCode	(x=0X11E0F);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11E12);
@@ -2943,6 +2946,9 @@ static Bytes_0(void) {
 	MakeCode	(x=0X11E35);
 	OpOff		(x,	0,	0X256D0);
 	OpOff		(x,	128,	0X256D0);
+	ExtLinA		(0X11E3F,	0,	";");
+	ExtLinA		(0X11E3F,	1,	"; Prepare to rotate the previous tile into this tile's space");
+	ExtLinA		(0X11E3F,	2,	";");
 	MakeCode	(x=0X11E3F);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11E42);
@@ -2969,6 +2975,7 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11E78);
 	OpStkvar	(x,	0);
+	ExtLinA		(0X11E7B,	0,	"; Check if the current tile has params (cycle != -1)");
 	MakeCode	(x=0X11E7B);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11E7E);
@@ -2980,6 +2987,7 @@ static Bytes_0(void) {
 	OpOff		(x,	128,	0X256D0);
 	OpSign		(x,	1);
 	OpHex		(x,	1);
+	ExtLinA		(0X11E94,	0,	"; Get the parameter index at the source tile");
 	MakeCode	(x=0X11E94);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11E97);
@@ -3023,6 +3031,9 @@ static Bytes_0(void) {
 	MakeCode	(x=0X11ED5);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
+	ExtLinA		(0X11EDF,	0,	";");
+	ExtLinA		(0X11EDF,	1,	"; Set the correct tile types at the source and destination, then move");
+	ExtLinA		(0X11EDF,	2,	";");
 	MakeCode	(x=0X11EDF);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X11EE2);
@@ -3097,6 +3108,7 @@ static Bytes_0(void) {
 	MakeCode	(x=0X11F58);
 	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
 	MakeCode	(x=0X11F61);
+	ExtLinA		(0X11F67,	0,	"; No params to move, just copy the tile");
 	MakeCode	(x=0X11F67);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11F6A);
@@ -3116,6 +3128,11 @@ static Bytes_0(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X11F89);
 	OpStkvar	(x,	0);
+	ExtLinA		(0X11F91,	0,	";");
+	ExtLinA		(0X11F91,	1,	"; If the next tile isn't pushable, clear out the (now vacated)");
+	ExtLinA		(0X11F91,	2,	"; current tile.  This is not necessary if the next tile is pushable");
+	ExtLinA		(0X11F91,	3,	"; since it will be pushed into this spot.");
+	ExtLinA		(0X11F91,	4,	";");
 	MakeCode	(x=0X11F91);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X11F94);
@@ -4023,6 +4040,15 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X12C9C);
 	OpStkvar	(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_1(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X12C9F);
 	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X12CA5);
@@ -4073,15 +4099,6 @@ static Bytes_0(void) {
 	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X12D01);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_1(void) {
-        auto x;
-#define id x
-
 	ExtLinA		(0X12D0C,	0,	";");
 	ExtLinA		(0X12D0C,	1,	"; If blocked by the player, die attacking them");
 	ExtLinA		(0X12D0C,	2,	";");
@@ -9117,6 +9134,15 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X18CAD);
 	OpStkvar	(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_2(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X18CB0);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X18CBF);
@@ -9198,15 +9224,6 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X18E0C);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_2(void) {
-        auto x;
-#define id x
-
 	MakeStr		(0X18E20,	0X18E2E);
 	MakeName	(0X18E20,	"aAddNewBoard");
 	MakeCode	(0X18E2E);
@@ -14678,6 +14695,15 @@ static Bytes_2(void) {
 	ExtLinA		(0X1E3D4,	2,	";");
 	MakeCode	(x=0X1E3D4);
 	OpStkvar	(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_3(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X1E3D7);
 	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1E3DE);
@@ -14726,15 +14752,6 @@ static Bytes_2(void) {
 	OpOff		(x,	129,	0X1B400);
 	MakeCode	(x=0X1E46F);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_3(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X1E472);
 	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1E478);
@@ -19906,6 +19923,15 @@ static Bytes_3(void) {
 	MakeWord	(0X2A19C);
 	MakeWord	(0X2A19E);
 	MakeWord	(0X2A1A0);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_4(void) {
+        auto x;
+#define id x
+
 	MakeByte	(0X2A1A2);
 	MakeDword	(0X2A1A4);
 	MakeStruct	(0X2A1A8,	"TileType");
@@ -19963,15 +19989,6 @@ static Bytes_3(void) {
 	MakeByte	(0X2DF9E);
 	MakeWord	(0X2DFA0);
 	MakeWord	(0X2DFA2);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_4(void) {
-        auto x;
-#define id x
-
 	MakeWord	(0X2DFA4);
 	MakeWord	(0X2DFA6);
 	MakeWord	(0X2DFA8);
@@ -20212,7 +20229,7 @@ static Functions_0(void) {
 	MakeLocal(0X11D5C, 0X1204C, "[bp-0X1E]", "OffsetEnd");
 	MakeLocal(0X11D5C, 0X1204C, "[bp-0X1C]", "OffsetStart");
 	MakeLocal(0X11D5C, 0X1204C, "[bp-0X1A]", "Tiles");
-	MakeLocal(0X11D5C, 0X1204C, "[bp-0X9]", "NextTileMovable");
+	MakeLocal(0X11D5C, 0X1204C, "[bp-0X9]", "PrevTileMovable");
 	MakeLocal(0X11D5C, 0X1204C, "[bp-0X8]", "DestY");
 	MakeLocal(0X11D5C, 0X1204C, "[bp-0X6]", "DestX");
 	MakeLocal(0X11D5C, 0X1204C, "[bp-0X4]", "SrcParamIdx");
@@ -20221,15 +20238,22 @@ static Functions_0(void) {
 	MakeLocal(0X11D5C, 0X1204C, "[bp+0X8]", "Y");
 	MakeLocal(0X11D5C, 0X1204C, "[bp+0XA]", "X");
 	MakeNameEx(0X11D7C, "InitBackwardsLoop", SN_LOCAL);
-	MakeNameEx(0X11D86, "Prepare1stLoop", SN_LOCAL);
+	MakeNameEx(0X11D86, "PrepareGetTilesLoop", SN_LOCAL);
 	MakeNameEx(0X11D90, "GetTilesLoop", SN_LOCAL);
-	MakeNameEx(0X11DDE, "NonEmpty1stLoop", SN_LOCAL);
-	MakeNameEx(0X11DF8, "Check1stLoop", SN_LOCAL);
+	MakeNameEx(0X11DDE, "GetTilesNonEmpty", SN_LOCAL);
+	MakeNameEx(0X11DF8, "CheckGetTilesLoop", SN_LOCAL);
 	MakeNameEx(0X11E0F, "RotateLoop", SN_LOCAL);
 	MakeNameEx(0X11E26, "MovableCheckPushable", SN_LOCAL);
 	MakeNameEx(0X11E3F, "PrepareToRotate", SN_LOCAL);
 	MakeNameEx(0X11E94, "RotateParamTile", SN_LOCAL);
 	MakeNameEx(0X11F67, "RotatePlainTile", SN_LOCAL);
+	MakeNameEx(0X11F91, "CheckNextPushable", SN_LOCAL);
+	MakeNameEx(0X12001, "DoneRotation", SN_LOCAL);
+	MakeNameEx(0X12003, "MovableNotPushable", SN_LOCAL);
+	MakeNameEx(0X12007, "PrepareToLoop", SN_LOCAL);
+	MakeNameEx(0X12009, "CheckCurrentEmpty", SN_LOCAL);
+	MakeNameEx(0X12018, "CurrentNotEmpty", SN_LOCAL);
+	MakeNameEx(0X12032, "CheckRotateLoop", SN_LOCAL);
 	MakeNameEx(0X12046, "DoneConvey", SN_LOCAL);
 	MakeFunction    (0X1209C,0X120F7);
 	SetFunctionFlags(0X1209C,0x12);

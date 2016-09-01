@@ -1,7 +1,8 @@
 ---
 title: Creature Behaviors
-keywords: Tick functions, Bear, Bullet, Centipede, Duplicator, Head, Lion, Ruffian, Scroll, Segment,
-          Shark, Slime, Spinning Gun, Star, Tiger, Transporter
+keywords: Tick functions, Bear, Bullet, Centipede, Clockwise, Conveyor, Counterclockwise,
+          Duplicator, Head, Lion, Ruffian, Scroll, Segment, Shark, Slime, Spinning Gun, Star,
+          Tiger, Transporter
 sidebar: zztasm_sidebar
 permalink: creature_behaviors.html
 ---
@@ -250,6 +251,44 @@ func TickSegment(int16 ParamIdx) {
 
     // The leader index is now -2, time to turn into a head.
     BoardTiles[Params.X][Params.Y].Type = TTHead
+}
+```
+
+
+## Conveyor (clockwise)
+
+Clockwise conveyors rotate pushable tiles around themselves.  The main work of this tile is
+done by `Convey` in [support functions][support_functions].
+
+### Tick function
+
+{% include asmlink.html file="creatures/conveyor.asm" line="5" %}
+
+```swift
+func TickConveyorCW(int16 ParamIdx) {
+    let Params = BoardParams[ParamIdx]
+    // Force a redraw every tick
+    DrawTile(Params.X, Params.Y)
+    Convey(Params.X, Params.Y, 1)
+}
+```
+
+
+## Conveyor (counterclockwise)
+
+Counterclockwise conveyors rotate pushable tiles around themselves.  The main work of this
+tile is done by `Convey` in [support functions][support_functions].
+
+### Tick function
+
+{% include asmlink.html file="creatures/conveyor.asm" line="54" %}
+
+```swift
+func TickConveyorCCW(int16 ParamIdx) {
+    let Params = BoardParams[ParamIdx]
+    // Force a redraw every tick
+    DrawTile(Params.X, Params.Y)
+    Convey(Params.X, Params.Y, -1)
 }
 ```
 

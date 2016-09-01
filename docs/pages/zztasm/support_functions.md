@@ -1,6 +1,7 @@
 ---
 title: Support Functions
-keywords: DieAttackingTile, Distance, MoveTileWithIdx, Random, RandomStep, SeekStep, StepForDelta
+keywords: Convey, DieAttackingTile, Distance, MoveTileWithIdx, Random, RandomStep, SeekStep,
+          StepForDelta
 sidebar: zztasm_sidebar
 permalink: support_functions.html
 ---
@@ -10,6 +11,103 @@ permalink: support_functions.html
 These functions are called by creatures during gameplay.  Full disassembly and pseudocode
 are not yet complete.
 
+
+## Convey
+
+Rotate pushable tiles around a point.  Used by conveyors.
+
+In the `Direction` parameter, 1 is clockwise and -1 is counterclockwise.
+
+Although this is implemented as a single procedure in ZZT, I have broken it into several
+smaller functions for clarity.
+
+{% include asmlink.html file="convey.asm" line="5" %}
+
+```swift
+func Convey(int16 X, int16 Y, int16 Direction) {
+    // Iterate over SW, S, SE, E, NE, N, NW, W; reverse it for counterclockwise.
+    var Offsets = [(-1, 1), (0, 1), (1, 1), (1, 0), (1, -1), (0, -1), (-1, -1), (-1, 0)]
+    if Direction != 1 {
+        Offsets = reversed(Offsets)
+    }
+
+    // Get all the tiles around this conveyor.  Keep track of whether the last tile is
+    // "movable": empty or pushable.
+    var PrevTileMovable = true
+    var Tiles = Tile[8]
+    for (i, (XOffset, YOffset)) in enumerate(Offsets) {
+        Tiles[i] = BoardTiles[X + XOffset][Y + YOffset]
+        if Tiles[i].Type == TTEmpty {
+            PrevTileMovable = true
+        } else if TileTypes[Tiles[i]].Pushable == 0 {
+            PrevTileMovable = false
+        }
+    }
+
+    // Start rotating as soon as the previous tile is movable.
+    for Index in len(Offsets) {
+        var Tile = Tiles[i]
+        if !PrevTileMovable {
+            // Couldn't rotate this time.  If this tile is movable, we can rotate next time.
+            PrevTileMovable = IsTileMovable(Tile)
+        } else {
+            // The previous tile can be moved.  As long as the current tile can be pushed
+            // out of the way, we can rotate it into this space.
+            if TileTypes[Tile.Type].Pushable {
+                Rotate(X, Y, Direction, Offsets, Tiles, Index)
+                // If the next tile isn't pushable, clear out the (now vacated) current tile.
+                // This is not necessary if the next tile is pushable, since it will be pushed
+                // into this spot.
+                let NextTile = Tiles[(Index + Direction) % len(Tiles)]
+                if TileTypes[NextTile.Type].Pushable == 0 {
+                    let (OffsetX, OffsetY) = Offsets[Index]
+                    BoardTiles[X + OffsetX][Y + OffsetY].Type = TTEmpty
+                    DrawTile(X + OffsetX, Y + OffsetY)
+                }
+            } else {
+                // We can't rotate this time since the destination isn't movable, and we won't
+                // be able to rotate next time since the source won't be movable.
+                PrevTileMovable = false
+            }
+        }
+    }
+}
+
+
+func Rotate(int16 X, int16 Y, int16 Direction, int16 Offsets, int16 Tiles, int16 Index) {
+    // Calculate source (Index) and destination (Index-1) locations.
+    let (SrcXOffset, SrcYOffset) = Offsets[Index]
+    let (SrcX, SrcY) = (X + SrcXOffset, Y + SrcYOffset)
+    let (DestXOffset, DestYOffset) = Offsets[(Index - Direction) % len(Offsets)]
+    let (DestX, DestY) = (X + DestXOffset, Y + DestYOffset)
+    
+    // If the current tile has params, move it.
+    if TileTypes[Tiles[Index].Type].Cycle > -1 {
+        let SrcTile = BoardTiles[SrcX][SrcY]
+        let SrcParamIdx = ParamIdxForXY(SrcX, SrcY)
+        // Set the correct tile types at the source and destination, then move.
+        BoardTiles[SrcX][SrcY] = Tiles[Index]
+        BoardTiles[DestX][DestY].Type = TTEmpty
+        MoveTileWithIdx(SrcParamIdx, DestX, DestY)
+    } else {
+        // No params to move, just copy the tile.
+        BoardTiles[DestX][DestY] = Tiles[Index]
+        DrawTile(DestX, DestY)
+    }
+}
+
+
+//
+// Check if a tile is movable for a conveyor belt.  Empty and pushable tiles are movable.
+//
+func IsTileMovable(Tile tile) -> Bool {
+    if Tile.Type == TTEmpty {
+        return true
+    } else {
+        return (TileTypes[Tile.Type].Pushable != 0)
+    }
+}
+```
 
 ## DieAttackingTile
 

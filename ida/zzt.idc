@@ -5165,27 +5165,240 @@ static Bytes_1(void) {
 	MakeCode	(0X13EAA);
 	MakeByte	(0X13EB7);
 	MakeArray	(0X13EB7,	0X3);
+	MakeName	(0X13EB7,	"sndPush");
 	MakeCode	(0X13EBA);
+	MakeName	(0X13EBA,	"TickPusher");
 	MakeCode	(x=0X13EC5);
 	OpHex		(x,	1);
+	MakeCode	(x=0X13EC8);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13ECB);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X13ED2);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X13ED6);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X13ED9);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X13EDC);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13EDF);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X13EE4);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X13EE7);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13EEA);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X13EF0);
+	OpStkvar	(x,	0);
+	ExtLinA		(0X13EF3,	0,	";");
+	ExtLinA		(0X13EF3,	1,	"; If the destination tile isn't passable, try pushing it out of the way");
+	ExtLinA		(0X13EF3,	2,	";");
+	MakeCode	(x=0X13EF3);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13EF6);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X13EFC);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13EFF);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X13F03);
 	OpHex		(x,	1);
+	MakeCode	(x=0X13F07);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13F0A);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X13F0F);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13F12);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X13F16);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X13F1F);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X13F25);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X13F2C);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	MakeCode	(x=0X13F33);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13F36);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X13F3B);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13F3E);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X13F43);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13F46);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X13F4C);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13F4F);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X13F54);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13F57);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X13F5B);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13F5E);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X13F66,	0,	"; This resets ParamIdx and ParamPtr to the object at X, Y");
+	ExtLinA		(0X13F66,	1,	"; ...but this object is still at X, Y...");
+	MakeCode	(x=0X13F66);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X13F69);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X13F71);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X13F74);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13F77);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X13F7E);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X13F82);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X13F85);
+	OpStkvar	(x,	0);
+	ExtLinA		(0X13F88,	0,	";");
+	ExtLinA		(0X13F88,	1,	"; Check if the destination tile is passable now");
+	ExtLinA		(0X13F88,	2,	";");
+	MakeCode	(x=0X13F88);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13F8B);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X13F91);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13F94);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X13F98);
 	OpHex		(x,	1);
-	MakeCode	(0X13FCB);
+	MakeCode	(x=0X13F9C);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13F9F);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X13FA4);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13FA7);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X13FAB);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X13FB4);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X13FBA);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X13FC1);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	MakeCode	(x=0X13FCB);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X13FCE);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13FD1);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X13FD6);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13FD9);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X13FDE);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13FE1);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X13FE7);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X13FEA);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X13FF8);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
+	ExtLinA		(0X14002,	0,	";");
+	ExtLinA		(0X14002,	1,	"; Check if there's a pusher of the same direction behind our old tile");
+	ExtLinA		(0X14002,	2,	";");
+	MakeCode	(x=0X14002);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X14005);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X14009);
 	OpHex		(x,	1);
+	MakeCode	(x=0X1400D);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X14010);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X14018);
 	OpHex		(x,	1);
+	MakeCode	(x=0X1401C);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1401F);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X14023);
 	OpHex		(x,	1);
+	MakeCode	(x=0X14027);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1402A);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X14031);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X1403A);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	ExtLinA		(0X14041,	0,	"; Get the other pusher's params");
+	MakeCode	(x=0X14041);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X14044);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X14048);
 	OpHex		(x,	1);
+	MakeCode	(x=0X1404C);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1404F);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X14057);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1405A);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1405E);
 	OpHex		(x,	1);
+	MakeCode	(x=0X14062);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X14065);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X14073,	0,	"; Check the direction matches ours");
+	MakeCode	(x=0X14073);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X14076);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X14079);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X14080);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X14084);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X14087);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1408D);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X14090);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X14097);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X1409B);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1409E);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X140A4);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X140A7);
 	MakeStr		(0X140B1,	0X140DF);
 	MakeName	(0X140B1,	"aTorchUsedForLi");
 	MakeCode	(0X140DF);
@@ -6496,6 +6709,9 @@ static Bytes_1(void) {
 	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X15C5E);
 	OpSeg		(x,	1);
+	MakeCode	(x=0X15C6E);
+	OpOff		(x,	1,	0X10930);
+	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X15C71);
 	OpSeg		(x,	1);
 	MakeCode	(x=0X15C86);
@@ -8809,6 +9025,15 @@ static Bytes_1(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X18620);
 	OpStkvar	(x,	0);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_2(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X1862C);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1862F);
@@ -9134,15 +9359,6 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X18CAD);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_2(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X18CB0);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X18CBF);
@@ -14356,6 +14572,15 @@ static Bytes_2(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1DD3B);
 	OpStkvar	(x,	0);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_3(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X1DD44);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1DD4D);
@@ -14695,15 +14920,6 @@ static Bytes_2(void) {
 	ExtLinA		(0X1E3D4,	2,	";");
 	MakeCode	(x=0X1E3D4);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_3(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X1E3D7);
 	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1E3DE);
@@ -19629,6 +19845,15 @@ static Bytes_3(void) {
 	MakeWord	(0X24DA5);
 	MakeCode	(x=0X24DA7);
 	OpHex		(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_4(void) {
+        auto x;
+#define id x
+
 	MakeComm	(0X24DA9,	"DOS - GET CURRENT TIME\nReturn: CH = hours, CL = minutes, DH = seconds\nDL = hundredths of seconds");
 	MakeCode	(x=0X24DA9);
 	OpHex		(x,	0);
@@ -19923,15 +20148,6 @@ static Bytes_3(void) {
 	MakeWord	(0X2A19C);
 	MakeWord	(0X2A19E);
 	MakeWord	(0X2A1A0);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_4(void) {
-        auto x;
-#define id x
-
 	MakeByte	(0X2A1A2);
 	MakeDword	(0X2A1A4);
 	MakeStruct	(0X2A1A8,	"TileType");
@@ -20374,6 +20590,16 @@ static Functions_0(void) {
 	MakeFunction    (0X139BB,0X13A4D);
 	SetFunctionFlags(0X139BB,0x12);
 	MakeFrame(0X139BB, 0X2142, 2, 0XE);
+	MakeFunction    (0X13EBA,0X140B1);
+	SetFunctionFlags(0X13EBA,0x12);
+	MakeFrame(0X13EBA, 0XA, 2, 0X2);
+	MakeLocal(0X13EBA, 0X140B1, "[bp-0XA]", "ParamPtr");
+	MakeLocal(0X13EBA, 0X140B1, "[bp-0X6]", "Y");
+	MakeLocal(0X13EBA, 0X140B1, "[bp-0X4]", "X");
+	MakeLocal(0X13EBA, 0X140B1, "[bp-0X2]", "UnblockedPusherParamIdx");
+	MakeLocal(0X13EBA, 0X140B1, "[bp+0X6]", "ParamIdx");
+	MakeNameEx(0X13FCB, "MovePusher", SN_LOCAL);
+	MakeNameEx(0X140AB, "DoneTickPusher", SN_LOCAL);
 	MakeFunction    (0X14433,0X1445F);
 	SetFunctionFlags(0X14433,0x12);
 	MakeFrame(0X14433, 0X0, 2, 0XE);

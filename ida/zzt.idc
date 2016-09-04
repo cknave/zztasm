@@ -37,10 +37,10 @@ static GenInfo(void) {
 	Tabs(1);
 	Comments(0);
 	Voids(0);
-	XrefShow(0);
+	XrefShow(2);
 	AutoShow(1);
-	Indent(0);
-	CmtIndent(24);
+	Indent(16);
+	CmtIndent(40);
 	TailDepth(0x10);
 }
 
@@ -201,6 +201,10 @@ static Enums_0(id) {
 	id = AddEnum(-1,"ShootOwner",0x1100000);
 	AddConstEx(id,"SOPlayer",	0X0,	-1);
 	AddConstEx(id,"SOEnemy",	0X1,	-1);
+	id = AddEnum(-1,"ExplodeMode",0x1100000);
+	AddConstEx(id,"EMRedrawOnly",	0X0,	-1);
+	AddConstEx(id,"EMBomb",	0X1,	-1);
+	AddConstEx(id,"EMCleanUp",	0X2,	-1);
 	return id;
 }
 
@@ -264,9 +268,9 @@ static Structures_0(id) {
 	AddStrucMember(id,"Param1Prompt",	0X43,	0x50000400,	0x1,	21);
 	AddStrucMember(id,"Param2Prompt",	0X58,	0x50000400,	0x1,	21);
 	AddStrucMember(id,"Param3Prompt",	0X6D,	0x50000400,	0x1,	21);
-	AddStrucMember(id,"field_82",	0X82,	0x50000400,	0x1,	21);
-	AddStrucMember(id,"field_97",	0X97,	0x50000400,	0x1,	21);
-	AddStrucMember(id,"field_AC",	0XAC,	0x50000400,	0x1,	21);
+	AddStrucMember(id,"DestBoardPrompt",	0X82,	0x50000400,	0x1,	21);
+	AddStrucMember(id,"DirectionPrompt",	0X97,	0x50000400,	0x1,	21);
+	AddStrucMember(id,"EditCodePrompt",	0XAC,	0x50000400,	0x1,	21);
 	AddStrucMember(id,"Score",	0XC1,	0x10000400,	-1,	2);
 	return id;
 }
@@ -3311,17 +3315,107 @@ static Bytes_0(void) {
 	MakeArray	(0X121F7,	0XD);
 	MakeByte	(0X12204);
 	MakeArray	(0X12204,	0X3);
+	MakeName	(0X12204,	"sndBombTick");
 	MakeByte	(0X12207);
 	MakeArray	(0X12207,	0X3);
+	MakeName	(0X12207,	"sndBombTock");
 	MakeCode	(0X1220A);
+	MakeName	(0X1220A,	"TickBomb");
 	MakeCode	(x=0X12215);
 	OpHex		(x,	1);
-	MakeCode	(0X12239);
+	MakeCode	(x=0X12218);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1221B);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12222);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X12226);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X12229);
+	OpStkvar	(x,	0);
+	ExtLinA		(0X1222C,	0,	";");
+	ExtLinA		(0X1222C,	1,	"; Check if the bomb is counting down");
+	ExtLinA		(0X1222C,	2,	";");
+	MakeCode	(x=0X1222C);
+	OpStkvar	(x,	1);
+	MakeComm	(0X1222F,	"countdown");
+	MakeCode	(x=0X1222F);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X12239,	0,	";");
+	ExtLinA		(0X12239,	1,	"; Decrement the countdown and redraw");
+	ExtLinA		(0X12239,	2,	";");
+	MakeCode	(x=0X12239);
+	OpStkvar	(x,	1);
+	MakeComm	(0X1223C,	"countdown");
+	MakeCode	(x=0X1223C);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12243);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12246);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1224A);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1224D);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12253);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12256);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X12262,	0,	";");
+	ExtLinA		(0X12262,	1,	"; Check if it's time to explode");
+	ExtLinA		(0X12262,	2,	";");
+	MakeCode	(x=0X12262);
+	OpStkvar	(x,	1);
+	MakeComm	(0X12265,	"countdown");
+	MakeCode	(x=0X12265);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X12270);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
-	MakeCode	(0X12297);
-	MakeCode	(0X122D0);
+	MakeCode	(x=0X1227A);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1227D);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X12283);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X12286);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1228D);
+	OpEnumEx		(x,	1,	GetEnum("ExplodeMode"),0);
+	ExtLinA		(0X12297,	0,	";");
+	ExtLinA		(0X12297,	1,	"; Check if it's time to clean up after the explosion");
+	ExtLinA		(0X12297,	2,	";");
+	MakeCode	(x=0X12297);
+	OpStkvar	(x,	1);
+	MakeComm	(0X1229A,	"countdown");
+	MakeCode	(x=0X1229A);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X122A1);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X122A4);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X122A9);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X122AC);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X122AF);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X122B5);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X122B8);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X122C0);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X122C3);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X122C6);
+	OpEnumEx		(x,	1,	GetEnum("ExplodeMode"),0);
+	MakeCode	(x=0X122D0);
+	OpStkvar	(x,	1);
+	MakeComm	(0X122D3,	"countdown");
+	MakeCode	(x=0X122D3);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X122E8);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
@@ -3925,6 +4019,15 @@ static Bytes_0(void) {
 	MakeCode	(x=0X12B24);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_1(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X12B29);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X12B2C);
@@ -4040,15 +4143,6 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X12C9C);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_1(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X12C9F);
 	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X12CA5);
@@ -5486,6 +5580,7 @@ static Bytes_1(void) {
 	MakeStr		(0X1445F,	0X14466);
 	MakeName	(0X1445F,	"aBombed");
 	MakeCode	(0X14466);
+	MakeName	(0X14466,	"Explode");
 	MakeCode	(x=0X14471);
 	OpHex		(x,	1);
 	MakeCode	(x=0X14474);
@@ -5496,14 +5591,24 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X14485);
 	OpStkvar	(x,	1);
+	MakeComm	(0X14488,	"always true (x-8-1 < x+8+1)");
+	MakeComm	(0X1448D,	"X - 9");
 	MakeCode	(x=0X1448D);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X14492);
 	OpStkvar	(x,	0);
+	ExtLinA		(0X14495,	0,	";");
+	ExtLinA		(0X14495,	1,	"; Check inside left bound");
+	ExtLinA		(0X14495,	2,	";");
 	MakeCode	(x=0X14495);
 	OpStkvar	(x,	0);
+	ExtLinA		(0X1449E,	0,	";");
+	ExtLinA		(0X1449E,	1,	"; Check inside right bound");
+	ExtLinA		(0X1449E,	2,	";");
+	ExtLinA		(0X1449E,	3,	"");
 	MakeCode	(x=0X1449E);
 	OpStkvar	(x,	0);
+	OpDecimal	(x,	1);
 	MakeCode	(x=0X144A7);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X144AE);
@@ -5512,26 +5617,43 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X144B8);
 	OpStkvar	(x,	1);
+	MakeComm	(0X144BB,	"always true (y-5-1 < y+5+1)");
 	MakeCode	(x=0X144C0);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X144C5);
 	OpStkvar	(x,	0);
+	ExtLinA		(0X144C8,	0,	";");
+	ExtLinA		(0X144C8,	1,	"; Check inside top bound");
+	ExtLinA		(0X144C8,	2,	";");
 	MakeCode	(x=0X144C8);
 	OpStkvar	(x,	0);
+	ExtLinA		(0X144D1,	0,	";");
+	ExtLinA		(0X144D1,	1,	"; Check inside bottom bound");
+	ExtLinA		(0X144D1,	2,	";");
 	MakeCode	(x=0X144D1);
 	OpStkvar	(x,	0);
+	OpDecimal	(x,	1);
 	MakeCode	(x=0X144DA);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X144DD);
 	OpHex		(x,	1);
 	MakeCode	(x=0X144E1);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X144E4);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X144ED);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X144F1);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X144F4);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X144F7);
 	OpStkvar	(x,	0);
+	OpEnumEx		(x,	1,	GetEnum("ExplodeMode"),0);
+	ExtLinA		(0X14500,	0,	";");
+	ExtLinA		(0X14500,	1,	"; If the squared distance from the center is less than 50, it's bombed");
+	ExtLinA		(0X14500,	2,	";");
 	MakeCode	(x=0X14500);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X14503);
@@ -5542,10 +5664,26 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1450F);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X14516);
+	OpDecimal	(x,	1);
+	ExtLinA		(0X1451E,	0,	";");
+	ExtLinA		(0X1451E,	1,	"; Check if we're bombing or cleaning up");
+	ExtLinA		(0X1451E,	2,	";");
 	MakeCode	(x=0X1451E);
 	OpStkvar	(x,	0);
+	OpEnumEx		(x,	1,	GetEnum("ExplodeMode"),0);
+	ExtLinA		(0X14527,	0,	";");
+	ExtLinA		(0X14527,	1,	"; If the tile can have code, send it to the BOMBED label");
+	ExtLinA		(0X14527,	2,	";");
 	MakeCode	(x=0X14527);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1452A);
+	OpStroffEx	(x,	1,	GetStrucIdByName("Tile"),	0);
+	MakeCode	(x=0X1452F);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X14536);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
 	MakeCode	(x=0X1453D);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X14540);
@@ -5561,30 +5699,67 @@ static Bytes_1(void) {
 	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X14564);
 	OpStkvar	(x,	0);
+	ExtLinA		(0X14567,	0,	";");
+	ExtLinA		(0X14567,	1,	"; If the tile is destructible or a star, destroy it");
+	ExtLinA		(0X14567,	2,	";");
 	MakeCode	(x=0X14567);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1456A);
+	OpStroffEx	(x,	1,	GetStrucIdByName("Tile"),	0);
+	MakeCode	(x=0X1456F);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X14576);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
 	MakeCode	(x=0X1457D);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X14580);
+	OpStroffEx	(x,	0,	GetStrucIdByName("Tile"),	0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
 	MakeCode	(x=0X14586);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X14589);
 	OpStkvar	(x,	0);
+	ExtLinA		(0X14591,	0,	";");
+	ExtLinA		(0X14591,	1,	"; Replace empties and breakables with randomly colored breakables");
+	ExtLinA		(0X14591,	2,	";");
 	MakeCode	(x=0X14591);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X14594);
+	OpStroffEx	(x,	0,	GetStrucIdByName("Tile"),	0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
 	MakeCode	(x=0X1459A);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1459D);
+	OpStroffEx	(x,	0,	GetStrucIdByName("Tile"),	0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
 	MakeCode	(x=0X145A3);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X145A6);
+	OpStroffEx	(x,	0,	GetStrucIdByName("Tile"),	0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
+	MakeComm	(0X145B3,	"random color, light blue through white");
 	MakeCode	(x=0X145B6);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X145B9);
+	OpStroffEx	(x,	0,	GetStrucIdByName("Tile"),	0);
 	MakeCode	(x=0X145BD);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X145C0);
 	OpStkvar	(x,	0);
+	ExtLinA		(0X145CA,	0,	";");
+	ExtLinA		(0X145CA,	1,	"; Replace any breakables with empties before redrawing");
+	ExtLinA		(0X145CA,	2,	";");
 	MakeCode	(x=0X145CA);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X145CD);
+	OpStroffEx	(x,	0,	GetStrucIdByName("Tile"),	0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
 	MakeCode	(x=0X145D3);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X145D6);
+	OpStroffEx	(x,	0,	GetStrucIdByName("Tile"),	0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
 	MakeCode	(x=0X145DA);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X145DD);
@@ -6728,6 +6903,9 @@ static Bytes_1(void) {
 	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X15CB9);
 	OpSeg		(x,	1);
+	MakeCode	(x=0X15CCE);
+	OpOff		(x,	1,	0X10930);
+	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X15CD1);
 	OpSeg		(x,	1);
 	MakeCode	(x=0X15CDE);
@@ -8654,6 +8832,15 @@ static Bytes_1(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X17E86);
 	OpStkvar	(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_2(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X17E8B);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X17E93);
@@ -9025,15 +9212,6 @@ static Bytes_1(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X18620);
 	OpStkvar	(x,	0);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_2(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X1862C);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1862F);
@@ -14331,6 +14509,15 @@ static Bytes_2(void) {
 	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1DB14);
 	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_3(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X1DB1D);
 	OpOff		(x,	0,	0X256D0);
 	OpOff		(x,	128,	0X256D0);
@@ -14572,15 +14759,6 @@ static Bytes_2(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1DD3B);
 	OpStkvar	(x,	0);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_3(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X1DD44);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1DD4D);
@@ -19452,6 +19630,15 @@ static Bytes_3(void) {
 	MakeComm	(0X23DAA,	"DOS - DIRECT CONSOLE I/O CHARACTER OUTPUT\nDL = character <> FFh\n Return: ZF set = no character\n  ZF clear = character recieved, AL = character");
 	MakeCode	(x=0X23DAA);
 	OpHex		(x,	0);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_4(void) {
+        auto x;
+#define id x
+
 	MakeStr		(0X23DAE,	0X23DB1);
 	MakeByte	(0X23DBD);
 	MakeArray	(0X23DBD,	0X1A);
@@ -19845,15 +20032,6 @@ static Bytes_3(void) {
 	MakeWord	(0X24DA5);
 	MakeCode	(x=0X24DA7);
 	OpHex		(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_4(void) {
-        auto x;
-#define id x
-
 	MakeComm	(0X24DA9,	"DOS - GET CURRENT TIME\nReturn: CH = hours, CL = minutes, DH = seconds\nDL = hundredths of seconds");
 	MakeCode	(x=0X24DA9);
 	OpHex		(x,	0);
@@ -20484,6 +20662,18 @@ static Functions_0(void) {
 	MakeFrame(0X12147, 0X4, 2, 0X2);
 	MakeLocal(0X12147, 0X121A2, "[bp-0X4]", "ParamPtr");
 	MakeLocal(0X12147, 0X121A2, "[bp+0X6]", "ParamIdx");
+	MakeFunction    (0X1220A,0X12308);
+	SetFunctionFlags(0X1220A,0x12);
+	MakeFrame(0X1220A, 0X8, 2, 0X2);
+	MakeLocal(0X1220A, 0X12308, "[bp-0X8]", "ParamPtr");
+	MakeLocal(0X1220A, 0X12308, "[bp-0X4]", "Y");
+	MakeLocal(0X1220A, 0X12308, "[bp-0X2]", "X");
+	MakeLocal(0X1220A, 0X12308, "[bp+0X6]", "ParamIdx");
+	MakeNameEx(0X12239, "DecrCountdown", SN_LOCAL);
+	MakeNameEx(0X12297, "CheckZero", SN_LOCAL);
+	MakeNameEx(0X122D0, "PlayTickTock", SN_LOCAL);
+	MakeNameEx(0X122F4, "BombTock", SN_LOCAL);
+	MakeNameEx(0X12302, "DoneTickBomb", SN_LOCAL);
 	MakeFunction    (0X123CF,0X12571);
 	SetFunctionFlags(0X123CF,0x12);
 	MakeFrame(0X123CF, 0X14, 2, 0X8);
@@ -20606,6 +20796,39 @@ static Functions_0(void) {
 	MakeFunction    (0X14466,0X14601);
 	SetFunctionFlags(0X14466,0x12);
 	MakeFrame(0X14466, 0X10, 2, 0X6);
+	MakeLocal(0X14466, 0X14601, "[bp-0X10]", "TilePtr");
+	MakeLocal(0X14466, 0X14601, "[bp-0XC]", "LastY");
+	MakeLocal(0X14466, 0X14601, "[bp-0XA]", "LastX");
+	MakeLocal(0X14466, 0X14601, "[bp-0X7]", "DidSendBombed");
+	MakeLocal(0X14466, 0X14601, "[bp-0X6]", "BombedParamIdx");
+	MakeLocal(0X14466, 0X14601, "[bp-0X4]", "CurrentY");
+	MakeLocal(0X14466, 0X14601, "[bp-0X2]", "CurrentX");
+	MakeLocal(0X14466, 0X14601, "[bp+0X6]", "Mode");
+	MakeLocal(0X14466, 0X14601, "[bp+0X8]", "CenterY");
+	MakeLocal(0X14466, 0X14601, "[bp+0XA]", "CenterX");
+	MakeNameEx(0X1448D, "InitCurrentX", SN_LOCAL);
+	MakeNameEx(0X14492, "IncrX", SN_LOCAL);
+	MakeNameEx(0X14495, "LoopX", SN_LOCAL);
+	MakeNameEx(0X1449E, "CheckInRightBound", SN_LOCAL);
+	MakeNameEx(0X144A7, "PrepareYLoop", SN_LOCAL);
+	MakeNameEx(0X144C0, "InitCurrentY", SN_LOCAL);
+	MakeNameEx(0X144C5, "IncrY", SN_LOCAL);
+	MakeNameEx(0X144C8, "LoopY", SN_LOCAL);
+	MakeNameEx(0X144D1, "CheckInBottomBound", SN_LOCAL);
+	MakeNameEx(0X144DA, "GetCurrentTile", SN_LOCAL);
+	MakeNameEx(0X14500, "CheckDistCenter", SN_LOCAL);
+	MakeNameEx(0X1451E, "CheckBombMode", SN_LOCAL);
+	MakeNameEx(0X14527, "CheckCanHaveCode", SN_LOCAL);
+	MakeNameEx(0X14567, "CheckDestroy", SN_LOCAL);
+	MakeNameEx(0X14586, "DestroyTile", SN_LOCAL);
+	MakeNameEx(0X14591, "CheckReplaceType", SN_LOCAL);
+	MakeNameEx(0X145A3, "RndColorBreakable", SN_LOCAL);
+	MakeNameEx(0X145C8, "DoneBombing", SN_LOCAL);
+	MakeNameEx(0X145CA, "CheckBreakable", SN_LOCAL);
+	MakeNameEx(0X145DA, "DrawCurrentTile", SN_LOCAL);
+	MakeNameEx(0X145E5, "CheckCurrentY", SN_LOCAL);
+	MakeNameEx(0X145F0, "CheckCurrentX", SN_LOCAL);
+	MakeNameEx(0X145FB, "DoneExplode", SN_LOCAL);
 	MakeFunction    (0X14611,0X14653);
 	SetFunctionFlags(0X14611,0x12);
 	MakeFrame(0X14611, 0X0, 2, 0X0);

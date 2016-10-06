@@ -4961,43 +4961,92 @@ static Bytes_1(void) {
 	OpHex		(x,	1);
 	MakeCode	(x=0X133E3);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X133E6);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X133ED);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X133F1);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X133F4);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X133F7);
 	OpStkvar	(x,	1);
+	ExtLinA		(0X133FA,	0,	";");
+	ExtLinA		(0X133FA,	1,	"; If the program is active (instruction pointer >= 0), run a cycle");
+	ExtLinA		(0X133FA,	2,	";");
+	MakeCode	(x=0X133FA);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X13401);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X13404);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X13407);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1340D);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
+	ExtLinA		(0X13417,	0,	";");
+	ExtLinA		(0X13417,	1,	"; If the object is moving, handle movement");
+	ExtLinA		(0X13417,	2,	";");
 	MakeCode	(x=0X13417);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1341A);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X13421);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X13424);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X1342E,	0,	";");
+	ExtLinA		(0X1342E,	1,	"; Try to move.  If blocked, send THUD.");
+	ExtLinA		(0X1342E,	2,	";");
 	MakeCode	(x=0X1342E);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X13431);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X13437);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1343A);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1343E);
 	OpHex		(x,	1);
 	MakeCode	(x=0X13442);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X13445);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1344A);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1344D);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X13451);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X1345A);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X13460);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X13467);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	ExtLinA		(0X1346E,	0,	"; Destination is passable");
 	MakeCode	(x=0X1346E);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X13471);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X13474);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X13479);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1347C);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X13481);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X13484);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1348A);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1348D);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X13499);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1349F);
@@ -8467,6 +8516,15 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X170F3);
 	OpStkvar	(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_2(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X170F6);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X17107);
@@ -8581,15 +8639,6 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X172E8);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_2(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X172EB);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X172F0);
@@ -14319,6 +14368,15 @@ static Bytes_2(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1D323);
 	OpStkvar	(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_3(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X1D329);
 	OpOff		(x,	1,	0X1B400);
 	OpOff		(x,	129,	0X1B400);
@@ -14433,15 +14491,6 @@ static Bytes_2(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1D534);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_3(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X1D53C);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1D542);
@@ -19593,6 +19642,15 @@ static Bytes_3(void) {
 	MakeCode	(x=0X23006);
 	OpHex		(x,	1);
 	MakeComm	(0X2300B,	"Video status bits:\n0: retrace.  1=display is in vert or horiz retrace.\n1: 1=light pen is triggered; 0=armed\n2: 1=light pen switch is open; 0=closed\n3: 1=vertical sync pulse is occurring.");
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_4(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X2300C);
 	OpHex		(x,	1);
 	MakeStr		(0X23032,	0X23059);
@@ -19702,15 +19760,6 @@ static Bytes_3(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X23324);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_4(void) {
-        auto x;
-#define id x
-
 	MakeByte	(0X23330);
 	MakeCode	(0X23331);
 	MakeCode	(x=0X2333C);
@@ -21218,6 +21267,13 @@ static Functions_0(void) {
 	MakeFunction    (0X133D5,0X134B5);
 	SetFunctionFlags(0X133D5,0x12);
 	MakeFrame(0X133D5, 0X6, 2, 0X2);
+	MakeLocal(0X133D5, 0X134B5, "[bp-0X6]", "ParamPtr");
+	MakeLocal(0X133D5, 0X134B5, "[bp-0X1]", "DidSend");
+	MakeLocal(0X133D5, 0X134B5, "[bp+0X6]", "ParamIdx");
+	MakeNameEx(0X13417, "CheckMoving", SN_LOCAL);
+	MakeNameEx(0X1342E, "TryMoving", SN_LOCAL);
+	MakeNameEx(0X13499, "SendThud", SN_LOCAL);
+	MakeNameEx(0X134AF, "DoneTickObject", SN_LOCAL);
 	MakeFunction    (0X1352F,0X138CF);
 	SetFunctionFlags(0X1352F,0x12);
 	MakeFrame(0X1352F, 0X6, 2, 0X2);

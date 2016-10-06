@@ -1,8 +1,8 @@
 ---
 title: Creature Behaviors
 keywords: Tick functions, Bear, Blink wall, Bullet, Centipede, Clockwise, Conveyor,
-          Counterclockwise, Duplicator, Head, Lion, Ruffian, Scroll, Segment, Shark, Slime,
-          Spinning Gun, Star, Tiger, Transporter
+          Counterclockwise, Duplicator, Head, Lion, Object, Ruffian, Scroll, Segment, Shark,
+          Slime, Spinning Gun, Star, Tiger, Transporter
 sidebar: zztasm_sidebar
 permalink: creature_behaviors.html
 ---
@@ -557,6 +557,35 @@ func TickLion(int16 ParamIdx) {
     // If we're blocked by the player, die attacking them.
     if DestTile.Type == TTPlayer {
         DieAttackingTile(ParamIdx, DestX, DestY)
+    }
+}
+```
+
+
+## Object
+
+An object runs its program every tick if it's active, and can move.
+
+### Tick function
+
+{% include asmlink.html file="creatures/object.asm" line="5" %}
+
+```swift
+func TickObject(int16 ParamIdx) {
+    let Params = BoardParams[ParamIdx]
+    // If the program is active (instruction pointer > 0), run a cycle.
+    if Params.InstructionPtr >= 0 {
+        RunCodeCycle(ParamIdx, Params.InstructionPtr, "Interaction")
+    }
+    // If the object is moving, handle movement.
+    if (Params.StepX != 0) || (Params.StepY != 0) {
+        // Try to move.  If blocked, send THUD.
+        let Tile = BoardTiles[Params.X + Params.StepX][Params.Y + Params.StepY]
+        if TileTypes[Tile.Type].Passable == 0 {
+            Send(-ParamIdx, "THUD", 0)
+        } else {
+            MoveTileWIthIdx(ParamIdx, Params.X + Params.StepX, Params.Y + Params.StepY)
+        }
     }
 }
 ```

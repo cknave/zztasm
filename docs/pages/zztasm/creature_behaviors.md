@@ -1,8 +1,8 @@
 ---
 title: Creature Behaviors
-keywords: Tick functions, Bear, Bullet, Centipede, Clockwise, Conveyor, Counterclockwise,
-          Duplicator, Head, Lion, Ruffian, Scroll, Segment, Shark, Slime, Spinning Gun, Star,
-          Tiger, Transporter
+keywords: Tick functions, Bear, Blink wall, Bullet, Centipede, Clockwise, Conveyor,
+          Counterclockwise, Duplicator, Head, Lion, Ruffian, Scroll, Segment, Shark, Slime,
+          Spinning Gun, Star, Tiger, Transporter
 sidebar: zztasm_sidebar
 permalink: creature_behaviors.html
 ---
@@ -53,6 +53,141 @@ func TickBear(int16 ParamIdx) {
     if DestTile.Type == TTPlayer || DestTile.Type == TTBreakable {
         DieAttackingTile(ParamIdx, DestX, DestY)
     }
+}
+```
+
+
+## Blink wall
+
+Blink walls fire a ray periodically.  The ray destroys destructible tiles, and hurts the
+player while knocking them back.  If the player can't be moved out of the way, they are
+killed immediately.
+
+Although this is implemented as a single procedure in ZZT, I have broken it into several
+smaller functions for clarity.
+
+
+### Tick function
+
+{% include asmlink.html file="creatures/blinkwall.asm" line="5" %}
+
+```swift
+func TickBlinkWall(int16 ParamIdx) {
+    let Params = BoardParams[ParamIdx]
+    // If the current time is 0, reset it to the starting time.
+    if Params.Param3 == 0 {  // current time
+        Params.Param3 = Params.Param1 + 1  // starting time
+    }
+
+    // Each tick, count current time down to 1.
+    if Params.Param3 != 1 {  // current time
+        Params.Param3 -= 1
+        return
+    }
+
+    // Either erase a ray or fire a ray.
+    if EraseRay(Params) {
+        return
+    }
+    FireRay(Params)
+
+    // Reset the timer to the beginning of the period (in double ticks) plus 1
+    Params.Param3 = 2*Params.Param2 + 1
+}
+
+
+//
+// Erase the ray from this blinkwall, returning if any tiles were erased.
+//
+func EraseRay(ParamRecord* Params) -> Bool {
+    var DestX = Params.X + Params.StepX
+    var DestY = Params.Y + Params.StepY
+    let RayType = (Params.StepX == 0) ? TTBlinkRayV : TTBlinkRayH  // vert or horiz ray?
+    let RayColor = BoardTiles[Params.X][Params.Y].Color
+    while true {
+        // Only erase rays in the correct direction and color
+        let Tile = BoardTiles[DestX][DestY]
+        if (Tile.Type == RayType) && (Tile.Color == RayColor) {
+            // Erase the tile
+            BoardTiles[DestX][DestY].Type = TTEmpty
+            DrawTile(DestX, DestY)
+            // Advance to the next
+            DestX += Params.StepX
+            DestY += Params.StepY
+            // Set the timer to the beginning of the period (in double ticks) plus 1
+            Params.Param3 = 2*Params.Param2 + 1
+        }
+    }
+    // If we're still 1 tile past the start point, we didn't move.
+    return (DestX != Params.X + Params.StepX) && (DestY != Params.Y + Params.StepY)
+}
+
+
+//
+// Fire a ray from this blinkwall
+//
+func FireRay(ParamRecord* Params) {
+    var DestX = Params.X + Params.StepX
+    var DestY = Params.Y + Params.StepY
+    var StopLoop = false
+    do {
+        // Destroy any destructible tiles in the way
+        let Tile = BoardTiles[DestX][DestY]
+        if (Tile.Type != TTEmpty) && (TileTypes[Tile.Type].Destructible != 0) {
+            Destroy(DestX, DestY)
+        }
+        // Hurt and move the player if they intersect the ray
+        if Tile.Type == TTPlayer {
+            // If the player is now dead, we can stop.
+            StopLoop = PushOrKillPlayer(Params, DestX, DestY)
+        }
+        // Try adding rays until we hit a non-empty tile.
+        if Tile.Type != TTEmpty {
+            StopLoop = 1
+        } else {
+        }
+        // Advance to the next tile
+        DestX += Params.StepX
+        DestY += Params.StepY
+    } while !StopLoop
+}
+
+
+//
+// Push the player out of the way, hurting them.  If not possible, kill them.
+// Return true if player was killed.
+//
+func PushOrKillPlayer(ParamRecord* Params, int16 X, int16 Y) -> Bool {
+    let PlayerParamIdx = ParamIdxForXY(X, Y)  // should always be 0
+    if Params.StepX == 0 {
+        // Firing vertically; try moving the player horizontally
+        if BoardTiles[DestX+1][DestY] == TTEmpty {
+            // Move the player into the empty space to the east
+            MoveTileWithIdx(PlayerParamIdx, DestX + 1, DestY)
+        } else if BoardTiles[DestX-1][DestY] == TTEmpty {
+            // BUG!  We checked to the west, but we're still moving the player east.
+            MoveTileWithIdx(PlayerParamIdx, DestX + 1, DestY)
+        }
+    } else {
+        // Firing horizontally; try moving the player vertically
+        if BoardTiles[DestX][DestY-1] == TTEmpty {
+            // Move the player into the empty space to the north
+            MoveTileWithIdx(PlayerParamIdx, DestX, DestY - 1)
+        } else if BoardTiles[DestX][DestY+1] == TTEmpty {
+            // Move the player into the empty space to the south
+            MoveTileWithIdx(PlayerParamIdx, DestX, DestY + 1)
+        }
+    }
+
+    // If the player isn't there any more, we don't have to kill them
+    if BoardTiles[DestX][DestY] != TTPlayer {
+        return false
+    }
+    // Drain player's health until they're dead
+    while(CurrentHealth > 0) {
+        Attack(PlayerParamIdx)
+    }
+    return true
 }
 ```
 

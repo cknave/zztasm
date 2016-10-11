@@ -625,19 +625,29 @@ static Bytes_0(void) {
 	MakeCode	(0X10950);
 	MakeStr		(0X10967,	0X10969);
 	MakeCode	(0X10969);
+	MakeName	(0X10969,	"TickMessenger");
 	MakeCode	(x=0X10974);
 	OpHex		(x,	1);
 	MakeCode	(x=0X10978);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1097B);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X10982);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X10986);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X10989);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1098C);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1098F);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(0X10999);
 	MakeCode	(x=0X109AF);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X109B2);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X109C3);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X109C9);
@@ -651,10 +661,16 @@ static Bytes_0(void) {
 	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X109EB);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X109EE);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X109F5);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X109F8);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X109FC);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X109FF);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X10A06);
 	OpStkvar	(x,	0);
 	MakeCode	(0X10A25);
@@ -3998,6 +4014,15 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X12B01);
 	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_1(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X12B0A);
 	OpOff		(x,	0,	0X256D0);
 	OpOff		(x,	128,	0X256D0);
@@ -4019,15 +4044,6 @@ static Bytes_0(void) {
 	MakeCode	(x=0X12B24);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_1(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X12B29);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X12B2C);
@@ -6016,29 +6032,94 @@ static Bytes_1(void) {
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
 	MakeCode	(0X142A3);
+	MakeName	(0X142A3,	"TouchBoardEdge");
 	MakeCode	(x=0X142AE);
 	OpHex		(x,	1);
-	MakeCode	(0X142D6);
-	MakeCode	(0X142EB);
-	MakeCode	(0X14300);
+	MakeCode	(x=0X142B6);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X142BE);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X142C1);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X142CC);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X142CF);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X142D6);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X142DF);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X142E4);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X142EB);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X142F4);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X142F9);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X14300);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X14305);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X1430A);
+	OpStkvar	(x,	1);
 	MakeCode	(0X14317);
+	MakeCode	(x=0X1431A);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X1431D);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1432C);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X1432F);
 	OpHex		(x,	1);
+	MakeCode	(x=0X14333);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X14346);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X14349);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X1434C);
+	OpStkvar	(x,	0);
 	MakeCode	(x=0X1434F);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X14354);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X14359);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X1435C);
 	OpHex		(x,	1);
+	MakeCode	(x=0X14360);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1437D);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X14380);
 	OpHex		(x,	1);
+	MakeCode	(x=0X14384);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X143A4);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X143A7);
 	OpHex		(x,	1);
+	MakeCode	(x=0X143AB);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X143BE);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X143C1);
 	OpHex		(x,	1);
-	MakeCode	(0X14402);
+	MakeCode	(x=0X143C5);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X143DB);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X143DE);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X143EB);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X143F3);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X14402);
+	OpStkvar	(x,	0);
 	MakeByte	(0X14410);
 	MakeArray	(0X14410,	0X5);
 	MakeName	(0X14410,	"sndWater");
@@ -6545,9 +6626,12 @@ static Bytes_1(void) {
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
 	MakeCode	(0X14D75);
+	ExtLinA		(0X14D91,	0,	"; Key code bitmap: ESC, 'A', 'E', 'H', 'N', 'P', 'Q', 'R', 'S', 'W', '|'");
 	MakeByte	(0X14D91);
 	MakeArray	(0X14D91,	0X20);
+	MakeName	(0X14D91,	"MonitorKeyBitmap");
 	MakeCode	(0X14DB1);
+	MakeName	(0X14DB1,	"TickMonitor");
 	MakeCode	(x=0X14DC5);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
@@ -7473,8 +7557,14 @@ static Bytes_1(void) {
 	MakeCode	(x=0X15E93);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X15EA1);
+	OpOff		(x,	1,	0X10930);
+	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X15EA4);
 	OpSeg		(x,	1);
+	MakeCode	(x=0X15EAE);
+	OpOff		(x,	1,	0X10930);
+	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X15EB1);
 	OpSeg		(x,	1);
 	MakeCode	(0X15EDE);
@@ -8397,6 +8487,15 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X16F1D);
 	OpStkvar	(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_2(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X16F21);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X16F27);
@@ -8516,15 +8615,6 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X170F3);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_2(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X170F6);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X17107);
@@ -14255,6 +14345,15 @@ static Bytes_2(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1D117);
 	OpStkvar	(x,	0);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_3(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X1D11D);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1D121);
@@ -14368,15 +14467,6 @@ static Bytes_2(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1D323);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_3(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X1D329);
 	OpOff		(x,	1,	0X1B400);
 	OpOff		(x,	129,	0X1B400);
@@ -19605,6 +19695,15 @@ static Bytes_3(void) {
 	MakeComm	(0X22E8B,	"Video status bits:\n0: retrace.  1=display is in vert or horiz retrace.\n1: 1=light pen is triggered; 0=armed\n2: 1=light pen switch is open; 0=closed\n3: 1=vertical sync pulse is occurring.");
 	MakeCode	(x=0X22E8C);
 	OpHex		(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_4(void) {
+        auto x;
+#define id x
+
 	MakeComm	(0X22E91,	"Video status bits:\n0: retrace.  1=display is in vert or horiz retrace.\n1: 1=light pen is triggered; 0=armed\n2: 1=light pen switch is open; 0=closed\n3: 1=vertical sync pulse is occurring.");
 	MakeCode	(x=0X22E92);
 	OpHex		(x,	1);
@@ -19642,15 +19741,6 @@ static Bytes_3(void) {
 	MakeCode	(x=0X23006);
 	OpHex		(x,	1);
 	MakeComm	(0X2300B,	"Video status bits:\n0: retrace.  1=display is in vert or horiz retrace.\n1: 1=light pen is triggered; 0=armed\n2: 1=light pen switch is open; 0=closed\n3: 1=vertical sync pulse is occurring.");
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_4(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X2300C);
 	OpHex		(x,	1);
 	MakeStr		(0X23032,	0X23059);
@@ -20275,8 +20365,16 @@ static Bytes_4(void) {
 	OpHex		(x,	1);
 	MakeCode	(0X24490);
 	MakeCode	(0X244AF);
+	MakeName	(0X244AF,	"CheckBitmap");
+	MakeComm	(0X244B1,	"es:di = *Ptr");
+	MakeCode	(x=0X244B1);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X244B5);
+	OpStkvar	(x,	1);
+	MakeComm	(0X244BF,	"upper 5 bits of value is the offset into the bitmap");
 	MakeCode	(x=0X244C3);
 	OpHex		(x,	1);
+	MakeComm	(0X244C8,	"set the nth bit of al where n is the lower 3 bits of the value");
 	MakeCode	(0X244D0);
 	MakeCode	(0X244EC);
 	MakeCode	(0X2450A);
@@ -20707,6 +20805,9 @@ static Bytes_4(void) {
 	MakeCode	(0X25677);
 	MakeCode	(0X2567E);
 	MakeCode	(0X256B0);
+	MakeName	(0X256B0,	"ToUpper");
+	MakeCode	(x=0X256B2);
+	OpStkvar	(x,	1);
 	MakeArray	(0X256C3,	0XD);
 	MakeWord	(0X25A9E);
 	MakeArray	(0X25A9E,	0X8);
@@ -20804,6 +20905,7 @@ static Bytes_4(void) {
 	MakeByte	(0X2A189);
 	MakeByte	(0X2A199);
 	MakeByte	(0X2A19A);
+	MakeName	(0X2A19A,	"ShouldHandleKeyPress");
 	MakeWord	(0X2A19C);
 	MakeWord	(0X2A19E);
 	MakeWord	(0X2A1A0);
@@ -20862,6 +20964,7 @@ static Bytes_4(void) {
 	MakeByte	(0X2DF9C);
 	MakeByte	(0X2DF9D);
 	MakeByte	(0X2DF9E);
+	MakeName	(0X2DF9E,	"LastKeyCode");
 	MakeWord	(0X2DFA0);
 	MakeWord	(0X2DFA2);
 	MakeWord	(0X2DFA4);
@@ -20948,6 +21051,8 @@ static Functions_0(void) {
 	MakeFunction    (0X10969,0X10A25);
 	SetFunctionFlags(0X10969,0x12);
 	MakeFrame(0X10969, 0X104, 2, 0X2);
+	MakeLocal(0X10969, 0X10A25, "[bp-0X4]", "ParamPtr");
+	MakeLocal(0X10969, 0X10A25, "[bp+0X6]", "ParamIdx");
 	MakeFunction    (0X10A25,0X10A43);
 	SetFunctionFlags(0X10A25,0x12);
 	MakeFrame(0X10A25, 0X0, 2, 0XE);
@@ -21312,6 +21417,9 @@ static Functions_0(void) {
 	MakeLocal(0X13EBA, 0X140B1, "[bp+0X6]", "ParamIdx");
 	MakeNameEx(0X13FCB, "MovePusher", SN_LOCAL);
 	MakeNameEx(0X140AB, "DoneTickPusher", SN_LOCAL);
+	MakeFunction    (0X142A3,0X14410);
+	SetFunctionFlags(0X142A3,0x12);
+	MakeFrame(0X142A3, 0X8, 2, 0XE);
 	MakeFunction    (0X14433,0X1445F);
 	SetFunctionFlags(0X14433,0x12);
 	MakeFrame(0X14433, 0X0, 2, 0XE);
@@ -21367,6 +21475,7 @@ static Functions_0(void) {
 	MakeFunction    (0X14DB1,0X14DDC);
 	SetFunctionFlags(0X14DB1,0x12);
 	MakeFrame(0X14DB1, 0X0, 2, 0X2);
+	MakeNameEx(0X14DD6, "DoneTickMonitor", SN_LOCAL);
 	MakeFunction    (0X14DDC,0X14E21);
 	SetFunctionFlags(0X14DDC,0x12);
 	MakeFrame(0X14DDC, 0X0, 2, 0X0);
@@ -22142,6 +22251,8 @@ static Functions_0(void) {
 	MakeFunction    (0X244AF,0X244D0);
 	SetFunctionFlags(0X244AF,0x2);
 	MakeFrame(0X244AF, 0X0, 0, 0X6);
+	MakeLocal(0X244AF, 0X244D0, "[bp+0X4]", "Bitmap");
+	MakeLocal(0X244AF, 0X244D0, "[bp+0X8]", "Value");
 	MakeFunction    (0X2455B,0X2455F);
 	SetFunctionFlags(0X2455B,0x0);
 	MakeFunction    (0X2455F,0X24622);
@@ -22303,6 +22414,7 @@ static Functions_0(void) {
 	MakeFunction    (0X256B0,0X256C3);
 	SetFunctionFlags(0X256B0,0x2);
 	MakeFrame(0X256B0, 0X0, 0, 0X2);
+	MakeLocal(0X256B0, 0X256C3, "[bp+0X4]", "Character");
 }
 
 //------------------------------------------------------------------------

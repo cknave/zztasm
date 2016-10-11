@@ -1,8 +1,8 @@
 ---
 title: Creature Behaviors
 keywords: Tick functions, Bear, Blink wall, Bullet, Centipede, Clockwise, Conveyor,
-          Counterclockwise, Duplicator, Head, Lion, Object, Ruffian, Scroll, Segment, Shark,
-          Slime, Spinning Gun, Star, Tiger, Transporter
+          Counterclockwise, Duplicator, Head, Lion, Monitor, Object, Ruffian, Scroll,
+          Segment, Shark, Slime, Spinning Gun, Star, Tiger, Transporter
 sidebar: zztasm_sidebar
 permalink: creature_behaviors.html
 ---
@@ -590,6 +590,28 @@ func TickObject(int16 ParamIdx) {
 }
 ```
 
+
+## Monitor
+
+This tile replaces the player on the title screen and listens for relevant key presses.
+
+### Tick function
+
+{% include asmlink.html file="creatures/monitor.asm" line="10" %}
+
+```swift
+func TickMonitor(int16 ParamIdx) {
+    // Bitmap of keycodes: ESC, 'A', 'E', 'H', 'N', 'P', 'Q', 'R', 'S', 'W', '|'
+    let MonitorKeyBitmap = [0x00, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00, 0x22, 0x41,
+                            0x8f, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00,
+                            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                            0x00, 0x00]
+    let KeyCode = ToUpper(LastKeyCode)  // global variable of last keycode value
+    if CheckBitmap(KeyCode, MonitorKeyBitmap) {
+        ShouldHandleKeyPress = true  // global variable to handle the current keypress
+    }
+}
+```
 
 ## Ruffian
 

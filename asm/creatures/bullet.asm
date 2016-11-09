@@ -267,13 +267,15 @@ CheckCounRicochet:                      ; CODE XREF: TickBullet+16D↑j
 ; Hit an indestructible tile, we die!
 ;
 
+; Remove this param record, and decrement the current param index
+
 BulletDies:                             ; CODE XREF: TickBullet+1E4↑j
                                         ; TickBullet+1EA↑j
                 push    [bp+ParamIdx]
                 call    RemoveParamIdx
-                mov     ax, MYSTERYParamCount ; Seems to be BoardParamCount+1... what is this for?
+                mov     ax, CurrentParamIdx ; index of the param record being handled
                 dec     ax
-                mov     MYSTERYParamCount, ax ; Seems to be BoardParamCount+1... what is this for?
+                mov     CurrentParamIdx, ax ; index of the param record being handled
 ; If we hit an object or scroll, send it to SHOT
                 cmp     [bp+TypeAtNextPos], TTObject
                 jz      short SendObjectShot

@@ -260,8 +260,9 @@ func TickBullet(int16 ParamIdx) {
         // We didn't ricochet, so either die hitting a destructible tile or attack a
         // destructible one.
         if TileTypes[NextTileType].Destructible == 0 {
+            // Remove the param record, and decrement the current index
             RemoveParamAtIdx(ParamIdx)
-            MYSTERYParamCount -= 1  // TODO: what is this thing?
+            CurrentParamIdx -= 1
             // If we hit an object or scroll, send it to SHOT.
             if (NextTileType == TTObject) || (NextTileType == TTScroll) {
                 let DestIdx = ParamIdxForXY(NextX, NextY)

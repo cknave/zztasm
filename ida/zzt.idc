@@ -37,10 +37,10 @@ static GenInfo(void) {
 	Tabs(1);
 	Comments(0);
 	Voids(0);
-	XrefShow(0);
+	XrefShow(2);
 	AutoShow(1);
-	Indent(0);
-	CmtIndent(24);
+	Indent(16);
+	CmtIndent(40);
 	TailDepth(0x10);
 }
 
@@ -620,10 +620,15 @@ static Bytes_0(void) {
 	MakeByte	(0X10928);
 	MakeArray	(0X10928,	0X8);
 	MakeCode	(0X10930);
+	MakeName	(0X10930,	"TickNoOp");
 	MakeCode	(0X10940);
 	MakeName	(0X10940,	"TouchNoOp");
 	MakeCode	(0X10950);
+	MakeName	(0X10950,	"DrawUnknown");
+	MakeCode	(x=0X1095A);
+	OpStkvar	(x,	1);
 	MakeStr		(0X10967,	0X10969);
+	MakeName	(0X10967,	"a_space");
 	MakeCode	(0X10969);
 	MakeName	(0X10969,	"TickMessenger");
 	MakeCode	(x=0X10974);
@@ -639,15 +644,31 @@ static Bytes_0(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X10989);
 	OpStkvar	(x,	0);
+	ExtLinA		(0X1098C,	0,	";");
+	ExtLinA		(0X1098C,	1,	"; Only show a message if our X coordinate is 0");
+	ExtLinA		(0X1098C,	2,	";");
 	MakeCode	(x=0X1098C);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1098F);
 	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X10999,	0,	";");
+	ExtLinA		(0X10999,	1,	"; Display the message in a different color every tick");
+	ExtLinA		(0X10999,	2,	";");
+	ExtLinA		(0X10999,	3,	"");
+	ExtLinA		(0X10999,	4,	"; Get the message X position, centered horizontally");
 	MakeCode	(0X10999);
+	MakeCode	(x=0X109A0);
+	OpDecimal	(x,	1);
+	ExtLinA		(0X109AC,	0,	"; Draw the message at the bottom of the screen");
+	MakeCode	(x=0X109AC);
+	OpDecimal	(x,	1);
+	ExtLinA		(0X109AF,	0,	"; Cycle between the 7 bright colors");
 	MakeCode	(x=0X109AF);
 	OpStkvar	(x,	1);
+	MakeComm	(0X109B2,	"ticks left");
 	MakeCode	(x=0X109B2);
 	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X109C3,	0,	"; Pad the message with a space on either side");
 	MakeCode	(x=0X109C3);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X109C9);
@@ -659,6 +680,7 @@ static Bytes_0(void) {
 	MakeCode	(x=0X109DD);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
+	ExtLinA		(0X109EB,	0,	"; Decrement the ticks left");
 	MakeCode	(x=0X109EB);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X109EE);
@@ -669,10 +691,16 @@ static Bytes_0(void) {
 	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X109FC);
 	OpStkvar	(x,	1);
+	ExtLinA		(0X109FF,	0,	";");
+	ExtLinA		(0X109FF,	1,	"; If there's no ticks left, die and clear the message");
+	ExtLinA		(0X109FF,	2,	";");
 	MakeCode	(x=0X109FF);
 	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X10A06,	0,	"; Remove this messenger, and decrement the current param index");
 	MakeCode	(x=0X10A06);
 	OpStkvar	(x,	0);
+	ExtLinA		(0X10A15,	0,	"; Clear the on-screen message");
+	ExtLinA		(0X10A1A,	0,	"; Clear the current message buffer");
 	MakeCode	(0X10A25);
 	MakeName	(0X10A25,	"TouchDieAttacking");
 	MakeCode	(x=0X10A2F);
@@ -2667,6 +2695,8 @@ static Bytes_0(void) {
 	ExtLinA		(0X11ABA,	0,	";");
 	ExtLinA		(0X11ABA,	1,	"; Hit an indestructible tile, we die!");
 	ExtLinA		(0X11ABA,	2,	";");
+	ExtLinA		(0X11ABA,	3,	"");
+	ExtLinA		(0X11ABA,	4,	"; Remove this param record, and decrement the current param index");
 	MakeCode	(x=0X11ABA);
 	OpStkvar	(x,	0);
 	ExtLinA		(0X11AC9,	0,	"; If we hit an object or scroll, send it to SHOT");
@@ -3943,6 +3973,15 @@ static Bytes_0(void) {
 	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X12A85);
 	OpHex		(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_1(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X12A89);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X12A8C);
@@ -4014,15 +4053,6 @@ static Bytes_0(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X12B01);
 	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_1(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X12B0A);
 	OpOff		(x,	0,	0X256D0);
 	OpOff		(x,	128,	0X256D0);
@@ -6332,6 +6362,7 @@ static Bytes_1(void) {
 	MakeStr		(0X14601,	0X14611);
 	MakeName	(0X14601,	"aEndThisGame?");
 	MakeCode	(0X14611);
+	MakeName	(0X14611,	"PromptQuit");
 	MakeCode	(x=0X1462E);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
@@ -6386,12 +6417,14 @@ static Bytes_1(void) {
 	ExtLinA		(0X14781,	1,	"; Check if the player is energized");
 	ExtLinA		(0X14781,	2,	";");
 	ExtLinA		(0X1478B,	0,	"; Toggle the player character between 01 and 02");
-	MakeCode	(0X1478B);
-	MakeCode	(0X14799);
+	MakeCode	(x=0X1478B);
+	MakeCode	(x=0X14792);
+	MakeCode	(x=0X14799);
 	ExtLinA		(0X1479E,	0,	";");
 	ExtLinA		(0X1479E,	1,	"; Cycle through background colors");
 	ExtLinA		(0X1479E,	2,	"; TODO(kvance): what are these values?");
 	ExtLinA		(0X1479E,	3,	";");
+	ExtLinA		(0X147AC,	0,	"; Set the player tile's color to white on black");
 	MakeCode	(x=0X147AC);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X147AF);
@@ -6407,6 +6440,7 @@ static Bytes_1(void) {
 	MakeCode	(x=0X147CA);
 	OpOff		(x,	0,	0X256D0);
 	OpOff		(x,	128,	0X256D0);
+	ExtLinA		(0X147D1,	0,	"; Set the player tile's color to white on the next BG color");
 	MakeCode	(0X147D1);
 	MakeCode	(x=0X147E6);
 	OpStkvar	(x,	1);
@@ -6423,6 +6457,7 @@ static Bytes_1(void) {
 	MakeCode	(x=0X14804);
 	OpOff		(x,	0,	0X256D0);
 	OpOff		(x,	128,	0X256D0);
+	ExtLinA		(0X14808,	0,	"; Draw the energized player");
 	MakeCode	(x=0X14808);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1480B);
@@ -6448,6 +6483,7 @@ static Bytes_1(void) {
 	OpOff		(x,	0,	0X256D0);
 	OpOff		(x,	128,	0X256D0);
 	ExtLinA		(0X14847,	0,	"; Check if the character is correct");
+	MakeCode	(x=0X14847);
 	ExtLinA		(0X1484E,	0,	"; Reset the player color back to 1F and char back to 2");
 	MakeCode	(x=0X1484E);
 	OpStkvar	(x,	1);
@@ -6473,8 +6509,11 @@ static Bytes_1(void) {
 	MakeCode	(x=0X14882);
 	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	ExtLinA		(0X1488E,	0,	";");
-	ExtLinA		(0X1488E,	1,	"; Check if player is dead");
+	ExtLinA		(0X1488E,	1,	"; If the player has no health, end the game");
 	ExtLinA		(0X1488E,	2,	";");
+	MakeCode	(x=0X148AF);
+	OpSign		(x,	1);
+	OpHex		(x,	1);
 	MakeCode	(x=0X148B8);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
@@ -6500,12 +6539,34 @@ static Bytes_1(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X14971);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X14974);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1497B);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X14981);
 	OpHex		(x,	1);
 	MakeCode	(x=0X14985);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X14988);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1498F);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X14995);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X1499E);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
 	MakeCode	(x=0X149A5);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X149A8);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X149AF);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	OpEnumEx		(x,	1,	GetEnum("ShootOwner"),0);
 	MakeCode	(x=0X149B6);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X149BA);
@@ -6524,12 +6585,19 @@ static Bytes_1(void) {
 	MakeCode	(x=0X14A09);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
+	ExtLinA		(0X14A20,	0,	";");
+	ExtLinA		(0X14A20,	1,	"; If the player has an X or Y step, send touch to their destination");
+	ExtLinA		(0X14A20,	2,	";");
 	MakeCode	(0X14A20);
 	MakeCode	(0X14A31);
 	MakeCode	(x=0X14A3D);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X14A40);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X14A4A);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X14A4D);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X14A5B);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
@@ -6538,17 +6606,48 @@ static Bytes_1(void) {
 	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X14A65);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X14A68);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X14A72);
 	OpHex		(x,	1);
 	MakeCode	(x=0X14A76);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X14A79);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X14A82);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X14A8B);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X14A91);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X14A98);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
+	ExtLinA		(0X14A9C,	0,	";");
+	ExtLinA		(0X14A9C,	1,	"; Check if the player is still moving after calling the touch function");
+	ExtLinA		(0X14A9C,	2,	";");
 	MakeCode	(0X14AAD);
 	MakeCode	(x=0X14AC4);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X14AC7);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X14AD1);
 	OpHex		(x,	1);
 	MakeCode	(x=0X14AD5);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X14AD8);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X14AE1);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X14AEA);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X14AF0);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X14AF7);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
 	MakeCode	(x=0X14B14);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X14B21);
@@ -6636,6 +6735,7 @@ static Bytes_1(void) {
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
 	MakeCode	(0X14DDC);
+	MakeName	(0X14DDC,	"ResetShouldSayFlags");
 	MakeStr		(0X14E21,	0X14E27);
 	MakeName	(0X14E21,	"aEmpty");
 	MakeStr		(0X14E27,	0X14E2F);
@@ -6825,6 +6925,11 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1510D);
 	OpStroffEx	(x,	0,	GetStrucIdByName("TileType"),	0);
+	OpSign		(x,	1);
+	OpHex		(x,	1);
+	MakeCode	(x=0X15113);
+	OpOff		(x,	1,	0X10930);
+	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X15116);
 	OpSeg		(x,	1);
 	MakeCode	(x=0X15119);
@@ -6833,6 +6938,9 @@ static Bytes_1(void) {
 	OpStroffEx	(x,	0,	GetStrucIdByName("TileType"),	0);
 	MakeCode	(x=0X15120);
 	OpStroffEx	(x,	0,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X15124);
+	OpOff		(x,	1,	0X10930);
+	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X15127);
 	OpSeg		(x,	1);
 	MakeCode	(x=0X1512A);
@@ -6841,6 +6949,9 @@ static Bytes_1(void) {
 	OpStroffEx	(x,	0,	GetStrucIdByName("TileType"),	0);
 	MakeCode	(x=0X15131);
 	OpStroffEx	(x,	0,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X15135);
+	OpOff		(x,	1,	0X10930);
+	OpOff		(x,	129,	0X10930);
 	MakeCode	(x=0X15138);
 	OpSeg		(x,	1);
 	MakeCode	(x=0X1513B);
@@ -8185,6 +8296,7 @@ static Bytes_1(void) {
 	MakeStr		(0X169C5,	0X169CA);
 	MakeName	(0X169C5,	"aSec");
 	MakeCode	(0X169CA);
+	MakeName	(0X169CA,	"BoardInfoDialog");
 	MakeCode	(x=0X169D5);
 	OpHex		(x,	1);
 	MakeCode	(x=0X169D9);
@@ -8214,6 +8326,15 @@ static Bytes_1(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X16A32);
 	OpStkvar	(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_2(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X16A36);
 	OpHex		(x,	1);
 	MakeCode	(x=0X16A38);
@@ -8487,15 +8608,6 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X16F1D);
 	OpStkvar	(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_2(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X16F21);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X16F27);
@@ -13404,6 +13516,7 @@ static Bytes_2(void) {
 	OpOff		(x,	1,	0X1B400);
 	OpOff		(x,	129,	0X1B400);
 	MakeCode	(0X1BF89);
+	MakeName	(0X1BF89,	"RedrawBorder");
 	MakeCode	(x=0X1BF94);
 	OpHex		(x,	1);
 	MakeCode	(x=0X1BF97);
@@ -13414,18 +13527,24 @@ static Bytes_2(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1BFAC);
 	OpStkvar	(x,	0);
+	MakeCode	(x=0X1BFAF);
+	OpDecimal	(x,	1);
 	MakeCode	(x=0X1BFB7);
 	OpStkvar	(x,	0);
+	OpDecimal	(x,	1);
 	MakeCode	(x=0X1BFBD);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1BFC4);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1BFCB);
 	OpStkvar	(x,	0);
+	MakeCode	(x=0X1BFD2);
+	OpDecimal	(x,	1);
 	MakeCode	(x=0X1BFD6);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1BFDD);
 	OpStkvar	(x,	0);
+	OpDecimal	(x,	1);
 	MakeCode	(0X1BFE7);
 	MakeCode	(x=0X1BFF2);
 	OpHex		(x,	1);
@@ -14071,6 +14190,15 @@ static Bytes_2(void) {
 	OpOff		(x,	129,	0X1B400);
 	MakeCode	(x=0X1CBE7);
 	OpStkvar	(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_3(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X1CBED);
 	OpOff		(x,	1,	0X1B400);
 	OpOff		(x,	129,	0X1B400);
@@ -14345,15 +14473,6 @@ static Bytes_2(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1D117);
 	OpStkvar	(x,	0);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_3(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X1D11D);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1D121);
@@ -14815,12 +14934,23 @@ static Bytes_3(void) {
 	OpHex		(x,	1);
 	MakeCode	(x=0X1D789);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1D78C);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1D793);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X1D797);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1D79A);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1D79D);
 	OpStkvar	(x,	1);
+	ExtLinA		(0X1D7A0,	0,	";");
+	ExtLinA		(0X1D7A0,	1,	"; If this record has the last reference to code, free the code");
+	ExtLinA		(0X1D7A0,	2,	";");
+	MakeCode	(x=0X1D7A0);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X1D7A7,	0,	"; Loop over all param records (unless this is the only record)");
 	MakeCode	(x=0X1D7AA);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1D7B0);
@@ -14831,36 +14961,82 @@ static Bytes_3(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1D7BD);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1D7C0);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1D7C7);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X1D7CD);
 	OpStkvar	(x,	1);
+	ExtLinA		(0X1D7D0,	0,	"; Check if the addresses are the same");
+	MakeCode	(x=0X1D7D0);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1D7D6);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X1D7DC,	0,	"; Make sure we're not checking against ourself");
 	MakeCode	(x=0X1D7DC);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1D7DF);
 	OpStkvar	(x,	1);
+	ExtLinA		(0X1D7E4,	0,	"; Found another reference!  Stop the search, free nothing.");
 	MakeCode	(x=0X1D7E6);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1D7E9);
 	OpStkvar	(x,	1);
+	ExtLinA		(0X1D7EE,	0,	";");
+	ExtLinA		(0X1D7EE,	1,	"; Got to the end and found no other references.");
+	ExtLinA		(0X1D7EE,	2,	"; The code can be freed.");
+	ExtLinA		(0X1D7EE,	3,	";");
 	MakeCode	(x=0X1D7EE);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1D7F1);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1D7F5);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1D7F9);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1D7FC);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X1D805,	0,	"; If we're deleting below the currently handled param record index,");
+	ExtLinA		(0X1D805,	1,	"; update its index so it's not off by 1");
 	MakeCode	(x=0X1D805);
 	OpStkvar	(x,	1);
+	ExtLinA		(0X1D815,	0,	";");
+	ExtLinA		(0X1D815,	1,	"; Replace the board tile with the param record's under tile");
+	ExtLinA		(0X1D815,	2,	";");
 	MakeCode	(x=0X1D815);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1D818);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1D81C);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1D81F);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1D825);
 	OpHex		(x,	1);
 	MakeCode	(x=0X1D829);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1D82C);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1D831);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X1D83A);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
 	MakeCode	(x=0X1D83E);
 	OpStkvar	(x,	1);
+	ExtLinA		(0X1D841,	0,	"; If the tile is onscreen, redraw it");
+	MakeCode	(x=0X1D841);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1D848);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1D84B);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1D851);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1D854);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	ExtLinA		(0X1D85F,	0,	"; TODO(kvance): continue annotating this function");
 	MakeCode	(x=0X1D862);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1D868);
@@ -15626,10 +15802,19 @@ static Bytes_3(void) {
 	MakeName	(0X1E2EA,	"SayMessage");
 	MakeCode	(x=0X1E2F5);
 	OpHex		(x,	1);
+	ExtLinA		(0X1E2F9,	0,	";");
+	ExtLinA		(0X1E2F9,	1,	"; Make a copy of the message");
+	ExtLinA		(0X1E2F9,	2,	";");
 	MakeCode	(x=0X1E2F9);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1E2FE);
 	OpStkvar	(x,	1);
+	ExtLinA		(0X1E30D,	0,	";");
+	ExtLinA		(0X1E30D,	1,	"; Remove any existing messenger at (0,0)");
+	ExtLinA		(0X1E30D,	2,	";");
+	MakeCode	(x=0X1E317);
+	OpSign		(x,	1);
+	OpHex		(x,	1);
 	MakeCode	(x=0X1E32F);
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1E33C);
@@ -16613,6 +16798,8 @@ static Bytes_3(void) {
 	OpHex		(x,	1);
 	MakeCode	(x=0X1F3D6);
 	OpStkvar	(x,	0);
+	MakeCode	(x=0X1F3DA);
+	OpDecimal	(x,	1);
 	MakeCode	(x=0X1F3F7);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
@@ -16643,6 +16830,16 @@ static Bytes_3(void) {
 	OpOff		(x,	129,	0X256D0);
 	MakeCode	(x=0X1F4EA);
 	OpHex		(x,	1);
+	MakeCode	(x=0X1F4F7);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X1F500);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X1F506);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X1F50D);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
 	MakeCode	(0X1F522);
 	MakeCode	(x=0X1F52B);
 	OpHex		(x,	1);
@@ -16666,16 +16863,36 @@ static Bytes_3(void) {
 	OpStkvar	(x,	0);
 	MakeCode	(x=0X1F67C);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1F67F);
+	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1F689);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1F68D);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1F697);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1F69B);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1F6A8);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1F6AB);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X1F6B1);
 	OpHex		(x,	1);
 	MakeCode	(x=0X1F6B5);
 	OpStkvar	(x,	1);
+	MakeCode	(x=0X1F6B8);
+	OpStroffEx	(x,	1,	GetStrucIdByName("ParamRecord"),	0);
+	MakeCode	(x=0X1F6BD);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
+	MakeCode	(x=0X1F6C6);
+	OpOff		(x,	1,	0X256D0);
+	OpOff		(x,	129,	0X256D0);
+	MakeCode	(x=0X1F6CC);
+	OpStroffEx	(x,	1,	GetStrucIdByName("TileType"),	0);
+	MakeCode	(x=0X1F6D3);
+	OpOff		(x,	0,	0X256D0);
+	OpOff		(x,	128,	0X256D0);
 	MakeCode	(x=0X1F6EE);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
@@ -19216,6 +19433,15 @@ static Bytes_3(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X22468);
 	OpStkvar	(x,	1);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_4(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X2246B);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X22473);
@@ -19690,41 +19916,77 @@ static Bytes_3(void) {
 	MakeCode	(x=0X22E1A);
 	OpStkvar	(x,	1);
 	MakeCode	(0X22E2C);
+	MakeName	(0X22E2C,	"PutStrB");
 	MakeCode	(x=0X22E37);
 	OpHex		(x,	1);
+	MakeCode	(x=0X22E3A);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X22E3F);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X22E4F);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X22E59);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X22E66);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X22E6A);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X22E87);
+	OpStkvar	(x,	1);
 	MakeComm	(0X22E8B,	"Video status bits:\n0: retrace.  1=display is in vert or horiz retrace.\n1: 1=light pen is triggered; 0=armed\n2: 1=light pen switch is open; 0=closed\n3: 1=vertical sync pulse is occurring.");
 	MakeCode	(x=0X22E8C);
 	OpHex		(x,	1);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_4(void) {
-        auto x;
-#define id x
-
 	MakeComm	(0X22E91,	"Video status bits:\n0: retrace.  1=display is in vert or horiz retrace.\n1: 1=light pen is triggered; 0=armed\n2: 1=light pen switch is open; 0=closed\n3: 1=vertical sync pulse is occurring.");
 	MakeCode	(x=0X22E92);
 	OpHex		(x,	1);
+	MakeCode	(x=0X22EA6);
+	OpStkvar	(x,	1);
 	MakeCode	(0X22EB8);
+	MakeName	(0X22EB8,	"PutStrA");
 	MakeCode	(x=0X22EC3);
 	OpHex		(x,	1);
+	MakeCode	(x=0X22EC6);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X22ECB);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X22ED9);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X22EDC);
 	OpHex		(x,	1);
+	MakeCode	(x=0X22EE2);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X22EE5);
 	OpHex		(x,	1);
-	MakeCode	(0X22EF1);
-	MakeCode	(0X22EF7);
+	MakeCode	(x=0X22EEB);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X22EF1);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X22EF7);
+	OpStkvar	(x,	1);
 	MakeCode	(x=0X22EFA);
 	OpHex		(x,	1);
-	MakeCode	(0X22F06);
+	MakeCode	(x=0X22F00);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X22F06);
+	OpStkvar	(x,	0);
+	MakeCode	(x=0X22F0C);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X22F16);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X22F23);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X22F27);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X22F44);
+	OpStkvar	(x,	1);
 	MakeComm	(0X22F48,	"Video status bits:\n0: retrace.  1=display is in vert or horiz retrace.\n1: 1=light pen is triggered; 0=armed\n2: 1=light pen switch is open; 0=closed\n3: 1=vertical sync pulse is occurring.");
 	MakeCode	(x=0X22F49);
 	OpHex		(x,	1);
 	MakeComm	(0X22F4E,	"Video status bits:\n0: retrace.  1=display is in vert or horiz retrace.\n1: 1=light pen is triggered; 0=armed\n2: 1=light pen switch is open; 0=closed\n3: 1=vertical sync pulse is occurring.");
 	MakeCode	(x=0X22F4F);
 	OpHex		(x,	1);
+	MakeCode	(x=0X22F63);
+	OpStkvar	(x,	1);
 	MakeCode	(0X22F75);
 	MakeCode	(x=0X22F80);
 	OpHex		(x,	1);
@@ -19804,6 +20066,9 @@ static Bytes_4(void) {
 	OpOff		(x,	129,	0X22DA0);
 	MakeCode	(x=0X231A2);
 	OpStkvar	(x,	0);
+	MakeCode	(x=0X231B1);
+	OpOff		(x,	1,	0X22DA0);
+	OpOff		(x,	129,	0X22DA0);
 	MakeCode	(x=0X231B4);
 	OpSeg		(x,	1);
 	MakeCode	(0X231C0);
@@ -19816,6 +20081,9 @@ static Bytes_4(void) {
 	MakeCode	(x=0X23208);
 	OpSeg		(x,	1);
 	MakeCode	(0X23214);
+	MakeCode	(x=0X2321D);
+	OpOff		(x,	1,	0X22DA0);
+	OpOff		(x,	129,	0X22DA0);
 	MakeCode	(x=0X23220);
 	OpSeg		(x,	1);
 	MakeCode	(x=0X23231);
@@ -20081,6 +20349,9 @@ static Bytes_4(void) {
 	MakeCode	(0X2384E);
 	MakeCode	(0X2386E);
 	MakeCode	(0X23876);
+	MakeName	(0X23876,	"Sound");
+	MakeCode	(x=0X23878);
+	OpStkvar	(x,	1);
 	MakeComm	(0X2388A,	"PC/XT PPI port B bits:\n0: Tmr 2 gate ÍËÍ\x10 OR 03H=spkr ON\n1: Tmr 2 data Í¼  AND 0fcH=spkr OFF\n3: 1=read high switches\n4: 0=enable RAM parity checking\n5: 0=enable I/O channel check\n6: 0=hold keyboard clock low\n7: 0=enable kbrd");
 	MakeCode	(x=0X2388A);
 	OpHex		(x,	1);
@@ -20103,6 +20374,7 @@ static Bytes_4(void) {
 	MakeComm	(0X238A3,	"PC/XT PPI port B bits:\n0: Tmr 2 gate ÍËÍ\x10 OR 03H=spkr ON\n1: Tmr 2 data Í¼  AND 0fcH=spkr OFF\n3: 1=read high switches\n4: 0=enable RAM parity checking\n5: 0=enable I/O channel check\n6: 0=hold keyboard clock low\n7: 0=enable kbrd");
 	MakeCode	(x=0X238A3);
 	OpHex		(x,	1);
+	MakeName	(0X238A3,	"SoundOff");
 	MakeCode	(x=0X238A5);
 	OpHex		(x,	1);
 	MakeComm	(0X238A7,	"PC/XT PPI port B bits:\n0: Tmr 2 gate ÍËÍ\x10 OR 03H=spkr ON\n1: Tmr 2 data Í¼  AND 0fcH=spkr OFF\n3: 1=read high switches\n4: 0=enable RAM parity checking\n5: 0=enable I/O channel check\n6: 0=hold keyboard clock low\n7: 0=enable kbrd");
@@ -20258,6 +20530,11 @@ static Bytes_4(void) {
 	MakeName	(0X23EF9,	"Malloc");
 	MakeCode	(0X23F0B);
 	MakeCode	(0X23F11);
+	MakeName	(0X23F11,	"Free");
+	MakeCode	(x=0X23F13);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X23F17);
+	OpStkvar	(x,	1);
 	MakeCode	(0X23F25);
 	MakeCode	(0X23F2B);
 	MakeCode	(0X23F41);
@@ -20315,12 +20592,28 @@ static Bytes_4(void) {
 	MakeCode	(x=0X241F4);
 	OpHex		(x,	1);
 	MakeCode	(0X241FA);
+	MakeName	(0X241FA,	"StrCopy");
+	MakeCode	(x=0X241FF);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X24203);
+	OpStkvar	(x,	1);
 	MakeCode	(0X24214);
-	MakeName	(0X24214,	"StrCopy");
+	MakeName	(0X24214,	"StrNCopy");
+	MakeCode	(x=0X24219);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X2421D);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X24221);
+	OpStkvar	(x,	1);
 	MakeCode	(0X24238);
 	MakeCode	(0X24246);
 	MakeCode	(0X2427B);
 	MakeCode	(0X24287);
+	MakeName	(0X24287,	"StrCat");
+	MakeCode	(x=0X2428C);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X24290);
+	OpStkvar	(x,	1);
 	MakeCode	(0X242B3);
 	MakeName	(0X242B3,	"StrIndexOf");
 	MakeCode	(0X242D6);
@@ -20639,6 +20932,7 @@ static Bytes_4(void) {
 	MakeCode	(x=0X24EB7);
 	OpHex		(x,	1);
 	MakeCode	(0X24EC6);
+	MakeName	(0X24EC6,	"IntToStr");
 	MakeCode	(x=0X24EC9);
 	OpHex		(x,	1);
 	MakeCode	(x=0X24ECC);
@@ -20809,6 +21103,7 @@ static Bytes_4(void) {
 	MakeCode	(x=0X256B2);
 	OpStkvar	(x,	1);
 	MakeArray	(0X256C3,	0XD);
+	MakeWord	(0X256E7);
 	MakeWord	(0X25A9E);
 	MakeArray	(0X25A9E,	0X8);
 	MakeName	(0X25A9E,	"ConveyorXOffsets");
@@ -20847,9 +21142,12 @@ static Bytes_4(void) {
 	MakeDword	(0X25B3C);
 	MakeByte	(0X25B40);
 	MakeWord	(0X25B42);
+	MakeName	(0X25B42,	"OldPlayerXStep");
 	MakeWord	(0X25B44);
+	MakeName	(0X25B44,	"OldPlayerYStep");
 	MakeWord	(0X26BD3);
 	MakeByte	(0X27A8A);
+	MakeName	(0X27ABE,	"SaveFilename");
 	MakeByte	(0X27AF2);
 	MakeByte	(0X27B26);
 	MakeByte	(0X27B5A);
@@ -20863,15 +21161,20 @@ static Bytes_4(void) {
 	MakeName	(0X288A3,	"BoardParams");
 	MakeWord	(0X28FD1);
 	MakeByte	(0X29C3B);
+	MakeName	(0X29C3B,	"MaxShots");
 	MakeByte	(0X29C3C);
+	MakeName	(0X29C3C,	"BoardIsDark");
+	MakeByte	(0X29C3D);
 	MakeByte	(0X29C41);
 	MakeName	(0X29C41,	"ReEnterIfZapped");
 	MakeByte	(0X29C42);
+	MakeName	(0X29C42,	"CurrentMessage");
 	MakeByte	(0X29C7D);
 	MakeName	(0X29C7D,	"EnteredX");
 	MakeByte	(0X29C7E);
 	MakeName	(0X29C7E,	"EnteredY");
 	MakeWord	(0X29C7F);
+	MakeName	(0X29C7F,	"TimeLimit");
 	MakeWord	(0X29C92);
 	MakeWord	(0X29E28);
 	MakeWord	(0X29EF2);
@@ -20893,16 +21196,27 @@ static Bytes_4(void) {
 	MakeByte	(0X2A0F3);
 	MakeByte	(0X2A101);
 	MakeByte	(0X2A17F);
+	MakeName	(0X2A17F,	"ShouldSayAmmo");
 	MakeByte	(0X2A180);
+	MakeName	(0X2A180,	"ShouldSayOutOfAmmo");
 	MakeByte	(0X2A181);
+	MakeName	(0X2A181,	"ShouldSayCantShootHere");
 	MakeByte	(0X2A182);
+	MakeName	(0X2A182,	"ShouldSayTorch");
 	MakeByte	(0X2A183);
+	MakeName	(0X2A183,	"ShouldSayOutOfTorches");
 	MakeByte	(0X2A184);
+	MakeName	(0X2A184,	"ShouldSayDontNeedTorch");
 	MakeByte	(0X2A185);
+	MakeName	(0X2A185,	"ShouldSayRoomIsDark");
 	MakeByte	(0X2A186);
+	MakeName	(0X2A186,	"ShouldSayForest");
 	MakeByte	(0X2A187);
+	MakeName	(0X2A187,	"ShouldSayFakeWall");
 	MakeByte	(0X2A188);
+	MakeName	(0X2A188,	"ShouldSayGem");
 	MakeByte	(0X2A189);
+	MakeName	(0X2A189,	"ShouldSayEnergizer");
 	MakeByte	(0X2A199);
 	MakeByte	(0X2A19A);
 	MakeName	(0X2A19A,	"ShouldHandleKeyPress");
@@ -20921,10 +21235,11 @@ static Bytes_4(void) {
 	MakeByte	(0X2CACF);
 	MakeByte	(0X2CAD0);
 	MakeWord	(0X2CAD6);
+	MakeRptCmt	(0X2CAD8,	"seems timer related");
 	MakeWord	(0X2CAD8);
-	MakeRptCmt	(0X2CADA,	"Seems to be BoardParamCount+1... what is this for?");
+	MakeRptCmt	(0X2CADA,	"index of the param record being handled");
 	MakeWord	(0X2CADA);
-	MakeName	(0X2CADA,	"MYSTERYParamCount");
+	MakeName	(0X2CADA,	"CurrentParamIdx");
 	MakeByte	(0X2CADC);
 	MakeByte	(0X2CAE0);
 	MakeByte	(0X2CAE1);
@@ -20953,12 +21268,10 @@ static Bytes_4(void) {
 	MakeWord	(0X2D968);
 	MakeDword	(0X2DE92);
 	MakeWord	(0X2DE96);
-	MakeRptCmt	(0X2DF96,	"not sure what this is but it's related to touch functions");
 	MakeWord	(0X2DF96);
-	MakeName	(0X2DF96,	"TouchRelated1");
-	MakeRptCmt	(0X2DF98,	"not sure what this is but it's related to touch functions");
+	MakeName	(0X2DF96,	"PlayerXStep");
 	MakeWord	(0X2DF98);
-	MakeName	(0X2DF98,	"TouchRelated2");
+	MakeName	(0X2DF98,	"PlayerYStep");
 	MakeByte	(0X2DF9A);
 	MakeByte	(0X2DF9B);
 	MakeByte	(0X2DF9C);
@@ -20985,6 +21298,7 @@ static Bytes_4(void) {
 	MakeByte	(0X2DFC2);
 	MakeByte	(0X2DFC3);
 	MakeByte	(0X2E0C2);
+	MakeName	(0X2E0C2,	"SoundEnabled");
 	MakeByte	(0X2E0C3);
 	MakeName	(0X2E0C3,	"GameIsOver");
 	MakeWord	(0X2E0C4);
@@ -20997,7 +21311,9 @@ static Bytes_4(void) {
 	MakeWord	(0X2E3CA);
 	MakeWord	(0X2E3CC);
 	MakeWord	(0X2E3CE);
+	MakeRptCmt	(0X2E3D0,	"affects player footstep sound");
 	MakeByte	(0X2E3D0);
+	MakeName	(0X2E3D0,	"SoundBusy");
 	MakeWord	(0X2E3D2);
 	MakeByte	(0X2E3D4);
 	MakeWord	(0X2E3D6);
@@ -21011,7 +21327,7 @@ static Bytes_4(void) {
 	MakeByte	(0X2F7DE);
 	MakeByte	(0X2F7DF);
 	MakeDword	(0X2F7E0);
-	MakeName	(0X2F7E0,	"PutCh");
+	MakeName	(0X2F7E0,	"PutStr");
 	MakeByte	(0X2F7E4);
 	MakeWord	(0X2F7E6);
 	MakeWord	(0X2F7E8);
@@ -21045,14 +21361,24 @@ static Functions_0(void) {
 	MakeFunction    (0X10264,0X1052D);
 	SetFunctionFlags(0X10264,0x10);
 	MakeFrame(0X10264, 0X204, 2, 0X0);
+	MakeFunction    (0X10930,0X10940);
+	SetFunctionFlags(0X10930,0x12);
+	MakeFrame(0X10930, 0X0, 2, 0X2);
 	MakeFunction    (0X10940,0X10950);
 	SetFunctionFlags(0X10940,0x12);
 	MakeFrame(0X10940, 0X0, 2, 0XE);
+	MakeFunction    (0X10950,0X10967);
+	SetFunctionFlags(0X10950,0x12);
+	MakeFrame(0X10950, 0X0, 2, 0X8);
+	MakeLocal(0X10950, 0X10967, "[bp+0X6]", "DestPtr");
 	MakeFunction    (0X10969,0X10A25);
 	SetFunctionFlags(0X10969,0x12);
 	MakeFrame(0X10969, 0X104, 2, 0X2);
+	MakeLocal(0X10969, 0X10A25, "[bp-0X104]", "PaddedMessage");
 	MakeLocal(0X10969, 0X10A25, "[bp-0X4]", "ParamPtr");
 	MakeLocal(0X10969, 0X10A25, "[bp+0X6]", "ParamIdx");
+	MakeNameEx(0X10999, "ShowMessage", SN_LOCAL);
+	MakeNameEx(0X10A1F, "DoneTickMessenger", SN_LOCAL);
 	MakeFunction    (0X10A25,0X10A43);
 	SetFunctionFlags(0X10A25,0x12);
 	MakeFrame(0X10A25, 0X0, 2, 0XE);
@@ -21465,13 +21791,31 @@ static Functions_0(void) {
 	MakeFunction    (0X1475F,0X14D91);
 	SetFunctionFlags(0X1475F,0x12);
 	MakeFrame(0X1475F, 0X10, 2, 0X2);
+	MakeLocal(0X1475F, 0X14D91, "[bp-0X10]", "ParamCount");
 	MakeLocal(0X1475F, 0X14D91, "[bp-0XE]", "ParamPtr");
+	MakeLocal(0X1475F, 0X14D91, "[bp-0XA]", "NumPlayerBullets");
+	MakeLocal(0X1475F, 0X14D91, "[bp-0X8]", "CountParamIdx");
 	MakeLocal(0X1475F, 0X14D91, "[bp+0X6]", "ParamIdx");
 	MakeNameEx(0X1478B, "PlayerEnergized", SN_LOCAL);
+	MakeNameEx(0X14799, "SetPlayerChar02", SN_LOCAL);
+	MakeNameEx(0X1479E, "UpdatePlayerColor", SN_LOCAL);
+	MakeNameEx(0X147D1, "SetNextBGColor", SN_LOCAL);
 	MakeNameEx(0X14808, "DrawNRGPlayer", SN_LOCAL);
 	MakeNameEx(0X14822, "PlayerNotEnergized", SN_LOCAL);
 	MakeNameEx(0X1484E, "ResetPlayerLook", SN_LOCAL);
 	MakeNameEx(0X1488E, "CheckPlayerDead", SN_LOCAL);
+	MakeNameEx(0X1492B, "DoneSayingCantShootHere", SN_LOCAL);
+	MakeNameEx(0X1494F, "DoneSayingOutOfAmmo", SN_LOCAL);
+	MakeNameEx(0X14957, "CountPlayerBullets", SN_LOCAL);
+	MakeNameEx(0X14A20, "CheckPlayerStep", SN_LOCAL);
+	MakeNameEx(0X14A31, "SendTouch", SN_LOCAL);
+	MakeNameEx(0X14AAD, "PlayerStillMoving", SN_LOCAL);
+	MakeNameEx(0X14B36, "DestNotPassable", SN_LOCAL);
+	MakeNameEx(0X14B49, "CheckLastKeyCode", SN_LOCAL);
+	MakeNameEx(0X14BD2, "TestESC", SN_LOCAL);
+	MakeNameEx(0X14BDA, "EscOrQPressed", SN_LOCAL);
+	MakeNameEx(0X14BE1, "TestS", SN_LOCAL);
+	MakeNameEx(0X14BFB, "TestP", SN_LOCAL);
 	MakeFunction    (0X14DB1,0X14DDC);
 	SetFunctionFlags(0X14DB1,0x12);
 	MakeFrame(0X14DB1, 0X0, 2, 0X2);
@@ -21532,6 +21876,7 @@ static Functions_0(void) {
 	MakeFunction    (0X169CA,0X16E3C);
 	SetFunctionFlags(0X169CA,0x10);
 	MakeFrame(0X169CA, 0X2272, 2, 0X2);
+	MakeLocal(0X169CA, 0X16E3C, "[bp-0X2070]", "Buffer");
 	MakeFunction    (0X16E3C,0X17036);
 	SetFunctionFlags(0X16E3C,0x10);
 	MakeFrame(0X16E3C, 0X2180, 2, 0X8);
@@ -21711,6 +22056,8 @@ static Functions_0(void) {
 	MakeFunction    (0X1BF89,0X1BFE7);
 	SetFunctionFlags(0X1BF89,0x12);
 	MakeFrame(0X1BF89, 0X4, 2, 0X0);
+	MakeLocal(0X1BF89, 0X1BFE7, "[bp-0X4]", "Y");
+	MakeLocal(0X1BF89, 0X1BFE7, "[bp-0X2]", "X");
 	MakeFunction    (0X1BFE7,0X1C03D);
 	SetFunctionFlags(0X1BFE7,0x12);
 	MakeFrame(0X1BFE7, 0X8, 2, 0X0);
@@ -21783,6 +22130,15 @@ static Functions_0(void) {
 	MakeFunction    (0X1D77B,0X1D987);
 	SetFunctionFlags(0X1D77B,0x12);
 	MakeFrame(0X1D77B, 0X8, 2, 0X2);
+	MakeLocal(0X1D77B, 0X1D987, "[bp-0X8]", "ParamCount");
+	MakeLocal(0X1D77B, 0X1D987, "[bp-0X6]", "ParamPtr");
+	MakeLocal(0X1D77B, 0X1D987, "[bp-0X2]", "OtherIdx");
+	MakeLocal(0X1D77B, 0X1D987, "[bp+0X6]", "ParamIdx");
+	MakeNameEx(0X1D7BA, "NextCodeSearch", SN_LOCAL);
+	MakeNameEx(0X1D7BD, "LoopCodeCheck", SN_LOCAL);
+	MakeNameEx(0X1D7E6, "CheckEndCodeSearch", SN_LOCAL);
+	MakeNameEx(0X1D7EE, "FreeCode", SN_LOCAL);
+	MakeNameEx(0X1D815, "ReplaceTile", SN_LOCAL);
 	MakeFunction    (0X1D987,0X1D9F3);
 	SetFunctionFlags(0X1D987,0x12);
 	MakeFrame(0X1D987, 0X4, 2, 0X4);
@@ -21831,6 +22187,9 @@ static Functions_0(void) {
 	MakeFunction    (0X1E2EA,0X1E385);
 	SetFunctionFlags(0X1E2EA,0x12);
 	MakeFrame(0X1E2EA, 0X100, 2, 0X6);
+	MakeLocal(0X1E2EA, 0X1E385, "[bp-0X100]", "MessageCopy");
+	MakeLocal(0X1E2EA, 0X1E385, "[bp+0X6]", "Message");
+	MakeLocal(0X1E2EA, 0X1E385, "[bp+0XA]", "Duration");
 	MakeFunction    (0X1E3C6,0X1E578);
 	SetFunctionFlags(0X1E3C6,0x12);
 	MakeFrame(0X1E3C6, 0X8, 2, 0X2);
@@ -21856,7 +22215,7 @@ static Functions_0(void) {
 	MakeLocal(0X1E5CD, 0X1E6BC, "[bp+0X6]", "Y");
 	MakeLocal(0X1E5CD, 0X1E6BC, "[bp+0X8]", "X");
 	MakeLocal(0X1E5CD, 0X1E6BC, "[bp+0XA]", "ParamIdx");
-	MakeNameEx(0X1E615, "AttackPlayer", SN_LOCAL);
+	MakeNameEx(0X1E615, "AttackSelf", SN_LOCAL);
 	MakeFunction    (0X1E6BF,0X1E83F);
 	SetFunctionFlags(0X1E6BF,0x12);
 	MakeFrame(0X1E6BF, 0X6, 2, 0XC);
@@ -21907,6 +22266,7 @@ static Functions_0(void) {
 	MakeFunction    (0X1F2E2,0X1F7AC);
 	SetFunctionFlags(0X1F2E2,0x12);
 	MakeFrame(0X1F2E2, 0X102, 2, 0X2);
+	MakeLocal(0X1F2E2, 0X1F7AC, "[bp-0X6]", "ParamPtr");
 	MakeFunction    (0X1F7D0,0X1F960);
 	SetFunctionFlags(0X1F7D0,0x12);
 	MakeFrame(0X1F7D0, 0X2, 2, 0X0);
@@ -22034,6 +22394,9 @@ static Functions_0(void) {
 	MakeFunction    (0X22741,0X22800);
 	SetFunctionFlags(0X22741,0x12);
 	MakeFrame(0X22741, 0XE, 2, 0X6);
+	MakeFunction    (0X22800,0X228F4);
+	SetFunctionFlags(0X22800,0x12);
+	MakeFrame(0X22800, 0X0, 18, 0X0);
 	MakeFunction    (0X228F4,0X22912);
 	SetFunctionFlags(0X228F4,0x12);
 	MakeFrame(0X228F4, 0X0, 2, 0X0);
@@ -22055,6 +22418,12 @@ static Functions_0(void) {
 	MakeFunction    (0X22DA0,0X22E2C);
 	SetFunctionFlags(0X22DA0,0x12);
 	MakeFrame(0X22DA0, 0X52, 2, 0XA);
+	MakeFunction    (0X22E2C,0X22EB8);
+	SetFunctionFlags(0X22E2C,0x12);
+	MakeFrame(0X22E2C, 0X52, 2, 0XA);
+	MakeFunction    (0X22EB8,0X22F75);
+	SetFunctionFlags(0X22EB8,0x12);
+	MakeFrame(0X22EB8, 0X52, 2, 0XA);
 	MakeFunction    (0X23079,0X23131);
 	SetFunctionFlags(0X23079,0x12);
 	MakeFrame(0X23079, 0X2, 2, 0X0);
@@ -22141,6 +22510,7 @@ static Functions_0(void) {
 	MakeFunction    (0X23876,0X238A3);
 	SetFunctionFlags(0X23876,0x2);
 	MakeFrame(0X23876, 0X0, 0, 0X2);
+	MakeLocal(0X23876, 0X238A3, "[bp+0X4]", "Hz");
 	MakeFunction    (0X238A3,0X238AA);
 	SetFunctionFlags(0X238A3,0x2);
 	MakeFunction    (0X238AA,0X238BC);
@@ -22207,6 +22577,8 @@ static Functions_0(void) {
 	MakeFunction    (0X23F11,0X23F2B);
 	SetFunctionFlags(0X23F11,0x2);
 	MakeFrame(0X23F11, 0X0, 0, 0X6);
+	MakeLocal(0X23F11, 0X23F2B, "[bp+0X4]", "Length");
+	MakeLocal(0X23F11, 0X23F2B, "[bp+0X6]", "Ptr");
 	MakeFunction    (0X23F5C,0X23FA0);
 	SetFunctionFlags(0X23F5C,0x2);
 	MakeFunction    (0X23FED,0X240A8);
@@ -22227,9 +22599,14 @@ static Functions_0(void) {
 	MakeFunction    (0X241FA,0X24214);
 	SetFunctionFlags(0X241FA,0x2);
 	MakeFrame(0X241FA, 0X0, 0, 0X4);
+	MakeLocal(0X241FA, 0X24214, "[bp+0X4]", "Source");
+	MakeLocal(0X241FA, 0X24214, "[bp+0X8]", "Dest");
 	MakeFunction    (0X24214,0X24238);
 	SetFunctionFlags(0X24214,0x2);
 	MakeFrame(0X24214, 0X0, 0, 0XA);
+	MakeLocal(0X24214, 0X24238, "[bp+0X4]", "NumChars");
+	MakeLocal(0X24214, 0X24238, "[bp+0X6]", "Dest");
+	MakeLocal(0X24214, 0X24238, "[bp+0XA]", "Source");
 	MakeFunction    (0X24246,0X24287);
 	SetFunctionFlags(0X24246,0x2);
 	MakeFrame(0X24246, 0X0, 0, 0X8);

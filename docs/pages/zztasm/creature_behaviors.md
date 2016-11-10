@@ -592,6 +592,45 @@ func TickObject(int16 ParamIdx) {
 ```
 
 
+## Messenger
+
+This tile is spawned outside the bounds of the board (at 0, 0) to update the message at the
+bottom of the screen.  When it counts down enough time, it clears the message and dies.
+
+### Tick function
+
+{% include asmlink.html file="creatures/messenger.asm" line="5" %}
+
+```swift
+func TickMessenger(int16 ParamIdx) {
+    let Params = BoardParams[ParamIdx]
+    // Only show a message if our X coordinate is 0 (off screen).
+    if Params.X != 0 {
+        return
+    }
+    // Draw the message centered horizontally at the center of the screen.
+    let X = (60 - CurrentMessage.Length) / 2
+    let Y = 24
+    // Cycle between the seven bright colors (9 to 15)
+    let TicksLeft = Params.Param2
+    let Color = 9 + (TicksLeft % 7)
+    // Pad the message with a space on either side
+    var PaddedMessage: string[255] = " " + CurrentMessage + " "
+    PutStr(X, Y, Color, PaddedMessage)
+    
+    // Decrement the ticks left.  When there's no ticks left, die and clear the message.
+    Params.Param2 = TicksLeft - 1
+    if Params.Param2 <= 0 {
+        // Remove this messenger and decrement the current param index.
+        RemoveParamIdx(ParamIdx)
+        CurrentPraamIdx -= 1
+        // Clear the on-screen and in-memory message
+        RedrawBorder()
+    }
+}
+```
+
+
 ## Monitor
 
 This tile replaces the player on the title screen and listens for relevant key presses.
@@ -613,6 +652,7 @@ func TickMonitor(int16 ParamIdx) {
     }
 }
 ```
+
 
 ## Ruffian
 

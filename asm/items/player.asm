@@ -162,12 +162,12 @@ CheckPlayerDead:                        ; CODE XREF: TickPlayer+C1↑j
                                         ; TickPlayer+ED↑j
                 cmp     CurrentHealth, 0
                 jg      short CheckPlayerMoving
-; Stop the player moving
+; Stop the player moving and shooting
                 xor     ax, ax
                 mov     PlayerXStep, ax
                 xor     ax, ax
                 mov     PlayerYStep, ax
-                mov     PlayerIsMoving, 0
+                mov     ShiftArrowPressed, 0
 ; If there's no messenger at (0, 0), say the game over message
                 xor     ax, ax
                 push    ax
@@ -190,19 +190,19 @@ SetGameOver:                            ; CODE XREF: TickPlayer+153↑j
                 mov     GameIsOver, 1
 
 CheckPlayerMoving:                      ; CODE XREF: TickPlayer+134↑j
-                cmp     PlayerIsMoving, 0
+                cmp     ShiftArrowPressed, 0
                 jnz     short PrepareShootDirection
                 cmp     LastKeyCode, 20h ; ' '
                 jz      short PrepareShootDirection
                 jmp     CheckPlayerStep
 ; ---------------------------------------------------------------------------
 ;
-; If the player is moving, update the shoot direction
+; If the player is shooting, update the shoot direction
 ;
 
 PrepareShootDirection:                  ; CODE XREF: TickPlayer+172↑j
                                         ; TickPlayer+179↑j
-                cmp     PlayerIsMoving, 0
+                cmp     ShiftArrowPressed, 0
                 jz      short CheckHasShootDirection
                 cmp     PlayerXStep, 0
                 jnz     short UpdateShootDirection

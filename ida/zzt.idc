@@ -37,10 +37,10 @@ static GenInfo(void) {
 	Tabs(1);
 	Comments(0);
 	Voids(0);
-	XrefShow(2);
+	XrefShow(0);
 	AutoShow(1);
-	Indent(16);
-	CmtIndent(40);
+	Indent(0);
+	CmtIndent(24);
 	TailDepth(0x10);
 }
 
@@ -6549,7 +6549,7 @@ static Bytes_1(void) {
 	ExtLinA		(0X1488E,	0,	";");
 	ExtLinA		(0X1488E,	1,	"; If the player has no health, end the game");
 	ExtLinA		(0X1488E,	2,	";");
-	ExtLinA		(0X14895,	0,	"; Stop the player moving");
+	ExtLinA		(0X14895,	0,	"; Stop the player moving and shooting");
 	ExtLinA		(0X148A4,	0,	"; If there's no messenger at (0, 0), say the game over message");
 	MakeCode	(x=0X148AF);
 	OpSign		(x,	1);
@@ -6559,7 +6559,7 @@ static Bytes_1(void) {
 	OpOff		(x,	129,	0X10930);
 	ExtLinA		(0X148C2,	0,	"; Fast-forward the game by setting the time between cycles to 0");
 	ExtLinA		(0X148DD,	0,	";");
-	ExtLinA		(0X148DD,	1,	"; If the player is moving, update the shoot direction");
+	ExtLinA		(0X148DD,	1,	"; If the player is shooting, update the shoot direction");
 	ExtLinA		(0X148DD,	2,	";");
 	MakeCode	(0X148DD);
 	ExtLinA		(0X148FE,	0,	";");
@@ -19451,7 +19451,7 @@ static Bytes_4(void) {
 	MakeCode	(0X21E46);
 	MakeCode	(0X21E5B);
 	MakeCode	(0X21E70);
-	ExtLinA		(0X21E8B,	0,	"; Note: seems to be called when player moves with arrow keys");
+	ExtLinA		(0X21E83,	0,	"; Note: seems to be called when player moves with arrow keys");
 	MakeCode	(x=0X21E8B);
 	OpSeg		(x,	0);
 	MakeCode	(0X21E91);
@@ -21579,7 +21579,7 @@ static Bytes_4(void) {
 	MakeWord	(0X2DF98);
 	MakeName	(0X2DF98,	"PlayerYStep");
 	MakeByte	(0X2DF9A);
-	MakeName	(0X2DF9A,	"PlayerIsMoving");
+	MakeName	(0X2DF9A,	"ShiftArrowPressed");
 	MakeByte	(0X2DF9B);
 	MakeByte	(0X2DF9C);
 	MakeByte	(0X2DF9D);
@@ -21635,6 +21635,7 @@ static Bytes_4(void) {
 	MakeByte	(0X2F7DA);
 	MakeByte	(0X2F7DB);
 	MakeByte	(0X2F7DC);
+	MakeName	(0X2F7DC,	"ShiftPressed");
 	MakeByte	(0X2F7DD);
 	MakeByte	(0X2F7DE);
 	MakeByte	(0X2F7DF);

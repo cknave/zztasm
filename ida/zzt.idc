@@ -6538,6 +6538,7 @@ static Bytes_1(void) {
 	MakeCode	(x=0X1486C);
 	OpOff		(x,	0,	0X256D0);
 	OpOff		(x,	128,	0X256D0);
+	MakeCode	(x=0X14871);
 	MakeCode	(x=0X14876);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X14879);
@@ -6554,12 +6555,14 @@ static Bytes_1(void) {
 	MakeCode	(x=0X148AF);
 	OpSign		(x,	1);
 	OpHex		(x,	1);
+	MakeCode	(x=0X148B4);
+	OpDecimal	(x,	1);
 	MakeCode	(x=0X148B8);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
 	ExtLinA		(0X148C2,	0,	"; Fast-forward the game by setting the time between cycles to 0");
 	ExtLinA		(0X148DD,	0,	";");
-	ExtLinA		(0X148DD,	1,	"; If the player is shooting, update the shoot direction");
+	ExtLinA		(0X148DD,	1,	"; If the player is pressing shift-arrow, update the shoot direction");
 	ExtLinA		(0X148DD,	2,	";");
 	MakeCode	(0X148DD);
 	ExtLinA		(0X148FE,	0,	";");
@@ -6568,14 +6571,14 @@ static Bytes_1(void) {
 	ExtLinA		(0X1490F,	0,	"; Check if shooting is allowed on this board");
 	MakeCode	(0X1490F);
 	MakeCode	(x=0X1491D);
-	OpDecimal	(x,	1);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
 	MakeCode	(x=0X14921);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
 	ExtLinA		(0X14933,	0,	"; Check if the player has any ammo");
 	MakeCode	(0X14933);
 	MakeCode	(x=0X14941);
-	OpDecimal	(x,	1);
+	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
 	MakeCode	(x=0X14945);
 	OpOff		(x,	1,	0X10930);
 	OpOff		(x,	129,	0X10930);
@@ -6643,6 +6646,8 @@ static Bytes_1(void) {
 	ExtLinA		(0X149CF,	0,	";");
 	ExtLinA		(0X149CF,	1,	"; Player bullets are under the max count.  Fire!");
 	ExtLinA		(0X149CF,	2,	";");
+	MakeCode	(x=0X149CF);
+	OpEnumEx		(x,	1,	GetEnum("TileTypeIndex"),0);
 	MakeCode	(x=0X149D2);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X149D5);
@@ -6762,6 +6767,7 @@ static Bytes_1(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X14B81);
 	OpStkvar	(x,	1);
+	MakeComm	(0X14B8D,	"EMRedrawOnly");
 	MakeCode	(0X14B99);
 	MakeCode	(x=0X14BA0);
 	OpEnumEx		(x,	1,	GetEnum("Constants"),0);
@@ -7996,6 +8002,15 @@ static Bytes_1(void) {
 	MakeCode	(x=0X161A3);
 	OpOff		(x,	1,	0X15F90);
 	OpOff		(x,	129,	0X15F90);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_2(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X161B5);
 	OpOff		(x,	1,	0X15F90);
 	OpOff		(x,	129,	0X15F90);
@@ -8011,15 +8026,6 @@ static Bytes_1(void) {
 	MakeCode	(x=0X161FD);
 	OpOff		(x,	1,	0X15F90);
 	OpOff		(x,	129,	0X15F90);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_2(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X1620F);
 	OpOff		(x,	1,	0X15F90);
 	OpOff		(x,	129,	0X15F90);
@@ -13836,6 +13842,15 @@ static Bytes_2(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1C118);
 	OpStkvar	(x,	0);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_3(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X1C139);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1C145);
@@ -13852,15 +13867,6 @@ static Bytes_2(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1C181);
 	OpStkvar	(x,	0);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_3(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X1C191);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1C198);
@@ -19109,6 +19115,15 @@ static Bytes_3(void) {
 	MakeCode	(x=0X21762);
 	OpOff		(x,	1,	0X1FBA0);
 	OpOff		(x,	129,	0X1FBA0);
+}
+
+//------------------------------------------------------------------------
+// Information about bytes
+
+static Bytes_4(void) {
+        auto x;
+#define id x
+
 	MakeCode	(x=0X2176C);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
@@ -19126,15 +19141,6 @@ static Bytes_3(void) {
 	MakeCode	(x=0X2179E);
 	OpOff		(x,	1,	0X1FBA0);
 	OpOff		(x,	129,	0X1FBA0);
-}
-
-//------------------------------------------------------------------------
-// Information about bytes
-
-static Bytes_4(void) {
-        auto x;
-#define id x
-
 	MakeCode	(x=0X217A8);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);

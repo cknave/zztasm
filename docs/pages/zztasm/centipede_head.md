@@ -1,5 +1,5 @@
 ---
-title: Centipede Head
+title: Centipede Head Tick Function
 keywords: Tick Functions, Bear, Centipede, Head, Lion, Segment, Tiger
 sidebar: zztasm_sidebar
 permalink: centipede_head.html

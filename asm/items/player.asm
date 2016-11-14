@@ -144,7 +144,7 @@ ResetPlayerLook:                        ; CODE XREF: TickPlayer+E6↑j
                 mov     di, ax
                 add     di, cx
                 mov     BoardTopLeft.Color[di], 1Fh
-                mov     TileTypes.Character+30Ch, 2
+                mov     TileTypes.Character+(size TileType*TTPlayer), 2
                 les     di, [bp+ParamPtr]
                 mov     al, es:[di+ParamRecord.X]
                 xor     ah, ah
@@ -176,7 +176,7 @@ CheckPlayerDead:                        ; CODE XREF: TickPlayer+C1↑j
                 call    ParamIdxForXY   ; Index for param at (X, Y) or -1 if not found
                 cmp     ax, -1
                 jnz     short SetGameOver
-                mov     ax, 7D00h
+                mov     ax, 32000
                 push    ax
                 mov     di, offset aGameOverPressE ; " Game over  -  Press ESCAPE"
                 push    cs
@@ -197,7 +197,7 @@ CheckPlayerMoving:                      ; CODE XREF: TickPlayer+134↑j
                 jmp     CheckPlayerStep
 ; ---------------------------------------------------------------------------
 ;
-; If the player is shooting, update the shoot direction
+; If the player is pressing shift-arrow, update the shoot direction
 ;
 
 PrepareShootDirection:                  ; CODE XREF: TickPlayer+172↑j
@@ -234,7 +234,7 @@ HasShootDirection:                      ; CODE XREF: TickPlayer+1A4↑j
                 jnz     short CheckEnoughAmmo
                 cmp     ShouldSayCantShootHere, 0
                 jz      short DoneSayingCantShootHere
-                mov     ax, 200
+                mov     ax, StdMessageDuration
                 push    ax
                 mov     di, offset aCanTShootInThi ; "Can't shoot in this place!"
                 push    cs
@@ -252,7 +252,7 @@ CheckEnoughAmmo:                        ; CODE XREF: TickPlayer+1B5↑j
                 jnz     short CountPlayerBullets
                 cmp     ShouldSayOutOfAmmo, 0
                 jz      short DoneSayingOutOfAmmo
-                mov     ax, 200
+                mov     ax, StdMessageDuration
                 push    ax
                 mov     di, offset aYouDonTHaveAny ; "You don't have any ammo!"
                 push    cs
@@ -334,7 +334,7 @@ CheckMaxBullets:                        ; CODE XREF: TickPlayer+208↑j
 ;
 ; Player bullets are under the max count.  Fire!
 ;
-                mov     al, 12h
+                mov     al, TTBullet
                 push    ax
                 les     di, [bp+ParamPtr]
                 mov     al, es:[di+ParamRecord.X]
@@ -556,7 +556,7 @@ CheckLastKeyCode:                       ; CODE XREF: TickPlayer:GotoCheckLastKey
                 xor     ah, ah
                 push    ax
                 xor     ax, ax
-                push    ax
+                push    ax              ; EMRedrawOnly
                 push    cs
                 call    near ptr Explode
                 call    UpdateSideBar

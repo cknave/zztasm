@@ -179,7 +179,7 @@ Otherwise, it will randomly change direction if it passes a deviance check.
 
 The centipede head tick function is implemented as a single procedure, but its behavior is
 so complex that I have broken it into multiple functions for this analysis.  All functions
-are listed in the [Centipede heads][centipede_heads] section.
+are listed in the [Centipede head][centipede_head] section.
 
 ### Tick function
 

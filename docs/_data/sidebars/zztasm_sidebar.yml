@@ -39,18 +39,18 @@ entries:
       url: /items.html
       output: web
 
-    - title: Player
-      url: /player.html
-      output: web
-
     - title: Creatures
       url: /creatures.html
       output: web
 
-    - title: Centipede head
-      url: /centipede_head.html
-      output: web
-
     - title: Terrains
       url: /terrains.html
+      output: web
+
+    - title: Player tick function
+      url: /player.html
+      output: web
+
+    - title: Centipede head tick function
+      url: /centipede_head.html
       output: web

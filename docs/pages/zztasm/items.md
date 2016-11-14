@@ -135,6 +135,66 @@ func CanDuplicate(ParamRecord* Params) -> Bool {
 ```
 
 
+## Player
+
+The player object handles energizer animation, shooting, moving, some keyboard input, and some
+other board related functions.
+
+The player tick function is implemented as a single procedure, but its behavior is so complex
+that I have broken it into multiple functions for this analysis.  All functions are listed in
+the [Player][player] section.
+
+
+### Tick function
+
+{% include asmlink.html file="items/player.asm" line="5" %}
+
+```swift
+func TickPlayer(int16 ParamIdx) {
+    let Params = BoardParams[ParamIdx]
+
+    // Animate the color/character changes when the player is energized.
+    if EnergizerCycles > 0 {
+        AnimateEnergized(Params)
+    } else {
+        RestorePlayerAppearance(Params)
+    }
+
+    // If the player has no health, end the game.
+    if CurrentHealth <= 0 {
+        EndGame()
+    }
+
+    // Shooting always overrides moving.
+    if (ShiftArrowPressed != 0) || (LastKeyCode == ' ') {
+        // Handle shooting if shift-arrow or space is pressed.
+        TryShooting(Params)
+    } else if (PlayerXStep != 0) || (PlayerYStep != 0) {
+        // Handle moving if the player has an X- or Y-step.
+        TryMoving(Params)
+    }
+
+    // Handle other keyboard input: quit, save, torch, etc.
+    HandleOtherKeyboardInput(Params)
+
+    // If a torch is lit, update the torch
+    if TorchCyclesLeft > 0 {
+        UpdateTorch(Params)
+    }
+
+    // If the player is energized, update their state
+    if EnergizerCycles > 0 {
+        UpdateEnergizer(Params)
+    }
+
+    // If the board has a time limit, update the time elapsed
+    if TimeLimit > 0 {
+        UpdateBoardTime()
+    }
+}
+```
+
+
 ## Scroll
 
 Scrolls are objects that die when touched.  Every tick the scroll cycles through the intense

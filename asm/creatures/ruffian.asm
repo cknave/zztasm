@@ -2,7 +2,7 @@
 
 ; Attributes: bp-based frame
 
-TickRuffian     proc far
+TickRuffian     proc far                ; DATA XREF: InitTileTypes+79B↓o
 
 TargetTilePtr   = dword ptr -8
 ParamPtr        = dword ptr -4

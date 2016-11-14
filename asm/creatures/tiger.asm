@@ -23,7 +23,7 @@ ParamIdx        = word ptr  6
                 mov     word ptr [bp+ParamPtr+2], ds
                 mov     [bp+ShootType], TTBullet
                 les     di, [bp+ParamPtr]
-                cmp     byte ptr es:[di+ParamRecord.Param2], FiringRateStarMask ; Check for shooting star flag
+                cmp     es:[di+ParamRecord.Param2], FiringRateStarMask ; Check for shooting star flag
                 jb      short TigShootTypeSet
                 mov     [bp+ShootType], TTStar
 ;
@@ -38,7 +38,7 @@ TigShootTypeSet:                        ; CODE XREF: TickTiger+2E↑j
                 mul     cx              ; ...and multiply by 3
                 mov     bx, ax
                 les     di, [bp+ParamPtr]
-                mov     al, byte ptr es:[di+ParamRecord.Param2] ; masked firing rate
+                mov     al, es:[di+ParamRecord.Param2] ; masked firing rate
 ; Clear the star mask by integer division!
                 xor     ah, ah
                 cwd
@@ -90,7 +90,7 @@ TigerCheckXAxis:                        ; CODE XREF: TickTiger+56↑j
                 push    ax
                 call    StepForDelta    ; Return step (-1, 0, or 1) for (negative, 0, or positive) delta
                 push    ax
-                mov     ax, 1
+                mov     ax, SOEnemy
                 push    ax
                 call    Shoot           ; Shoot a ShootType from (FromX,FromY) at (StepX,StepY)
                                         ; Owner 0=player, 1=enemy
@@ -143,7 +143,7 @@ TigerCheckYAxis:                        ; CODE XREF: TickTiger+B3↑j
                 push    ax
                 xor     ax, ax
                 push    ax
-                mov     ax, 1
+                mov     ax, SOEnemy
                 push    ax
                 call    Shoot           ; Shoot a ShootType from (FromX,FromY) at (StepX,StepY)
                                         ; Owner 0=player, 1=enemy

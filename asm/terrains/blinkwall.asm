@@ -25,8 +25,9 @@ ParamIdx        = word ptr  6
                 mov     word ptr [bp+ParamPtr], di
                 mov     word ptr [bp+ParamPtr+2], ds
                 les     di, [bp+ParamPtr]
+; Initialize current time if needed
                 cmp     es:[di+ParamRecord.Param3], 0 ; current time
-                jnz     short loc_12DB2
+                jnz     short CheckStarting
                 les     di, [bp+ParamPtr]
                 mov     al, es:[di+ParamRecord.Param1] ; starting time
                 xor     ah, ah
@@ -34,14 +35,14 @@ ParamIdx        = word ptr  6
                 les     di, [bp+ParamPtr]
                 mov     es:[di+ParamRecord.Param3], al ; current time = starting time + 1
 
-loc_12DB2:                              ; CODE XREF: TickBlinkWall+2A↑j
+CheckStarting:                          ; CODE XREF: TickBlinkWall+2A↑j
                 les     di, [bp+ParamPtr]
                 cmp     es:[di+ParamRecord.Param3], 1
-                jz      short loc_12DBF
+                jz      short EraseOldRay
                 jmp     DecrementTime
 ; ---------------------------------------------------------------------------
 
-loc_12DBF:                              ; CODE XREF: TickBlinkWall+45↑j
+EraseOldRay:                            ; CODE XREF: TickBlinkWall+45↑j
                 les     di, [bp+ParamPtr]
                 mov     al, es:[di+ParamRecord.X]
                 xor     ah, ah
@@ -168,12 +169,12 @@ CheckMovedY:                            ; CODE XREF: TickBlinkWall+148↑j
                 les     di, [bp+ParamPtr]
                 add     ax, es:[di+ParamRecord.StepY]
                 cmp     ax, [bp+DestY]
-                jz      short loc_12EDA
+                jz      short StartRay
                 jmp     JumpToEnd
 ; ---------------------------------------------------------------------------
 
-loc_12EDA:                              ; CODE XREF: TickBlinkWall+160↑j
-                mov     [bp+StopLoop], 0
+StartRay:                               ; CODE XREF: TickBlinkWall+160↑j
+                mov     byte ptr [bp-5], 0
 ;
 ; Destroy any destructible tiles in the way
 ;
@@ -253,7 +254,7 @@ HitPlayer:                              ; CODE XREF: TickBlinkWall+1CD↑j
                 dec     ax
                 push    ax
                 call    MoveTileWithIdx
-                jmp     short loc_12FB7
+                jmp     short DoneVerticalPush
 ; ---------------------------------------------------------------------------
 ; Check for empty to the south of the player
 
@@ -268,7 +269,7 @@ CheckPlayerS:                           ; CODE XREF: TickBlinkWall+203↑j
                 mov     di, ax
                 add     di, cx
                 cmp     byte ptr BoardTopLeft.Type[di], TTEmpty
-                jnz     short loc_12FB7
+                jnz     short DoneVerticalPush
 ; Push player south
                 push    [bp+PlayerParamIdx]
                 push    [bp+DestX]
@@ -277,7 +278,7 @@ CheckPlayerS:                           ; CODE XREF: TickBlinkWall+203↑j
                 push    ax
                 call    MoveTileWithIdx
 
-loc_12FB7:                              ; CODE XREF: TickBlinkWall+215↑j
+DoneVerticalPush:                       ; CODE XREF: TickBlinkWall+215↑j
                                         ; TickBlinkWall+230↑j
                 jmp     short CheckPlayerStillThere
 ; ---------------------------------------------------------------------------
@@ -326,7 +327,7 @@ CheckPlayerW:                           ; CODE XREF: TickBlinkWall+25D↑j
                 push    [bp+DestY]
                 call    MoveTileWithIdx
 
-CheckPlayerStillThere:                  ; CODE XREF: TickBlinkWall:loc_12FB7↑j
+CheckPlayerStillThere:                  ; CODE XREF: TickBlinkWall:DoneVerticalPush↑j
                                         ; TickBlinkWall+26F↑j ...
                 mov     ax, [bp+DestY]
                 shl     ax, 1
@@ -453,6 +454,3 @@ EndTickBlinkWall:                       ; CODE XREF: TickBlinkWall:JumpToEnd↑j
                 pop     bp
                 retf    2
 TickBlinkWall   endp
-
-
-; ¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦ S U B R O U T I N E ¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦

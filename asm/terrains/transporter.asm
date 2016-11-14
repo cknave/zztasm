@@ -2,7 +2,7 @@
 
 ; Attributes: bp-based frame
 
-TickTransporter proc far                ; DATA XREF: InitTileTypes+B6Fo
+TickTransporter proc far                ; DATA XREF: InitTileTypes+B6F↓o
 
 ParamPtr        = dword ptr -4
 ParamIdx        = word ptr  6

@@ -37,10 +37,10 @@ static GenInfo(void) {
 	Tabs(1);
 	Comments(0);
 	Voids(0);
-	XrefShow(0);
+	XrefShow(2);
 	AutoShow(1);
-	Indent(0);
-	CmtIndent(24);
+	Indent(16);
+	CmtIndent(40);
 	TailDepth(0x10);
 }
 
@@ -4296,6 +4296,7 @@ static Bytes_1(void) {
 	MakeCode	(x=0X12D97);
 	OpStkvar	(x,	1);
 	MakeComm	(0X12D9A,	"current time");
+	ExtLinA		(0X12D9A,	0,	"; Initialize current time if needed");
 	MakeCode	(x=0X12D9A);
 	OpStroffEx	(x,	0,	GetStrucIdByName("ParamRecord"),	0);
 	MakeCode	(x=0X12DA1);
@@ -4459,7 +4460,7 @@ static Bytes_1(void) {
 	MakeCode	(x=0X12ED2);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X12EDA);
-	OpStkvar	(x,	0);
+	OpHex		(x,	0);
 	ExtLinA		(0X12EDE,	0,	";");
 	ExtLinA		(0X12EDE,	1,	"; Destroy any destructible tiles in the way");
 	ExtLinA		(0X12EDE,	2,	";");
@@ -7999,9 +8000,6 @@ static Bytes_1(void) {
 	MakeCode	(x=0X16191);
 	OpOff		(x,	1,	0X15F90);
 	OpOff		(x,	129,	0X15F90);
-	MakeCode	(x=0X161A3);
-	OpOff		(x,	1,	0X15F90);
-	OpOff		(x,	129,	0X15F90);
 }
 
 //------------------------------------------------------------------------
@@ -8011,6 +8009,9 @@ static Bytes_2(void) {
         auto x;
 #define id x
 
+	MakeCode	(x=0X161A3);
+	OpOff		(x,	1,	0X15F90);
+	OpOff		(x,	129,	0X15F90);
 	MakeCode	(x=0X161B5);
 	OpOff		(x,	1,	0X15F90);
 	OpOff		(x,	129,	0X15F90);
@@ -13838,10 +13839,6 @@ static Bytes_2(void) {
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1C110);
 	OpStkvar	(x,	1);
-	MakeCode	(x=0X1C113);
-	OpStkvar	(x,	1);
-	MakeCode	(x=0X1C118);
-	OpStkvar	(x,	0);
 }
 
 //------------------------------------------------------------------------
@@ -13851,6 +13848,10 @@ static Bytes_3(void) {
         auto x;
 #define id x
 
+	MakeCode	(x=0X1C113);
+	OpStkvar	(x,	1);
+	MakeCode	(x=0X1C118);
+	OpStkvar	(x,	0);
 	MakeCode	(x=0X1C139);
 	OpStkvar	(x,	1);
 	MakeCode	(x=0X1C145);
@@ -19112,9 +19113,6 @@ static Bytes_3(void) {
 	MakeCode	(x=0X21758);
 	OpOff		(x,	1,	0X1FBA0);
 	OpOff		(x,	129,	0X1FBA0);
-	MakeCode	(x=0X21762);
-	OpOff		(x,	1,	0X1FBA0);
-	OpOff		(x,	129,	0X1FBA0);
 }
 
 //------------------------------------------------------------------------
@@ -19124,6 +19122,9 @@ static Bytes_4(void) {
         auto x;
 #define id x
 
+	MakeCode	(x=0X21762);
+	OpOff		(x,	1,	0X1FBA0);
+	OpOff		(x,	129,	0X1FBA0);
 	MakeCode	(x=0X2176C);
 	OpOff		(x,	1,	0X256D0);
 	OpOff		(x,	129,	0X256D0);
@@ -21967,15 +21968,19 @@ static Functions_0(void) {
 	MakeLocal(0X12D75, 0X1310D, "[bp-0X4]", "DestY");
 	MakeLocal(0X12D75, 0X1310D, "[bp-0X2]", "DestX");
 	MakeLocal(0X12D75, 0X1310D, "[bp+0X6]", "ParamIdx");
+	MakeNameEx(0X12DB2, "CheckStarting", SN_LOCAL);
+	MakeNameEx(0X12DBF, "EraseOldRay", SN_LOCAL);
 	MakeNameEx(0X12DF5, "IsVertical", SN_LOCAL);
 	MakeNameEx(0X12DFA, "EraseRayLoop", SN_LOCAL);
 	MakeNameEx(0X12E1B, "CompareRayColors", SN_LOCAL);
 	MakeNameEx(0X12EAB, "NotMyRay", SN_LOCAL);
 	MakeNameEx(0X12EC2, "CheckMovedY", SN_LOCAL);
+	MakeNameEx(0X12EDA, "StartRay", SN_LOCAL);
 	MakeNameEx(0X12EDE, "LoopShootRay", SN_LOCAL);
 	MakeNameEx(0X12F2A, "NotDestructible", SN_LOCAL);
 	MakeNameEx(0X12F47, "HitPlayer", SN_LOCAL);
 	MakeNameEx(0X12F8C, "CheckPlayerS", SN_LOCAL);
+	MakeNameEx(0X12FB7, "DoneVerticalPush", SN_LOCAL);
 	MakeNameEx(0X12FB9, "CheckPlayerE", SN_LOCAL);
 	MakeNameEx(0X12FE6, "CheckPlayerW", SN_LOCAL);
 	MakeNameEx(0X13011, "CheckPlayerStillThere", SN_LOCAL);

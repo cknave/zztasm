@@ -2,7 +2,7 @@
 
 ; Attributes: bp-based frame
 
-TickSlime       proc far                ; DATA XREF: InitTileTypes+892o
+TickSlime       proc far                ; DATA XREF: InitTileTypes+892↓o
 
 ParamPtr        = dword ptr -0Eh
 Y               = word ptr -0Ah
@@ -42,7 +42,7 @@ ParamIdx        = word ptr  6
 ; ---------------------------------------------------------------------------
 ; Get slime color
 
-PrepareToLoop:                          ; CODE XREF: TickSlime+30j
+PrepareToLoop:                          ; CODE XREF: TickSlime+30↑j
                 les     di, [bp+ParamPtr]
                 mov     al, es:[di+ParamRecord.Y]
                 xor     ah, ah
@@ -79,7 +79,7 @@ PrepareToLoop:                          ; CODE XREF: TickSlime+30j
                 jmp     short ExpandLoop
 ; ---------------------------------------------------------------------------
 
-NextLoop:                               ; CODE XREF: TickSlime+18Ej
+NextLoop:                               ; CODE XREF: TickSlime+18E↓j
                 inc     [bp+OffsetIdx]
 ;
 ; Slime expansion loop
@@ -87,7 +87,7 @@ NextLoop:                               ; CODE XREF: TickSlime+18Ej
 
 ; Check if the next tile is passable
 
-ExpandLoop:                             ; CODE XREF: TickSlime+96j
+ExpandLoop:                             ; CODE XREF: TickSlime+96↑j
                 mov     ax, [bp+Y]
                 mov     di, [bp+OffsetIdx]
                 shl     di, 1
@@ -118,7 +118,7 @@ ExpandLoop:                             ; CODE XREF: TickSlime+96j
 ; For every other passable tile found, spawn a new slime in that tile.
 ;
 
-MoveOrSpawn:                            ; CODE XREF: TickSlime+D2j
+MoveOrSpawn:                            ; CODE XREF: TickSlime+D2↑j
                 cmp     [bp+NumPassableTiles], 0
                 jnz     short SpawnSlime
 ;
@@ -165,7 +165,7 @@ MoveOrSpawn:                            ; CODE XREF: TickSlime+D2j
 ; Spawn a new slime
 ;
 
-SpawnSlime:                             ; CODE XREF: TickSlime+DBj
+SpawnSlime:                             ; CODE XREF: TickSlime+DB↑j
                 mov     ax, [bp+X]
                 mov     di, [bp+OffsetIdx]
                 shl     di, 1
@@ -193,18 +193,18 @@ SpawnSlime:                             ; CODE XREF: TickSlime+DBj
                 mov     di, ax
                 mov     BoardParams.Param2[di], cl
 
-IncrementPassable:                      ; CODE XREF: TickSlime+13Cj
+IncrementPassable:                      ; CODE XREF: TickSlime+13C↑j
                 mov     ax, [bp+NumPassableTiles]
                 inc     ax
                 mov     [bp+NumPassableTiles], ax
 
-CheckLoop:                              ; CODE XREF: TickSlime+D4j
+CheckLoop:                              ; CODE XREF: TickSlime+D4↑j
                 cmp     [bp+OffsetIdx], 3
                 jz      short DoneLoop
                 jmp     NextLoop
 ; ---------------------------------------------------------------------------
 
-DoneLoop:                               ; CODE XREF: TickSlime+18Cj
+DoneLoop:                               ; CODE XREF: TickSlime+18C↑j
                 cmp     [bp+NumPassableTiles], 0
                 jnz     short EndTickSlime
 ;
@@ -237,8 +237,8 @@ DoneLoop:                               ; CODE XREF: TickSlime+18Cj
                 push    [bp+Y]
                 call    DrawTile
 
-EndTickSlime:                           ; CODE XREF: TickSlime+43j
-                                        ; TickSlime+195j
+EndTickSlime:                           ; CODE XREF: TickSlime+43↑j
+                                        ; TickSlime+195↑j
                 mov     sp, bp
                 pop     bp
                 retf    2

@@ -2,6 +2,7 @@
 BytesPerColumn      = 36h
 FiringRateStarMask  = 80h
 MaxBoardParams      = 96h
+StdMessageDuration  = 0C8h
 
 ; ---------------------------------------------------------------------------
 
@@ -62,6 +63,19 @@ TTBlackText      = 35h
 
 ; ---------------------------------------------------------------------------
 
+; enum ShootOwner
+SOPlayer         = 0
+SOEnemy          = 1
+
+; ---------------------------------------------------------------------------
+
+; enum ExplodeMode
+EMRedrawOnly     = 0
+EMBomb           = 1
+EMCleanUp        = 2
+
+; ---------------------------------------------------------------------------
+
 Tile            struc ; (sizeof=0x2)
 Type            db ?
 Color           db ?
@@ -95,13 +109,13 @@ TileType        struc ; (sizeof=0xC3)
 Character       db ?
 Color           db ?
 Destructible    db ?
-field_3         db ?
+Pushable        db ?
 field_4         db ?
 DefaultColor    db ?
 Passable        db ?                    ; 0=blocks player, 1=passable
 field_7         db ?
 DrawFunction    dd ?
-field_C         dw ?
+Cycle           dw ?
 TickFunction    dd ?
 TouchFunction   dd ?
 EditorPage      dw ?
@@ -111,15 +125,8 @@ EditorSection   db 21 dup(?)            ; string(pascal)
 Param1Prompt    db 21 dup(?)            ; string(pascal)
 Param2Prompt    db 21 dup(?)            ; string(pascal)
 Param3Prompt    db 21 dup(?)            ; string(pascal)
-field_82        db 21 dup(?)            ; string(pascal)
-field_97        db 21 dup(?)            ; string(pascal)
-field_AC        db 21 dup(?)            ; string(pascal)
+DestBoardPrompt db 21 dup(?)            ; string(pascal)
+DirectionPrompt db 21 dup(?)            ; string(pascal)
+EditCodePrompt  db 21 dup(?)            ; string(pascal)
 Score           dw ?
 TileType        ends
-
-; ---------------------------------------------------------------------------
-
-; enum ShootOwner
-SOPlayer         = 0
-SOEnemy          = 1
-

@@ -2,7 +2,7 @@
 
 ; Attributes: bp-based frame
 
-TickHead        proc far                ; DATA XREF: InitTileTypes:loc_15407↓o
+TickHead        proc far                ; DATA XREF: InitTileTypes+368↓o
 
 LeaderParamPtr  = dword ptr -12h
 ParamPtr        = dword ptr -0Eh

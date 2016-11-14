@@ -21,7 +21,7 @@ TickMonitor     proc far                ; DATA XREF: InitTileTypes+145↓o
                 push    di
                 call    CheckBitmap     ; Check if a bit is set in a bitmap
                 jz      short DoneTickMonitor
-                mov     ShouldHandleKeyPress, 1
+                mov     ShouldQuit, 1   ; i.e. "quit" out of the title screen loop
 
 DoneTickMonitor:                        ; CODE XREF: TickMonitor+1E↑j
                 mov     sp, bp

@@ -1,3 +1,7 @@
+; ¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦ S U B R O U T I N E ¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦¦
+
+; Attributes: bp-based frame
+
 TickDuplicator  proc far                ; DATA XREF: InitTileTypes+663↓o
 
 ParamPtr        = dword ptr -6
@@ -83,10 +87,10 @@ CheckPlayerAtDest:                      ; CODE XREF: TickDuplicator+2A↑j
                 push    ax
                 xor     ax, ax
                 push    ax
-                mov     di, offset TouchRelated1 ; not sure what this is but it's related to touch functions
+                mov     di, offset PlayerXStep
                 push    ds
                 push    di
-                mov     di, offset TouchRelated2 ; not sure what this is but it's related to touch functions
+                mov     di, offset PlayerYStep
                 push    ds
                 push    di
                 les     di, [bp+ParamPtr]
@@ -279,7 +283,7 @@ DupBySpawn:                             ; CODE XREF: TickDuplicator+1DB↑j
                 add     di, offset BoardParams
                 push    ds
                 push    di
-                call    Spawn
+                call    Spawn           ; X, Y, Type, Color, Cycle, SrcParam
 ; Draw the destination tile
 ; Spawn already does this but not if Y=0
                 les     di, [bp+ParamPtr]

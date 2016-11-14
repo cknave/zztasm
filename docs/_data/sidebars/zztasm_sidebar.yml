@@ -35,10 +35,22 @@ entries:
       url: /support_functions.html
       output: web
 
-    - title: Creature behaviors
-      url: /creature_behaviors.html
+    - title: Items
+      url: /items.html
       output: web
 
-    - title: Centipede heads
-      url: /centipede_heads.html
+    - title: Player
+      url: /player.html
+      output: web
+
+    - title: Creatures
+      url: /creatures.html
+      output: web
+
+    - title: Centipede head
+      url: /centipede_head.html
+      output: web
+
+    - title: Terrains
+      url: /terrains.html
       output: web

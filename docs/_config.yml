@@ -97,3 +97,6 @@ description: "This project aims to exactly describe the behavior of ZZT creature
 
 # needed for sitemap.xml file only
 url: https://cknave.github.io/zztasm
+
+gems:
+    - jekyll-redirect-from

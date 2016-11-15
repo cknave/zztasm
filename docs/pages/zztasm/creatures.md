@@ -326,6 +326,54 @@ func TickObject(int16 ParamIdx) {
 ```
 
 
+## Pusher
+
+Pushers move in a specified direction, pushing all pushable tiles as they go.
+
+### Tick function
+
+{% include asmlink.html file="creatures/pusher.asm" line="5" %}
+
+```swift
+func TickPusher(int16 ParamIdx) {
+    var Params = BoardParams[ParamIdx]
+    let X = Params.X
+    let Y = Params.Y
+
+    // If the destination tile isn't passable, try pushing it out of the way.
+    let DestTile = BoardTiles[X + Params.StepX][Y + Params.StepY]
+    if TileTypes[DestTile.Type].Passable == 0 {
+        TryPush(X + Params.StepX, Y + Params.StepY, Params.StepX, Params.StepY)
+    }
+
+    // Set ParamIdx and ParamPtr to the object at (X, Y).
+    // Note: since the pusher hasn't moved yet, this has no effect.
+    ParamIdx = ParamIdxForXY(X, Y)
+    Params = BoardParams[ParamIdx]
+
+    // If the destination isn't passable now, there's nothing more to do.
+    let NewDestTile = BoardTiles[X + Params.StepX][Y + Params.StepY]
+    if TileTypes[NewDestTile.Type].Passable == 0 {
+        return
+    }
+
+    // Move ahead.
+    MoveTileWithIdx(ParamIdx, Params.X + Params.StepX, Params.Y + Params.StepY)
+    PlaySoundPriority(2, sndPush)
+
+    // If there's a pusher of the same direction behind our old tile, call its tick function
+    // so it will move with us.
+    if BoardTiles[Params.X - Params.StepX][Params.Y - Params.StepY].Type == TTPusher {
+        let UnblockedParamIdx = ParamIdxForXY(Params.X - Params.StepX, Params.Y - Params.StepY)
+        let UnblockedParams = BoardParams[UnblockedParamIdx]
+        if (UnblockedParams.StepX == Params.StepX) && (UnblockedParams.StepY == Params.StepY) {
+            TileTypes[TTPusher].TickFunction(UnblockedParamIdx)
+        }
+    }
+}
+```
+
+
 ## Ruffian
 
 Ruffians do a resting time check to start or stop moving.  They stay moving in the same

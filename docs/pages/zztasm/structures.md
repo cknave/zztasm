@@ -11,6 +11,7 @@ These data types will be used to define the notable memory structures in ZZT:
 
 | Type        | Description                                                              |
 |-------------+--------------------------------------------------------------------------|
+| `bool`      | Boolean (typically the Z flag)                                           |
 | `uint8`     | Unsigned 8 bit integer                                                   |
 | `int16`     | Signed 16 bit integer                                                    |
 | `void*`     | 32 bit pointer                                                           |

@@ -12,6 +12,40 @@ These functions are called by creatures during gameplay.  Full disassembly and p
 are not yet complete.
 
 
+## Attack
+
+[attack]: #attack
+
+```swift
+func Attack(int16 ParamIdx, int16 X, int16 Y)
+```
+
+If the tile at (X, Y) is the player, reduce their health and say "Ouch!"  For other tiles,
+remove their parameter record.
+
+
+## CheckBitmap
+
+```swift
+func CheckBitmap(uint8 Value, uint8[32] Bitmap) -> bool
+```
+
+Given a 256 bit (32 byte) Bitmap, return true if the *Value*th bit is set in the Bitmap.
+
+
+## CheckTimeElapsed
+
+```swift
+func CheckTimeElapsed(uint16* LastTime, uint16 Duration) -> uint8
+```
+
+Check if Duration centiseconds have elapsed since the value pointed to by LastTime.  The
+LastTime value should be a value in centiseconds less than 6000.  If this function returns
+1 (true), the value pointed to by LastTime is updated to the current centiseconds offset.
+
+If the time has not elapsed yet, 0 is returned.
+
+
 ## Convey
 
 Rotate pushable tiles around a point.  Used by conveyors.
@@ -109,13 +143,24 @@ func IsTileMovable(Tile tile) -> Bool {
 }
 ```
 
+
+## Destroy
+
+```swift
+func Destroy(int16 X, int16 Y)
+```
+
+If the tile at (X, Y) has a parameter record, [attack][attack] it.  Otherwise, replace it
+with empty.
+
+
 ## DieAttackingTile
 
 ```swift
 func DieAttackingTile(int16 ParamIdx, int16 X, int16 Y)
 ```
 
-Attack the tile at (X, Y) and kill the tile with the given parameter record.
+[Attack][attack] the tile at (X, Y) and kill the tile with the given parameter record.
 
 
 ## Distance
@@ -134,6 +179,25 @@ func DrawTile(int16 X, int16 Y)
 ```
 
 Redraw the tile at (X, Y).
+
+
+## Explode
+
+```swift
+func Explode(int16 CenterX, int16 CenterY, int16 Mode)
+```
+
+Manipulate a circle of tiles around a center point.  Normally used for bomb explosions, but
+can also be used to draw the circle of visible tiles around the player in a dark board.
+
+The Mode parameter selects what to do with the circle.  It takes the following values:
+
+| Value | Enumeration  | Description                                                      |
+|-------+--------------+------------------------------------------------------------------|
+| 0     | EMRedrawOnly | Redraw tiles                                                     |
+| 1     | EMBomb       | Send BOMBED, destroy destructibles, replace empty with breakable |
+| 2     | EMCleanUp    | Replace breakable with empty                                     |
+
 
 
 ## MoveTileWithIdx
@@ -164,6 +228,27 @@ func PlaySoundPriority(int16 priority, string data)
 ```
 
 Full analysis to come.  Seems to overwrite the sound buffer based on a priority number.
+
+
+## PromptQuit
+
+```swift
+func PromptQuit()
+```
+
+Present a Y/N prompt to "End this game?"  If the user selects Y, the global `ShouldQuit` flag
+is set.
+
+
+## PromptSaveWorld
+
+```swift
+func PromptSaveWorld(string* Prompt, string* Filename, string* Extension)
+```
+
+Prompt the user to save the current world.  This is used both for saving worlds in the editor,
+as well as making saved games by replacing the ".ZZT" extension with ".SAV".  If accepted, the
+Filename is updated with the user's input, and the world will be saved to the specified file.
 
 
 ## Random
@@ -203,6 +288,15 @@ func RandomStep() -> (int16 StepX, int16 StepY) {
 ```
 
 
+## RedrawBorder
+
+```swift
+func RedrawBorder()
+```
+
+Redraw the outermost tiles on the board.
+
+
 ## RemoveParamIdx
 
 ```swift
@@ -210,6 +304,32 @@ func RemoveParamIdx(int16 Index)
 ```
 
 Full analysis to come.  Removes the object at this Index from `BoardParams`.
+
+
+## RunCodeCycle
+
+```swift
+func RunCodeCycle(int16 ParamIdx, uint8* InstructionPtr, string* DefaultTitle)
+```
+
+Run the ZZT-OOP interpreter starting on the given InstructionPtr, a pointer into the
+object's code.
+
+The DefaultTitle will be used as the default title if a text scroll is displayed, though
+this can be overridden by the Scroll or Object.
+
+
+## SayMessage
+
+```swift
+func SayMessage(int16 Duration, string* Message)
+```
+
+Remove any existing Messenger at (0, 0), and spawn a new Messenger at (0, 0) to say the
+given Message for Duration (in centiseconds).
+
+ZZT does not calculate the total time accurately, causing it to be slightly fast or much slower
+depending on the user's selected game speed.
 
 
 ## SeekStep
@@ -282,6 +402,35 @@ or TTStar, and Owner should be SOPlayer or SOEnemy.
 
 If the tile is blocked, nothing will happen and 0 will be returned.  On success, 1 is returned.
 
+
+## ShowDebugPrompt
+
+```swift
+func ShowDebugPrompt()
+```
+
+Prompt the user for debug/cheat commands, and execute them.
+
+
+## ShowHelpFile
+
+```swift
+func ShowHelpFile(string* Filename, string* Title)
+```
+
+Display a help file in a scroll, with the given title.
+
+
+## Spawn
+
+```swift
+func Spawn(int16 X, int16 Y, int16 Type, int16 Color, int16 Cycle, ParamRecord* SourceParams)
+```
+
+Spawn a new tile with a parameter record copied from a source record.  If the source record
+has code, the code will be copied as well.
+
+
 ## StepForDelta
 
 ```swift
@@ -289,6 +438,19 @@ func StepForDelta(int16 Delta) -> int16
 ```
 
 Return -1 for a negative delta, 0 for 0, and 1 for a positive delta.
+
+
+## TryPush
+
+```swift
+func TryPush(int16 X, int16 Y, int16 StepX, int16 StepY)
+```
+
+Try to push an object at (X, Y) in the direction of (StepX, StepY).  If the object is pushed
+into a transporter, try to transport it.  If the object is pushed into a destructible tile,
+destroy that tile.
+
+If the object is blocked, recursively try to push the blocking object.
 
 
 ## UpdateSideBar
